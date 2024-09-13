@@ -1,19 +1,15 @@
 const Koa = require('koa');
-const path = require('path');
-const views = require('koa-views');
 const Router = require('koa-router');
 
 const app = new Koa();
 const router = new Router();
 
-// 设置模板引擎中间件
-app.use(views(path.join(__dirname, 'views'), {
-  extension: 'ejs'
-}));
-
 // 路由
 router.get('/', async (ctx) => {
-  await ctx.render('index', { title: '首页', message: '欢迎来到Koa首页!' });
+  ctx.body = {
+    title: '首页',
+    message: '欢迎来到Koa首页!'
+  };
 });
 
 app
