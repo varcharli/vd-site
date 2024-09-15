@@ -2,7 +2,7 @@
 const Router = require('koa-router');
 const {
   createMovie,
-  getAllMovies,
+  getMovies,
   getMovieById,
   updateMovie,
   deleteMovie,
@@ -24,7 +24,9 @@ router.post('/', async (ctx) => {
 
 router.get('/', async (ctx) => {
   try {
-    const movies = await getAllMovies(ctx.query);
+    // const movies = await getAllMovies(ctx.query);
+    const movies=await getMovies(ctx.query);
+
     ctx.body = movies;
   } catch (error) {
     ctx.status = 400;
