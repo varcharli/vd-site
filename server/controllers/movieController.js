@@ -13,23 +13,46 @@ async function createMovie(data) {
   }
 }
 
-// 获取所有电影
+// Get movies with query parameters
+// title, actor, limit, offset, order
+
 async function getAllMovies(query) {
   try {
-    const where = {};
+    let movies;
+    let where = {};
+    let include = [];
+
     if (query.title) {
-      where.title = { [Op.like]: `%${query.title}%` };
+      where.title = {
+        [Op.iLike]: `%${query.title}%`,
+      };
     }
+
     if (query.actor) {
-      const actor = await Actor.findOne({ where: { name: { [Op.like]: `%${query.actor}%` } } });
-      if (actor) {
-        const movies = await actor.getMovies();
-        return movies;
-      } else {
-        return [];
-      }
+      include = [
+        {
+          model: Actor,
+          where: {
+            name: {
+              [Op.iLike]: `%${query.actor}%`,
+            },
+          },
+        },
+      ];
     }
-    const movies = await Movie.findAll({ where });
+
+    const limit = query.limit ? parseInt(query.limit) : 10;
+    const offset = query.offset ? parseInt(query.offset) : 0;
+    const order = query.order ? query.order : [['createdAt', 'DESC']];
+
+    movies = await Movie.findAll({
+      where,
+      include,
+      limit,
+      offset,
+      order,
+    });
+
     return movies;
   } catch (error) {
     throw error;

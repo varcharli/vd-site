@@ -1,0 +1,54 @@
+/* src/Navbar.css */
+@import './variables.css';
+
+.navbar {
+    background-color: transparent;
+    padding: 0px;
+    width: 80px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* 改为相对定位 */
+  }
+  
+  .logo-container {
+    /* margin-bottom: 20px; */
+    margin: 0 20px 20px 0;
+  }
+  
+  .logo {
+    width: 60px;
+    /* height: 40px; */
+    /* border-radius: 50%; */
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .navbar ul li {
+    width: 100%;
+    margin: 30px 0;
+  }
+  
+  .navbar ul li a {
+    color: var(--global-text-color);
+    text-decoration: none;
+    font-size: 22px; /* 缩小图标 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* 缩小圆形 */
+    height: 60px; /* 缩小圆形 */
+    border-radius: 50%; /* 使按钮变成圆形 */
+    transition: background-color 0.3s; /* 添加过渡效果 */
+  }
+  
+  .navbar ul li a.active {
+    background-color: var(--global-background-color); /* 修改为新的半透明背景色 */
+    color: var(--global-text-color);
+  }
