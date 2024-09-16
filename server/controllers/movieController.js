@@ -63,50 +63,6 @@ async function getMovies(query) {
 //   console.log(data.pagination);
 // }
 
-
-
-// Get movies with query parameters
-// title, actor, limit, offset, order
-
-// async function getAllMovies(query) {
-//   // query = { title: '...', actor: '...', limit: '...', page: '...', order: '...' }
-//   // add page and limit to query.
-//   // 如果没有传入page,limit。就赋予初始值: page = 1, limit = 20
-
-//   if (!query.page) {
-//     query.page = 1;
-//   }
-//   if (!query.limit) {
-//     query.limit = 20;
-//   }
-
-//   try {
-//     let movies;
-//     let where = {};
-
-//     if (query.title) {
-//       where.title = {
-//         [Op.iLike]: `%${query.title}%`,
-//       };
-//     }
-
-//     const limit = query.limit ? parseInt(query.limit) : 20;
-//     const order = query.order ? query.order : [['createdAt', 'DESC']];
-//     const offset = query.page ? (parseInt(query.page) - 1) * limit : 0;
-
-//     movies = await Movie.findAll({
-//       where,
-//       limit,
-//       offset,
-//       order,
-//     });
-
-//     return movies;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 // 获取单个电影
 async function getMovieById(id) {
   try {
