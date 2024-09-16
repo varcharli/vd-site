@@ -1,24 +1,7 @@
-// src/Movies.js
-
-// Backend API: GET /api/movies
-// return {
-//   movies,
-//   pagination: {
-//     page,
-//     pageSize,
-//     totalPages,
-//     totalRecords: count,
-//   },
-
-// todo: input有问题。输入即为搜索，不需要再点击search按钮。
-// todo: 分页只有功能，样式还没有作。
-
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
-
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -30,10 +13,30 @@ const Movies = () => {
     totalRecords: 0,
   });
   const [query, setQuery] = useState('');
+  const containerRef = useRef(null);
 
   useEffect(() => {
     fetchMovies(pagination.page, pagination.pageSize, query);
   }, [pagination.page, pagination.pageSize, query]);
+
+  useEffect(() => {
+    const calculatePageSize = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth - 20; // 减去padding
+        const itemWidth = 200+20; // 假设每个项目的宽度是200px
+        const itemsPerRow = Math.floor(containerWidth / itemWidth);
+        const newPageSize = itemsPerRow * Math.ceil(pagination.pageSize / itemsPerRow);
+        setPagination((prev) => ({ ...prev, pageSize: newPageSize }));
+      }
+    };
+
+    calculatePageSize();
+    window.addEventListener('resize', calculatePageSize);
+
+    return () => {
+      window.removeEventListener('resize', calculatePageSize);
+    };
+  }, [pagination.pageSize]);
 
   const fetchMovies = async (page, pageSize, query) => {
     try {
@@ -74,10 +77,8 @@ const Movies = () => {
     }
   };
 
-
   return (
     <div className="container">
-      {/* <h1>Movies</h1> */}
       <div className='container-title'>
         Movies
       </div>
@@ -89,7 +90,7 @@ const Movies = () => {
         placeholder="Search by title"
       />
       <button onClick={handleSearch}>Search</button>
-      <div className='container-content'>
+      <div className='container-content' ref={containerRef}>
         {error && <p>Error: {error}</p>}
         <ul className='ul-movies'>
           {movies.map((movie, index) => (
@@ -102,7 +103,6 @@ const Movies = () => {
               <div className="movie-info">
                 <h2>{movie.name}</h2>
                 <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
-                {/* <p>{movie.releaseDate}</p> */}
               </div>
             </li>
           ))}
