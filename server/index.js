@@ -1,13 +1,11 @@
-const Koa = require('koa');
-const Router = require('koa-router');
+import Koa from 'koa';
+import Router from 'koa-router';
+import movieRoutes from './routes/movieRoutes.js';
 
 const app = new Koa();
 const router = new Router();
 
-//add movie routes at /routes/movieRoutes.js
-
-const movieRoutes = require('./routes/movieRoutes');
-router.use('/movies', movieRoutes.routes());
+// router.use('/movies', movieRoutes.routes(), movieRoutes.allowedMethods());
 
 router.get('/', async (ctx) => {
   await ctx.render('index', { title: '首页', message: '欢迎来到Koa首页!' });

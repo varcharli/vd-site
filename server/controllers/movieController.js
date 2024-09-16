@@ -1,11 +1,10 @@
 // controllers/movieController.js
-const { Op } = require('sequelize');
-const Movie = require('../models/Movie');
-const Actor = require('../models/Actor');
+import { Op } from 'sequelize';
+import { Movie } from '../models/db.js';
 
 // 创建电影
-async function createMovie(data) {
-  try {
+const createMovie = async (data) => {
+try {
     const movie = await Movie.create(data);
     return movie;
   } catch (error) {
@@ -27,12 +26,12 @@ async function getMovies(query) {
   // 构建查询条件
   const where = {};
   if (titleQuery) {
-    where.title = {
+    where.name = {
       [Op.like]: `%${titleQuery}%`
     };
   }
 
-  const { count, rows: movies } = await Movie.findAndCountAll({
+  const { count, rows: movies } = await Movie.findAndCountAll ({
     where, // 使用构建的查询条件
     limit,
     offset,
@@ -104,7 +103,7 @@ async function deleteMovie(id) {
   }
 }
 
-module.exports = {
+export default {
   createMovie,
   getMovies,
   getMovieById,

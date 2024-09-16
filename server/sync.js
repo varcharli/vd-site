@@ -1,5 +1,6 @@
 // sync.js
-const { sequelize } = require('./models');
+import models from './models/db.js';
+const { sequelize } = models;
 
 (async () => {
   try {

@@ -10,11 +10,15 @@
 //     totalRecords: count,
 //   },
 
+// todo: input有问题。输入即为搜索，不需要再点击search按钮。
+// todo: 分页只有功能，样式还没有作。
+
 
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
+
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -32,11 +36,11 @@ const Movies = () => {
   }, [pagination.page, pagination.pageSize, query]);
 
   const fetchMovies = async (page, pageSize, query) => {
-    try{
-    const response = await fetch(`/movies?page=${page}&pageSize=${pageSize}&title=${query}`);
-    const data = await response.json();
-    setMovies(data.movies);
-    setPagination(data.pagination);
+    try {
+      const response = await fetch(`/movies?page=${page}&pageSize=${pageSize}&title=${query}`);
+      const data = await response.json();
+      setMovies(data.movies);
+      setPagination(data.pagination);
     } catch (error) {
       setError(error.message);
     }
@@ -90,10 +94,15 @@ const Movies = () => {
         <ul className='ul-movies'>
           {movies.map((movie, index) => (
             <li key={movie.id} style={{ backgroundColor: colors[index % colors.length] }}>
-              <img src={movie.imageUrl || defaultImage} alt={movie.title} />
+              <img
+                src={movie.posterUrl || defaultImage}
+                alt={movie.name}
+                onError={(e) => { e.target.src = defaultImage; }}
+              />
               <div className="movie-info">
-                <h2>{movie.title}</h2>
-                <p>{movie.genre}</p>
+                <h2>{movie.name}</h2>
+                <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
+                {/* <p>{movie.releaseDate}</p> */}
               </div>
             </li>
           ))}

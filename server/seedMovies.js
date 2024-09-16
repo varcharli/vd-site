@@ -1,13 +1,14 @@
 // seedMovies.js
 // Generate 100 random movies and add them to the database.
-const { Sequelize } = require('sequelize');
-const Movie = require('./models/Movie');
-const sequelize = require('./db');
+import { Sequelize } from 'sequelize';
+import models from './models/index.js';
+const { Movie, sequelize } = models;
 
 const generateRandomMovie = (index) => ({
-  title: `Movie ${index}`,
-  genre: ['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi'][Math.floor(Math.random() * 5)],
-  releaseYear: 2000 + Math.floor(Math.random() * 21),
+  name: `Movie ${index}`,
+  releaseDate: new Date(2000 + Math.floor(Math.random() * 21), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28)),
+  posterUrl: `https://example.com/poster${index}.jpg`,
+  description: `Description for Movie ${index}`,
 });
 
 const seedMovies = async () => {

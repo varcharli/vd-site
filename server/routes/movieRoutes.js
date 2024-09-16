@@ -1,12 +1,14 @@
 // routes/movieRoutes.js
-const Router = require('koa-router');
+import Router from 'koa-router';
+import movieController from '../controllers/movieController.js';
+
 const {
   createMovie,
   getMovies,
   getMovieById,
   updateMovie,
   deleteMovie,
-} = require('../controllers/movieController');
+} = movieController;
 
 const router = new Router({
   prefix: '/movies',
@@ -25,6 +27,8 @@ router.post('/', async (ctx) => {
 router.get('/', async (ctx) => {
   try {
     // const movies = await getAllMovies(ctx.query);
+    console.log('ctx.query',ctx.query);
+    
     const movies=await getMovies(ctx.query);
 
     ctx.body = movies;
@@ -64,4 +68,5 @@ router.delete('/:id', async (ctx) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;
+export default router;
