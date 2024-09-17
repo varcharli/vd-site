@@ -35,7 +35,7 @@ async function getMovies(query) {
     where, // 使用构建的查询条件
     limit,
     offset,
-    // order: [['releaseDate', 'DESC']], // 根据需要排序
+    order: [['releaseDate', 'DESC']], // 根据需要排序
   });
 
   const totalPages = Math.ceil(count / pageSize);
