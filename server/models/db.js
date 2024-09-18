@@ -30,7 +30,18 @@ const Movie = sequelize.define('Movie', {
     type: DataTypes.DATE,
     allowNull: false
   },
+  //list page poster url
   posterUrl: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  //detail page poster url
+  bigPosterUrl: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  //movie serial number
+  serialNumber: {
     type: DataTypes.STRING,
     allowNull: true
   },

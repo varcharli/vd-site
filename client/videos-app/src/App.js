@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
+
 import Home from './Home';
 import Movies from './Movies';
+import MovieDetail from './MovieDetail';
 import Favorite from './Favorite';
 import History from './History';
+
 import './Navbar.css';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -68,6 +71,7 @@ function App() {
             <Route path="/movies" element={<Movies />} />
             <Route path="/favorite" element={<Favorite />} />
             <Route path="/history" element={<History />} />
+            <Route path="/movie/:id" element={<MovieDetail />} />
           </Routes>
         </div>
       </div>

@@ -14,6 +14,7 @@ const Movies = () => {
     totalRecords: 0,
   });
   const location = useLocation();
+
   // const [query, setQuery] = useState('');
   const query = location.state?.query || '';
   const containerRef = useRef(null);
@@ -22,6 +23,10 @@ const Movies = () => {
     fetchMovies(pagination.page, pagination.pageSize, query);
   }, [pagination.page, pagination.pageSize, query]);
 
+  const handleMovieClick = (id) => {
+    window.open(`/movie/${id}`, '_blank');
+  };
+  
   useEffect(() => {
     const calculatePageSize = () => {
       if (containerRef.current) {
@@ -60,6 +65,8 @@ const Movies = () => {
     'rgb(254, 202, 202)',
     'rgb(233, 213, 255)'
   ];
+
+
 
   const handlePageChange = (newPage) => {
     setPagination((prev) => ({ ...prev, page: newPage }));
@@ -139,7 +146,10 @@ const Movies = () => {
         {error && <p>Error: {error}</p>}
         <ul className='ul-movies'>
           {movies.map((movie, index) => (
-            <li key={movie.id} style={{ backgroundColor: colors[index % colors.length] }}>
+            <li key={movie.id} 
+            style={{ backgroundColor: colors[index % colors.length] }}
+            onClick={() => handleMovieClick(movie.id)}
+            >
               <img
                 src={movie.posterUrl || defaultImage}
                 alt={movie.name}
