@@ -7,7 +7,7 @@
 :root{
     --global-background-color: #1f2937;
     --global-text-color: white;
-    --global-background-color-button: rgb(254, 228, 203);
+    --global-background-color-button: white;
     --global-background-color-button-active: rgb(187, 247, 208);
-    --global-background-color-button-disable: rgb(254, 202, 202);
+    --global-background-color-button-disable: grey;
 }
