@@ -64,11 +64,75 @@ const Movies = () => {
   const handlePageChange = (newPage) => {
     setPagination((prev) => ({ ...prev, page: newPage }));
   };
+  
+  const renderPageNumbers = () => {
+    const { page, totalPages } = pagination;
+    const pageNumbers = [];
+    const maxPageNumbersToShow = 5;
+
+    if (totalPages <= maxPageNumbersToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={page === i ? 'active' : ''}
+          >
+            {i}
+          </button>
+        );
+      }
+    } else {
+      const startPage = Math.max(1, page - 2);
+      const endPage = Math.min(totalPages, page + 2);
+
+      if (startPage > 1) {
+        pageNumbers.push(
+          <button key={1} onClick={() => handlePageChange(1)}>
+            1
+          </button>
+        );
+        if (startPage > 2) {
+          pageNumbers.push(<span key="start-ellipsis">...</span>);
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={page === i ? 'active' : ''}
+          >
+            {i}
+          </button>
+        );
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pageNumbers.push(<span key="end-ellipsis">...</span>);
+        }
+        pageNumbers.push(
+          <button key={totalPages} onClick={() => handlePageChange(totalPages)}>
+            {totalPages}
+          </button>
+        );
+      }
+    }
+
+    return pageNumbers;
+  };
 
   return (
     <div className="container">
       <div className='container-title'>
         Movies
+        <span className='spacer' ></span>
+        <span className='container-subtitle'>
+          Total Records:
+          &nbsp;
+           {pagination.totalRecords}</span>
       </div>
 
       <div className='container-content' ref={containerRef}>
@@ -89,23 +153,33 @@ const Movies = () => {
           ))}
         </ul>
       </div>
-      <div>
-        <button
-          onClick={() => handlePageChange(pagination.page - 1)}
-          disabled={pagination.page === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {pagination.page} of {pagination.totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(pagination.page + 1)}
-          disabled={pagination.page === pagination.totalPages}
-        >
-          Next
-        </button>
-      </div>
+      <div className="pagination">
+          <button
+            onClick={() => handlePageChange(1)}
+            disabled={pagination.page === 1}
+          >
+            <i className="fas fa-angle-double-left"></i>
+          </button>
+          <button
+            onClick={() => handlePageChange(pagination.page - 1)}
+            disabled={pagination.page === 1}
+          >
+            <i className="fas fa-angle-left"></i>
+          </button>
+          {renderPageNumbers()}
+          <button
+            onClick={() => handlePageChange(pagination.page + 1)}
+            disabled={pagination.page === pagination.totalPages}
+          >
+            <i className="fas fa-angle-right"></i>
+          </button>
+          <button
+            onClick={() => handlePageChange(pagination.totalPages)}
+            disabled={pagination.page === pagination.totalPages}
+          >
+            <i className="fas fa-angle-double-right"></i>
+          </button>
+        </div>
     </div>
   );
 };

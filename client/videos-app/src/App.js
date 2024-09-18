@@ -36,14 +36,14 @@ function App() {
           </button>
           <div className='search-container'>
             <button className="search-icon"
-              onClick={handleSearch}
-            >
+              onClick={handleSearch}>
               <i className="fas fa-search"></i>
             </button>
             <input type="text" placeholder="Search Movies" className="search-box"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyUp={handleKeyPress}
+              onFocus={(e) => e.target.select()} // 添加 onFocus 事件处理程序
             />
           </div>
           <div className='menu-space' />
