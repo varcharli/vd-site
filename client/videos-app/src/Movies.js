@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
@@ -12,7 +13,9 @@ const Movies = () => {
     totalPages: 0,
     totalRecords: 0,
   });
-  const [query, setQuery] = useState('');
+  const location = useLocation();
+  // const [query, setQuery] = useState('');
+  const query = location.state?.query || '';
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -62,34 +65,12 @@ const Movies = () => {
     setPagination((prev) => ({ ...prev, page: newPage }));
   };
 
-  const handleQueryChange = (event) => {
-    setQuery(event.target.value);
-  };
-
-  const handleSearch = () => {
-    setPagination((prev) => ({ ...prev, page: 1 })); // Reset to first page on new search
-    fetchMovies(1, pagination.pageSize, query);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
   return (
     <div className="container">
       <div className='container-title'>
         Movies
       </div>
-      <input
-        type="text"
-        value={query}
-        onChange={handleQueryChange}
-        onKeyUp={handleKeyPress}
-        placeholder="Search by title"
-      />
-      <button onClick={handleSearch}>Search</button>
+
       <div className='container-content' ref={containerRef}>
         {error && <p>Error: {error}</p>}
         <ul className='ul-movies'>

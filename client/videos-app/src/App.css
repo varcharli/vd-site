@@ -65,8 +65,9 @@
     /* align-items: left; */
 }
 
-.search-box {
-    /* flex: 1; */
+.search-container {
+    display: flex;
+    align-items: center;
     max-width: 300px;
     height: 30px;
     padding: 10px;
@@ -76,6 +77,24 @@
     background-color: var(--global-background-color);
     color: var(--global-text-color);
 }
+
+.search-icon {
+    background: none;
+    color: var(--global-text-color);
+    border: none;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.search-box {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: var(--global-background-color);
+    color: var(--global-text-color);
+}
+
 
 .menu-icons {
     display: flex;
@@ -122,6 +141,7 @@
     padding: 10px;
 
 }
+
 .container-title {
     /* 左边对齐 */
     text-align: left;
@@ -130,6 +150,7 @@
     color: var(--global-text-color);
     padding: 10px;
 }
+
 .container-content {
     text-align: left;
     min-height: 300px;

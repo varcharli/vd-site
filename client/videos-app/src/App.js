@@ -1,6 +1,6 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Home from './Home';
 import Movies from './Movies';
@@ -12,32 +12,56 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import user from './assets/user.png';
 
 function App() {
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate('/movies', { state: { query } });
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="content">
-          <div className="top-menu">
+
+    <div className="App">
+      <Navbar />
+      <div className="content">
+        <div className="top-menu">
           <button className="icon-button-menu">
             <i className="fas fa-bars"></i>
           </button>
-          <input type="text" placeholder="Search Movies" className="search-box" />
-            <div className='menu-space'/>
-            <div className="menu-icons">
-            <button className="icon-button">
-                <i className="fas fa-share-alt"></i>
-              </button>
-              <button className="icon-button">
-                <i className="fas fa-plus"></i>
-              </button>
-              <button className="icon-button">
-                <i className="fas fa-envelope"></i>
-              </button>
-            </div>
-            <div className="user-icon">
-              <img src={user} alt="User" className="user-photo" />
-            </div>
+          <div className='search-container'>
+            <button className="search-icon"
+              onClick={handleSearch}
+            >
+              <i className="fas fa-search"></i>
+            </button>
+            <input type="text" placeholder="Search Movies" className="search-box"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyUp={handleKeyPress}
+            />
           </div>
+          <div className='menu-space' />
+          <div className="menu-icons">
+            <button className="icon-button">
+              <i className="fas fa-share-alt"></i>
+            </button>
+            <button className="icon-button">
+              <i className="fas fa-plus"></i>
+            </button>
+            <button className="icon-button">
+              <i className="fas fa-envelope"></i>
+            </button>
+          </div>
+          <div className="user-icon">
+            <img src={user} alt="User" className="user-photo" />
+          </div>
+        </div>
         <div >
           <Routes>
             <Route path="/" element={<Home />} />
@@ -46,9 +70,9 @@ function App() {
             <Route path="/history" element={<History />} />
           </Routes>
         </div>
-        </div>
       </div>
-    </Router>
+    </div>
+
   );
 }
 
