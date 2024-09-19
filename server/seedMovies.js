@@ -1,8 +1,7 @@
 // seedMovies.js
 // Generate 100 random movies and add them to the database.
-import { Sequelize } from 'sequelize';
-import models from './models/index.js';
-const { Movie, sequelize } = models;
+// import { Sequelize } from 'sequelize';
+import { Movie, sequelize }  from './models/db.js';
 
 const generateRandomMovie = (index) => ({
   name: `Movie ${index}`,

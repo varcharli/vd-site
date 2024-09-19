@@ -124,6 +124,12 @@ async function getMovies(query) {
 // 创建电影
 async function createMovie(data) {
   try {
+    // 检查 movie.name 是否存在
+    if (!data.name) {
+      throw new Error('Movie name is required');
+    }
+    console.log('data is createMovie');
+    console.log('data', data);
     const movie = await Movie.create(data);
     return movie;
   } catch (error) {

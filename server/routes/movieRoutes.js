@@ -1,9 +1,12 @@
 // routes/movieRoutes.js
 import Router from 'koa-router';
 import movieController from '../controllers/movieController.js';
+import { koaBody } from 'koa-body';
+
 
 const {
   createMovie,
+  createFullMovie,
   getMovies,
   getMovieById,
   updateMovie,
@@ -14,9 +17,16 @@ const router = new Router({
   prefix: '/movies',
 });
 
-router.post('/', async (ctx) => {
+router.post('/',koaBody(), async (ctx) => {
   try {
-    const movie = await createMovie(ctx.request.body);
+    // const data = JSON.parse(ctx.request.body);
+    const data = ctx.request.body;
+    console.log('before parse data:', data);
+    // const jsonData = JSON.parse(data);
+    // console.log('jsonData:', jsonData);
+    // 确认是否有数据
+
+    const movie = await createMovie(data);
     ctx.body = movie;
   } catch (error) {
     ctx.status = 400;
@@ -27,9 +37,9 @@ router.post('/', async (ctx) => {
 router.get('/', async (ctx) => {
   try {
     // const movies = await getAllMovies(ctx.query);
-    console.log('ctx.query',ctx.query);
-    
-    const movies=await getMovies(ctx.query);
+    console.log('ctx.query', ctx.query);
+
+    const movies = await getMovies(ctx.query);
 
     ctx.body = movies;
   } catch (error) {
