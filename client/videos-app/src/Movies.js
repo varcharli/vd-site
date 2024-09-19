@@ -154,6 +154,7 @@ const Movies = () => {
                 src={movie.posterUrl || defaultImage}
                 alt={movie.name}
                 onError={(e) => { e.target.src = defaultImage; }}
+                referrerpolicy="no-referrer"
               />
               <div className="movie-info">
                 <h2>{movie.name}</h2>

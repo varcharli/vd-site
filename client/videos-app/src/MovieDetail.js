@@ -44,10 +44,12 @@ const MovieDetail = () => {
       <h1>{movie.name}</h1>
       <img src={movie.posterUrl || defaultImage} alt={movie.name} 
       onError={(e) => { e.target.src = defaultImage; }}
+      referrerpolicy="no-referrer"
       />
       <p>{movie.description}</p>
       <p>Release Date: {movie.releaseDate}</p>
       <p>Rating: {movie.rating}</p>
+      <p>posterUrl:{movie.posterUrl}</p>
     </div>
   );
 };
