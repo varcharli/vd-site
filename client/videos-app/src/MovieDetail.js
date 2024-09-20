@@ -39,6 +39,10 @@ const MovieDetail = () => {
     return <div>Movie not found</div>;
   }
 
+  const directors = movie.directors || [];
+  const actors = movie.actors || [];
+  const tags = movie.tags || [];
+
   return (
     <div className="movie-detail">
       <h1>{movie.name}</h1>
@@ -49,7 +53,44 @@ const MovieDetail = () => {
       <p>{movie.description}</p>
       <p>Release Date: {movie.releaseDate}</p>
       <p>Rating: {movie.rating}</p>
-      <p>posterUrl:{movie.posterUrl}</p>
+      <p>Directors: {directors && directors.length > 0 ? (
+        <ul>
+          {directors.map((director, index) => (
+            <li key={index}>
+              <a href={`/directors/${director.id}`}>{director.name}</a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        "N/A"
+      )}</p>
+      <p>Actors: {actors && actors.length > 0 ? (
+        <ul>
+          {actors.map((actor, index) => (
+            <li key={index}>
+              <a href={`/actors/${actor.id}`}>{actor.name}</a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        "N/A"
+      )}
+      </p>
+
+      <p>Tags: {tags && tags.length > 0 ? (
+        <ul>
+          {tags.map((tag, index) => (
+            <li key={index}>
+              <a href={`/tags/${tag.id}`}>{tag.name}</a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        "N/A"
+      )}
+      </p>
+
+      {/* <p>posterUrl:{movie.posterUrl}</p> */}
     </div>
   );
 };

@@ -27,8 +27,8 @@ const Movie = sequelize.define('Movie', {
     unique: true
   },
   releaseDate: {
-    type: DataTypes.DATE,
-    allowNull: false
+    type: DataTypes.STRING,
+    allowNull: true
   },
   //list page poster url
   posterUrl: {
@@ -47,6 +47,10 @@ const Movie = sequelize.define('Movie', {
   },
   description: {
     type: DataTypes.TEXT,
+    allowNull: true
+  },
+  rating: {
+    type: DataTypes.FLOAT,
     allowNull: true
   }
 }, {
@@ -132,6 +136,35 @@ const User = sequelize.define('User', {
   }
 });
 
+// Download links
+const DownloadLink = sequelize.define('DownloadLink', {
+  movieId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  link: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+});
+
+// Play links
+const PlayLink = sequelize.define('PlayLink', {
+  movieId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  link: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  memo: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
+});
+
+
 // 定义关系
 Movie.belongsToMany(Actor, { through: 'MovieActors' });
 Actor.belongsToMany(Movie, { through: 'MovieActors' });
@@ -147,6 +180,12 @@ History.belongsTo(Movie);
 
 User.hasMany(History);
 History.belongsTo(User);
+
+DownloadLink.belongsTo(Movie);
+Movie.hasMany(DownloadLink);
+
+PlayLink.belongsTo(Movie);
+Movie.hasMany(PlayLink);
 
 export {
   sequelize,

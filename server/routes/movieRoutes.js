@@ -21,12 +21,8 @@ router.post('/',koaBody(), async (ctx) => {
   try {
     // const data = JSON.parse(ctx.request.body);
     const data = ctx.request.body;
-    console.log('before parse data:', data);
-    // const jsonData = JSON.parse(data);
-    // console.log('jsonData:', jsonData);
-    // 确认是否有数据
 
-    const movie = await createMovie(data);
+    const movie = await createFullMovie(data);
     ctx.body = movie;
   } catch (error) {
     ctx.status = 400;
@@ -51,7 +47,7 @@ router.get('/', async (ctx) => {
 router.get('/:id', async (ctx) => {
   try {
     const movie = await getMovieById(ctx.params.id);
-    ctx.body = movie;
+    ctx.body = movie.toJSON();
   } catch (error) {
     ctx.status = 404;
     ctx.body = error.message;
@@ -62,6 +58,7 @@ router.put('/:id', async (ctx) => {
   try {
     const movie = await updateMovie(ctx.params.id, ctx.request.body);
     ctx.body = movie;
+    
   } catch (error) {
     ctx.status = 400;
     ctx.body = error.message;

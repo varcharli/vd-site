@@ -16,15 +16,19 @@ const createFullMovie = async (data) => {
     }
 
     // 创建电影
-    const movie = await Movie.create({
-      name: data.name,
-      releaseDate: data.releaseDate,
-      posterUrl: data.posterUrl,
-      description: data.description
-    });
+    // const movie = await Movie.create({
+    //   name: data.name,
+    //   releaseDate: data.releaseDate,
+    //   posterUrl: data.posterUrl,
+    //   description: data.description
+    // });
+
+    // 创建或是更新电影
+    const movie = await createOrUpdateMovie(data);
 
     // 查找或创建导演并关联
     let directors = [];
+    console.log('data is createFullMovie:',data.directorNames);
     if (data.directorNames && data.directorNames.length > 0) {
       directors = await Promise.all(data.directorNames.map(async (directorName) => {
         const [director] = await Director.findOrCreate({
@@ -137,6 +141,22 @@ async function createMovie(data) {
   }
 }
 
+async function createOrUpdateMovie(data) {
+  // 检查 movie.name 是否和现有的movie.name重复
+  // 如果重复，更新现有的movie
+  // 如果不重复，创建新的movie
+  const movie = await Movie.findOne({
+    where: {
+      name: data.name
+    }
+  });
+  if (movie) {
+    return movie.update(data);
+  } else {
+    return Movie.create(data);
+  }
+}
+
 // 获取单个电影
 async function getMovieById(id) {
   try {
@@ -144,6 +164,32 @@ async function getMovieById(id) {
     if (!movie) {
       throw new Error('Movie not found');
     }
+
+
+    // 获取关联的导演ID和导演姓名
+    const directors = await movie.getDirectors();
+    movie.dataValues.directors = directors.map(director => ({
+      id: director.id,
+      name: director.name
+    }));
+    // console.log('directors:', movie.directors);
+
+    // 获取关联的演员ID和演员姓名
+    const actors = await movie.getActors();
+    movie.dataValues.actors = actors.map(actor => ({
+      id: actor.id,
+      name: actor.name
+    }));
+    // console.log('actors:', actors);
+    // console.log('movie actors:', movie.actors);
+
+    // 获取关联的标签ID和标签名称
+    const tags = await movie.getTags();
+    movie.dataValues.tags = tags.map(tag => ({
+      id: tag.id,
+      name: tag.name
+    }));
+
     return movie;
   } catch (error) {
     throw error;
