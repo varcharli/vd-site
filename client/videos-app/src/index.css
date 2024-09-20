@@ -10,7 +10,8 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(17, 24, 39);
+  background-color:var(--global-web-background-color);
+   /* rgb(17, 24, 39); */
   color: var(--global-text-color);
 }
 

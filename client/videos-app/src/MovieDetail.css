@@ -1,5 +1,9 @@
 @import './variables.css';
 
+.loading{
+    background-color: var(--global-background-color);
+}
+
 .movie-detail {
     display: flex;
     flex-direction: column;

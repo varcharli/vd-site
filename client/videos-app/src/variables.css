@@ -5,10 +5,11 @@
 'rgb(254, 202, 202)',
 'rgb(233, 213, 255)' */
 :root{
+    --global-web-background-color: #111827;
     --global-background-color: #1f2937;
     --global-text-color: white;
     --global-background-color-button: white;
-    --global-background-color-button-active: rgb(187, 247, 208);
+    --global-background-color-button-active: #bbf7d0;
     --global-background-color-button-disable: grey;
     --global-label-color: #8a8a8a;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
@@ -14,6 +14,7 @@ const Movies = () => {
     totalRecords: 0,
   });
   const location = useLocation();
+  const navigate = useNavigate();
 
   // const [query, setQuery] = useState('');
   const query = location.state?.query || '';
@@ -23,9 +24,7 @@ const Movies = () => {
     fetchMovies(pagination.page, pagination.pageSize, query);
   }, [pagination.page, pagination.pageSize, query]);
 
-  const handleMovieClick = (id) => {
-    window.open(`/movie/${id}`, '_blank');
-  };
+
   
   useEffect(() => {
     const calculatePageSize = () => {
@@ -66,7 +65,19 @@ const Movies = () => {
     'rgb(233, 213, 255)'
   ];
 
-
+  const handleMovieClick = (id) => {
+    // window.open(`/movie/${id}`, '_blank');
+    window.location.href = `/movie/${id}`;
+    // navigate(`/movie/${id}`, {
+    //   state: {
+    //     query,
+    //     page: pagination.page,
+    //     pageSize: pagination.pageSize,
+    //     totalPages: pagination.totalPages,
+    //     totalRecords: pagination.totalRecords,
+    //   },
+    // });
+  };
 
   const handlePageChange = (newPage) => {
     setPagination((prev) => ({ ...prev, page: newPage }));
