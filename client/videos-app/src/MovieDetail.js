@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 
+import './MovieDetail.css';
+
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
@@ -39,59 +41,82 @@ const MovieDetail = () => {
     return <div>Movie not found</div>;
   }
 
+  // 确保 directors 和 actors 是数组
   const directors = movie.directors || [];
   const actors = movie.actors || [];
   const tags = movie.tags || [];
 
   return (
-    <div className="movie-detail">
-      <h1>{movie.name}</h1>
-      <img src={movie.posterUrl || defaultImage} alt={movie.name} 
-      onError={(e) => { e.target.src = defaultImage; }}
-      referrerpolicy="no-referrer"
-      />
-      <p>{movie.description}</p>
-      <p>Release Date: {movie.releaseDate}</p>
-      <p>Rating: {movie.rating}</p>
-      <p>Directors: {directors && directors.length > 0 ? (
-        <ul>
-          {directors.map((director, index) => (
-            <li key={index}>
-              <a href={`/directors/${director.id}`}>{director.name}</a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        "N/A"
-      )}</p>
-      <p>Actors: {actors && actors.length > 0 ? (
-        <ul>
-          {actors.map((actor, index) => (
-            <li key={index}>
-              <a href={`/actors/${actor.id}`}>{actor.name}</a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        "N/A"
-      )}
-      </p>
+    <div className="container">
+      <div className="movie-detail">
+        <h1 className="movie-title">{movie.name}</h1>
+        <div className="top">
+          <div className="top-left">
 
-      <p>Tags: {tags && tags.length > 0 ? (
-        <ul>
-          {tags.map((tag, index) => (
-            <li key={index}>
-              <a href={`/tags/${tag.id}`}>{tag.name}</a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        "N/A"
-      )}
-      </p>
+            <img src={movie.posterUrl || defaultImage} alt={movie.name}
+              onError={(e) => { e.target.src = defaultImage; }}
+              referrerpolicy="no-referrer"
+            />
+          </div>
+          <div className="top-mid"></div>
+          <div className="top-right">
+            <p>
+              <span className="horizontal-list">
+                <span className='label' > 导演：</span> {directors.length > 0 ? (
+                  directors.map((director, index) => (
+                    <span key={index}>
+                      <a href={`/directors/${director.id}`}>{director.name}</a>
+                    </span>
+                  ))
+                ) : (
+                  ""
+                )}
+              </span>
+            </p>
+            <p>
+              <span className="horizontal-list">
+                <span className='label' >演员：</span>
+                {actors.length > 0 ? (
+                  actors.map((actor, index) => (
+                    <span key={index}>
+                      <a href={`/actors/${actor.id}`}>{actor.name}</a>
+                    </span>
+                  ))
+                ) : (
+                  ""
+                )}</span>
+            </p>
 
-      {/* <p>posterUrl:{movie.posterUrl}</p> */}
-    </div>
+            <p>
+              <span className="horizontal-list">
+                <span className='label' >标签：</span>
+                {tags.length > 0 ? (
+                  tags.map((tag, index) => (
+                    <span key={index}>
+                      <a href={`/tags/${tag.id}`}>{tag.name}</a>
+                    </span>
+                  ))
+                ) : (
+                  ""
+                )}
+              </span>
+            </p>
+
+            <p><span className='label' >日期：</span><span>{movie.releaseDate}</span> </p>
+            <p><span className='label' >评分：</span> {movie.rating}</p>
+            <p>
+              <span className="horizontal-list">
+                <span className='label' >来源：</span>
+                <span><a href={movie.fromUrl} >点击跳转</a></span>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className="down">
+          <h1>简介</h1>
+          <p>{movie.description}</p>
+        </div>
+      </div></div>
   );
 };
 

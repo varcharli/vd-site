@@ -52,7 +52,11 @@ const Movie = sequelize.define('Movie', {
   rating: {
     type: DataTypes.FLOAT,
     allowNull: true
-  }
+  },
+  fromUrl: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
 }, {
   indexes: [
     {

@@ -157,7 +157,7 @@ const Movies = () => {
                 referrerpolicy="no-referrer"
               />
               <div className="movie-info">
-                <h2>{movie.name}</h2>
+                <h2 className='movie-name'>{movie.name}</h2>
                 <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
               </div>
             </li>

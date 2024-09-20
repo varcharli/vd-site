@@ -1,0 +1,78 @@
+@import './variables.css';
+
+.movie-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .movie-title {
+    /* text-align: left; */
+    margin-bottom: 20px;
+  }
+  
+  .top {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .top-left {
+    flex: 1;
+    text-align: right;
+    padding: 20px 0px;
+  }
+  
+  .top-right {
+    flex: 1;
+  }
+  
+  .top-mid{
+    /* flex: 1; */
+    width: 1px;
+    background-color: var(--global-label-color);
+    /* padding: 0px 0px; */
+  }
+
+  .top-right p {
+    display: flex;
+    align-items: center;
+  }
+  
+  .horizontal-list {
+    display: flex;
+    flex-wrap: wrap; /* 允许换行 */
+    gap: 10px; 
+  }
+  
+  .horizontal-list span {
+    display: inline; /* 横向排列 */
+    /* padding: 0px 2px 2px 2px;  */
+    text-align: left;
+    align-self: start;
+  }
+  
+  .horizontal-list a {
+    text-decoration: none;
+    color: green;
+  }
+  
+  .horizontal-list a:hover {
+    background-color: #333; /* 设置鼠标悬停时的背景色 */
+    /* padding: 2px 5px; */
+    border-radius: 3px;
+  }
+
+  .label {
+    color: var(--global-label-color);
+    /* font-size: 20px; */
+  }
+  
+  .down {
+    padding: 20px ;
+    text-align: left;
+  }
+
+  .down h1 {
+    color: var(--global-label-color);
+    font-size: 23px;
+  }
