@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation,useNavigate } from 'react-router-dom';
+import React, { useState, useEffect,useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 
 const Movies = () => {
-  
+  const [movies, setMovies] = useState([]);
+  const isInitialRender = useRef(true);
+  const [error, setError] = useState(null);
   const cstPageSize = 12
-  
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const queryParams = new URLSearchParams(location.search);
-  // const query = queryParams.get('query') || '';
-  const page = parseInt(queryParams.get('page'), 10) || 1;
-  const pageSize = parseInt(queryParams.get('pageSize'), 10) || cstPageSize;
+  const query = location.state?.query;
   const [pagination, setPagination] = useState({
-    page,
-    pageSize,
+    page: 1,
+    pageSize: cstPageSize,
     totalPages: 0,
     totalRecords: 0,
   });
-  
-  const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
 
+  // const navigate = useNavigate();
+  // const [query, setQuery] = useState(''); 
+  // const containerRef = useRef(null);
+
+  // useEffect(() => {
+  //   fetchMovies(pagination.page, pagination.pageSize, query);
+  // }, [pagination.page, pagination.pageSize, query]);
   const fetchMovies = async (queryString) => {
     try {
-      console.log('fetchMovies queryString:', queryString);
-      console.log('fetchMovies pagination:', pagination);
-      
       if (queryString === undefined) { queryString = ''; }
       const response = await fetch(`/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
       const data = await response.json();
@@ -41,38 +38,43 @@ const Movies = () => {
   };
 
   useEffect(() => {
-    console.log('location.search:', location.search);
-    const queryParams = new URLSearchParams(location.search);
-    const query = queryParams.get('query') || '';
-    const page = parseInt(queryParams.get('page'), 10) || 1;
-    const pageSize = parseInt(queryParams.get('pageSize'), 10) || 10;
+    
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
 
-    setPagination(prev => ({
-      ...prev,
-      page,
-      pageSize,
-    }));
-    console.log('search query:', query);
-    pagination.page = page;
-    fetchMovies(query);
-  }, [location.search]);
+    if (query) {
+      console.log('query in effect:', query);
+      fetchMovies(query);
 
-  const handlePageChange = (newPage) => {
-    console.log('newPage:', newPage);
-    queryParams.set('page', newPage);
-    navigate(`?${queryParams.toString()}`);
-    // window.location.reload();
-  };
+    } else {
+      const savedPagination = JSON.parse(localStorage.getItem('pagination'));
+      if (savedPagination) {
+        setPagination(savedPagination);
+        pagination.page = parseInt(savedPagination.page, 10);
+        fetchMovies(query);
+      } else {
+        fetchMovies('');
+      }
+    }
+  }, [query]);
 
-  // const handlePageSizeChange = (newPageSize) => {
-  //   queryParams.set('pageSize', newPageSize);
-  //   navigate({ search: queryParams.toString() });
-  // };
 
-  // const handleQueryChange = (newQuery) => {
-  //   queryParams.set('query', newQuery);
-  //   navigate({ search: queryParams.toString() });
-  // };
+  function savePagination() {
+    localStorage.setItem('pagination', JSON.stringify(pagination));
+    console.log('set item pagination:', pagination);
+  }  // Save pagination state to localStorage whenever it changes
+  
+  // useEffect(() => {
+  //     // savePagination();
+  //   // fetchMovies(query);
+  //   localStorage.setItem('pagination', JSON.stringify(pagination));
+  //   console.log('set item pagination:', pagination);
+  // }, [pagination]);
+
+
+
 
   const colors = [
     'rgb(254, 228, 203)',
@@ -88,6 +90,12 @@ const Movies = () => {
     window.location.href = `/movie/${id}`;
   };
 
+  const handlePageChange = (newPage) => {
+    pagination.page = newPage;
+    savePagination();
+    setPagination((prev) => ({ ...prev, page: newPage }));
+    fetchMovies(query);
+  };
 
   const renderPageNumbers = () => {
     const { page, totalPages } = pagination;

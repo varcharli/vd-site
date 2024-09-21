@@ -57,7 +57,7 @@
   
   .horizontal-list a {
     text-decoration: none;
-    color: green;
+    color: rgb(223, 250, 210);
   }
   
   .horizontal-list a:hover {
