@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
+import ImageGallery from './ImageGallery';
 
 import './MovieDetail.css';
 
@@ -10,6 +11,9 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchMovieById = async (id) => {
@@ -46,14 +50,24 @@ const MovieDetail = () => {
   const directors = movie.directors || [];
   const actors = movie.actors || [];
   const tags = movie.tags || [];
+
+  // gallery 相关
   const relatedPictures = movie.relatedPictures || [];
+  const relatedPictureLinks = relatedPictures.map((pic) => pic.link);
+  const openGallery = (index) => {
+    setCurrentImageIndex(index);
+    setIsGalleryOpen(true);
+  };
+  const closeGallery = () => {
+    setIsGalleryOpen(false);
+  };
 
   return (
     <div className="container">
       <div className="movie-detail">
-      <button className="back-button" onClick={() => navigate(-1)}>
-        <i className="fas fa-arrow-left"></i>
-      </button>
+        <button className="back-button" onClick={() => navigate(-1)}>
+          <i className="fas fa-arrow-left"></i>
+        </button>
         <h1 className="movie-title">{movie.name}</h1>
         <div className="top">
           <div className="top-left">
@@ -121,18 +135,30 @@ const MovieDetail = () => {
           <h1>简介</h1>
           <p>{movie.description}</p>
           <div className="related-pictures">
-          <h1>相册</h1>
-          <div className="pictures-gallery">
-            {relatedPictures.map((pic, index) => (
-              <img key={index} src={pic.link} alt={pic.id}
-              onError={(e) => { e.target.src = defaultImage; }}
-              referrerpolicy="no-referrer"
-               />
-            ))}
+            <h1>相册</h1>
+            <div className="pictures-gallery">
+              {relatedPictures.map((pic, index) => (
+                <img key={index}
+                  src={pic.link}
+                  alt={pic.id}
+                  onError={(e) => { e.target.src = defaultImage; }}
+                  referrerpolicy="no-referrer"
+                  onClick={() => openGallery(index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        </div>
-      </div></div>
+      </div>
+      {isGalleryOpen && (
+        <ImageGallery
+          images={relatedPictureLinks}
+          onClose={closeGallery}
+          index={currentImageIndex}
+          referrerPolicy="no-referrer"
+        />
+      )}
+    </div>
   );
 };
 
