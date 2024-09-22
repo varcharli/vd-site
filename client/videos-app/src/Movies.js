@@ -32,11 +32,14 @@ const Movies = () => {
       
       if (queryString === undefined) { queryString = ''; }
       const response = await fetch(`/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
       const data = await response.json();
       setMovies(data.movies);
       setPagination(data.pagination);
     } catch (error) {
-      setError(error.message);
+      setError('连接服务器出现错误：'+error.message);
     }
   };
 
@@ -160,7 +163,7 @@ const Movies = () => {
       </div>
 
       <div className='container-content' >
-        {error && <p>Error: {error}</p>}
+        {error && <p className='error-message'>{error}</p>}
         <ul className='ul-movies'>
           {movies.map((movie, index) => (
             <li key={movie.id}

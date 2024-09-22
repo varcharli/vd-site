@@ -168,6 +168,17 @@ const PlayLink = sequelize.define('PlayLink', {
   }
 });
 
+// related pictures
+const RelatedPicture = sequelize.define('RelatedPicture', {
+  movieId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  link: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
 
 // 定义关系
 Movie.belongsToMany(Actor, { through: 'MovieActors' });
@@ -191,6 +202,9 @@ Movie.hasMany(DownloadLink);
 PlayLink.belongsTo(Movie);
 Movie.hasMany(PlayLink);
 
+RelatedPicture.belongsTo(Movie);
+Movie.hasMany(RelatedPicture);
+
 export {
   sequelize,
   Movie,
@@ -198,5 +212,8 @@ export {
   Tag,
   Actor,
   Director,
-  History
+  History,
+  DownloadLink,
+  PlayLink,
+  RelatedPicture
 };

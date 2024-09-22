@@ -19,3 +19,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.error-message {
+  color: rgb(248, 138, 87);
+}

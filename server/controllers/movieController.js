@@ -1,6 +1,14 @@
 // controllers/movieController.js
 import { Op } from 'sequelize';
-import { Movie, Actor, Director, Tag } from '../models/db.js';
+import {
+  Movie,
+  Actor,
+  Director,
+  Tag,
+  DownloadLink,
+  PlayLink,
+  RelatedPicture
+} from '../models/db.js';
 
 // 创建电影
 // createMovie 方法接收一个对象参数，包含电影的所有信息，包括导演、演员和标签等。
@@ -28,7 +36,7 @@ const createFullMovie = async (data) => {
 
     // 查找或创建导演并关联
     let directors = [];
-    console.log('data is createFullMovie:',data.directorNames);
+    console.log('data is createFullMovie:', data.directorNames);
     if (data.directorNames && data.directorNames.length > 0) {
       directors = await Promise.all(data.directorNames.map(async (directorName) => {
         const [director] = await Director.findOrCreate({
@@ -68,8 +76,25 @@ const createFullMovie = async (data) => {
       await movie.setTags(tags.map(tag => tag.id));
     }
 
+    // 查找或创建关联的图片 RelatedPicture
+    // if only set null to relatedPictures.Then need a clean operation for relatedPictures.
+    // Delete all relatedPictures when relatedPicture's movieId is null.
+    // console.log('data.relatedPictures:', data.relatedPictures);
+
+    if (data.relatedPictures && data.relatedPictures.length > 0) {
+      // Clear all related pictures
+      await movie.setRelatedPictures([]);
+      const relatedPictures = await Promise.all(data.relatedPictures.map(async (relatedPicture) => {
+        const pic = await RelatedPicture.create({ movieId: movie.id, link: relatedPicture });
+        return pic;
+      }));
+      await movie.setRelatedPictures(relatedPictures.map(relatedPicture => relatedPicture.id));
+    }
+
+
     return movie;
   } catch (error) {
+    console.log('create error:', error);
     throw error;
   }
 }
@@ -188,6 +213,13 @@ async function getMovieById(id) {
     movie.dataValues.tags = tags.map(tag => ({
       id: tag.id,
       name: tag.name
+    }));
+
+    // relatedPictures
+    const relatedPictures = await movie.getRelatedPictures();
+    movie.dataValues.relatedPictures = relatedPictures.map(relatedPicture => ({
+      id: relatedPicture.id,
+      link: relatedPicture.link
     }));
 
     return movie;

@@ -19,7 +19,8 @@ function App() {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate('/movies', { state: { query } });
+    // navigate('/movies', { state: { query } });
+    navigate(`/movies?query=${query}`);
   };
 
   const handleKeyPress = (event) => {

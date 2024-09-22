@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 
 import './MovieDetail.css';
@@ -9,6 +9,7 @@ const MovieDetail = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovieById = async (id) => {
@@ -45,10 +46,14 @@ const MovieDetail = () => {
   const directors = movie.directors || [];
   const actors = movie.actors || [];
   const tags = movie.tags || [];
+  const relatedPictures = movie.relatedPictures || [];
 
   return (
     <div className="container">
       <div className="movie-detail">
+      <button className="back-button" onClick={() => navigate(-1)}>
+        <i className="fas fa-arrow-left"></i>
+      </button>
         <h1 className="movie-title">{movie.name}</h1>
         <div className="top">
           <div className="top-left">
@@ -115,6 +120,17 @@ const MovieDetail = () => {
         <div className="down">
           <h1>简介</h1>
           <p>{movie.description}</p>
+          <div className="related-pictures">
+          <h1>相册</h1>
+          <div className="pictures-gallery">
+            {relatedPictures.map((pic, index) => (
+              <img key={index} src={pic.link} alt={pic.id}
+              onError={(e) => { e.target.src = defaultImage; }}
+              referrerpolicy="no-referrer"
+               />
+            ))}
+          </div>
+        </div>
         </div>
       </div></div>
   );
