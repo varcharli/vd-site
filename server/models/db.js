@@ -166,7 +166,8 @@ const PlayLink = sequelize.define('PlayLink', {
     type: DataTypes.STRING,
     allowNull: true
   }
-});
+}
+,);
 
 // related pictures
 const RelatedPicture = sequelize.define('RelatedPicture', {

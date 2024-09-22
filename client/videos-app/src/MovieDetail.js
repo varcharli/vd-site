@@ -54,6 +54,9 @@ const MovieDetail = () => {
   // gallery 相关
   const relatedPictures = movie.relatedPictures || [];
   const relatedPictureLinks = relatedPictures.map((pic) => pic.link);
+  relatedPictureLinks.push(movie.posterUrl);
+  const posterIndex = relatedPictureLinks.indexOf(movie.posterUrl);
+
   const openGallery = (index) => {
     setCurrentImageIndex(index);
     setIsGalleryOpen(true);
@@ -65,7 +68,7 @@ const MovieDetail = () => {
   return (
     <div className="container">
       <div className="movie-detail">
-        <button className="back-button" onClick={() => navigate(-1)}>
+        <button className="back-button icon-big-button" onClick={() => navigate(-1)}>
           <i className="fas fa-arrow-left"></i>
         </button>
         <h1 className="movie-title">{movie.name}</h1>
@@ -75,6 +78,8 @@ const MovieDetail = () => {
             <img src={movie.posterUrl || defaultImage} alt={movie.name}
               onError={(e) => { e.target.src = defaultImage; }}
               referrerpolicy="no-referrer"
+              onClick={() => openGallery(posterIndex)
+              }
             />
           </div>
           <div className="top-mid"></div>
@@ -132,6 +137,17 @@ const MovieDetail = () => {
           </div>
         </div>
         <div className="down">
+          <div className="button-bar">
+            <button className='icon-big-button' >
+              <i className="fas fa-play"></i>
+            </button>
+            <button className='icon-big-button' >
+              <i className="fas fa-tag"></i>
+            </button>
+            <button className='icon-big-button' >
+              <i className="fas fa-download"></i>
+            </button>
+          </div>
           <h1>简介</h1>
           <p>{movie.description}</p>
           <div className="related-pictures">
@@ -144,6 +160,7 @@ const MovieDetail = () => {
                   onError={(e) => { e.target.src = defaultImage; }}
                   referrerpolicy="no-referrer"
                   onClick={() => openGallery(index)}
+
                 />
               ))}
             </div>

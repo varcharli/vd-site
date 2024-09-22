@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import movieRoutes from './routes/movieRoutes.js';
+import playLinkRoutes from './routes/playLinkRoutes.js';
 
 
 const app = new Koa();
@@ -14,6 +15,7 @@ router.get('/', async (ctx) => {
 
 app.use(router.routes())
   .use(movieRoutes.routes())
+  .use(playLinkRoutes.routes())
   .use(router.allowedMethods());
 
 

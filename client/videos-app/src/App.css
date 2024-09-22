@@ -123,6 +123,25 @@
     margin: 0px 20px 0px 10px;
 }
 
+.icon-big-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+    color: var(--global-background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.icon-big-button:hover {
+    background-color: #c5c5c5;
+}
+
 .user-icon {
     display: flex;
     align-items: center;
@@ -173,4 +192,4 @@
 
 .spacer {
     flex-grow: 1;
-  }
+}

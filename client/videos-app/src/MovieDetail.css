@@ -28,6 +28,13 @@
     text-align: right;
     padding: 20px 0px;
   }
+
+  .top-left img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+  }
   
   .top-right {
     flex: 1;
@@ -88,23 +95,7 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    /* background-color: #333;
-    color: white; */
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000; 
-  }
-  
-  .back-button:hover {
-    background-color: #555;
+    z-index: 1000; /* 使得返回按钮在最上层 */
   }
 
   .related-pictures {
@@ -121,4 +112,12 @@
     max-width: 165px;
     max-height: 165px;
     object-fit: cover;
+    cursor: pointer;
   }
+
+  .button-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+  
