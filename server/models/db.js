@@ -142,10 +142,6 @@ const User = sequelize.define('User', {
 
 // Download links
 const DownloadLink = sequelize.define('DownloadLink', {
-  movieId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
   link: {
     type: DataTypes.STRING,
     allowNull: false
@@ -154,8 +150,8 @@ const DownloadLink = sequelize.define('DownloadLink', {
 
 // Play links
 const PlayLink = sequelize.define('PlayLink', {
-  movieId: {
-    type: DataTypes.INTEGER,
+  name: {
+    type: DataTypes.STRING,
     allowNull: false
   },
   link: {
@@ -171,10 +167,6 @@ const PlayLink = sequelize.define('PlayLink', {
 
 // related pictures
 const RelatedPicture = sequelize.define('RelatedPicture', {
-  movieId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
   link: {
     type: DataTypes.STRING,
     allowNull: false

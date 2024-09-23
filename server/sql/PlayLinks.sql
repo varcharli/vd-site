@@ -1,17 +1,17 @@
 -- Table: public.PlayLinks
 
--- DROP TABLE IF EXISTS public."RelatedPictures";
+-- DROP TABLE IF EXISTS public."PlayLinks";
 
-CREATE TABLE IF NOT EXISTS public."RelatedPictures"
+CREATE TABLE IF NOT EXISTS public."PlayLinks"
 (
-    id integer NOT NULL DEFAULT nextval('"RelatedPictures_id_seq"'::regclass),
-    "movieId" integer NOT NULL,
+    id SERIAL PRIMARY KEY,
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     link character varying(255) COLLATE pg_catalog."default" NOT NULL,
     memo character varying(255) COLLATE pg_catalog."default",
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL,
-    CONSTRAINT "RelatedPictures_pkey" PRIMARY KEY (id),
-    CONSTRAINT "RelatedPictures_MovieId_fkey" FOREIGN KEY ("movieId")
+    "MovieId" integer,
+    CONSTRAINT "PlayLinks_MovieId_fkey" FOREIGN KEY ("MovieId")
         REFERENCES public."Movies" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS public."RelatedPictures"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."RelatedPictures"
+ALTER TABLE IF EXISTS public."PlayLinks"
     OWNER to postgres;

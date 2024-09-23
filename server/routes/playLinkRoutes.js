@@ -1,17 +1,33 @@
 // routes/playLinkRoutes.js
 import Router from 'koa-router';
-import playLinkController from '../controllers/playLinkController.js';
-import { koaBody } from 'koa-body';
-
-const {
+import {
   createPlayLink,
   updatePlayLink,
   deletePlayLink,
-} = playLinkController;
+}from '../controllers/playLinkController.js';
+import { koaBody } from 'koa-body';
+
+// const {
+//   createPlayLink,
+//   updatePlayLink,
+//   deletePlayLink,
+// } = playLinkController;
 
 const router = new Router({
   prefix: '/playLinks',
 });
+
+// get movie's playLinks
+router.get('/', async (ctx) => {
+  try {
+    const playLinks = await getPlayLinks(ctx.query);
+    ctx.body = playLinks;
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = error.message;
+  }
+});
+
 
 // 创建新的 playLink
 router.post('/', koaBody(), async (ctx) => {

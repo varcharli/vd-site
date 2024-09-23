@@ -85,7 +85,7 @@ const createFullMovie = async (data) => {
       // Clear all related pictures
       await movie.setRelatedPictures([]);
       const relatedPictures = await Promise.all(data.relatedPictures.map(async (relatedPicture) => {
-        const pic = await RelatedPicture.create({ movieId: movie.id, link: relatedPicture });
+        const pic = await RelatedPicture.create({link: relatedPicture });
         return pic;
       }));
       await movie.setRelatedPictures(relatedPictures.map(relatedPicture => relatedPicture.id));
