@@ -19,12 +19,6 @@ const MovieDetail = () => {
 
   // play link operations
   const [showPlayLink, setShowPlayLink] = useState(false);
-  const handlePlayLinkClick = () => {
-    setShowPlayLink(true);
-  };
-  const handleClosePlayLink = () => {
-    setShowPlayLink(false);
-  };
 
   useEffect(() => {
     const fetchMovieById = async (id) => {
@@ -75,6 +69,15 @@ const MovieDetail = () => {
   const closeGallery = () => {
     setIsGalleryOpen(false);
   };
+
+  const openPlayLink = () => {
+    setShowPlayLink(true);
+  };
+  const closePlayLink = () => {
+    setShowPlayLink(false);
+  };
+
+
 
   return (
     <div className="container">
@@ -149,7 +152,7 @@ const MovieDetail = () => {
         </div>
         <div className="down">
           <div className="button-bar">
-            <button className='icon-big-button' onClick={handlePlayLinkClick} >
+            <button className='icon-big-button' onClick={openPlayLink} >
               <i className="fas fa-link"></i>
             </button>
             <button className='icon-big-button' >
@@ -159,7 +162,7 @@ const MovieDetail = () => {
               <i className="fas fa-download"></i>
             </button>
           </div>
-          {showPlayLink && <PlayLink movieId={movieId} onClose={handleClosePlayLink} />}
+          
           <h1>简介</h1>
           <p>{movie.description}</p>
           <div className="related-pictures">
@@ -178,6 +181,7 @@ const MovieDetail = () => {
           </div>
         </div>
       </div>
+      {showPlayLink && <PlayLink MovieId={movieId} onClose={closePlayLink} />}
       {isGalleryOpen && (
         <ImageGallery
           images={relatedPictureLinks}

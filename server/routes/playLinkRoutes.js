@@ -1,6 +1,7 @@
 // routes/playLinkRoutes.js
 import Router from 'koa-router';
 import {
+  getPlayLinks,
   createPlayLink,
   updatePlayLink,
   deletePlayLink,

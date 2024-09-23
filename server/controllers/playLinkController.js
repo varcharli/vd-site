@@ -2,6 +2,16 @@
 // controllers/playLinkController.js
 import { PlayLink } from '../models/db.js';
 
+const getPlayLinks = async (query) => {
+  try {
+    const playLinks = await PlayLink.findAll({ where: query, order: [['name', 'ASC']] });
+    return playLinks;
+  } catch (error) {
+    throw new Error(`Error fetching playLinks: ${error.message}`);
+  }
+}
+
+
 // 创建新的 playLink
 const createPlayLink = async (data) => {
   try {
@@ -42,6 +52,7 @@ const deletePlayLink = async (id) => {
 
 // 导出函数
 export {
+  getPlayLinks,
   createPlayLink,
   updatePlayLink,
   deletePlayLink

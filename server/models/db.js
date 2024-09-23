@@ -163,7 +163,9 @@ const PlayLink = sequelize.define('PlayLink', {
     allowNull: true
   }
 }
-,);
+,{
+  order: [['name', 'ASC']]
+});
 
 // related pictures
 const RelatedPicture = sequelize.define('RelatedPicture', {
