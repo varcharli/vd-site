@@ -157,7 +157,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                             <NoRecords />
                         ) : (
                             playLinks.map((playLink, index) => (
-                                <div>
+                                <div className='editable-row' >
                                     <div key={index} className="table-row">
                                         <div class="cell-1">
                                             <div className='table-col'>
@@ -185,7 +185,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <hr className='divider' />
+                                    <div className='divider' />
                                 </div>
                             )
                             )

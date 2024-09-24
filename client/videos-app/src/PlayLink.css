@@ -105,6 +105,12 @@
   width: 100%;
   justify-content: space-between;
   gap: 10px;
+  padding-top:10px ;
+  padding-bottom: 10px;
+}
+
+.editable-row :hover {
+  background-color: var(--global-web-background-color);
 }
 
 .cell-1 {
@@ -155,5 +161,5 @@
   width: 100%;
   border: none;
   border-top: 1px solid #494949; /* 定制分割线的颜色和样式 */
-
+  padding:0;
 }
