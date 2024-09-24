@@ -28,7 +28,7 @@ const Movies = () => {
   const fetchMovies = async (queryString) => {
     try {
       if (queryString === undefined) { queryString = ''; }
-      const response = await fetch(`/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
+      const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
       const data = await response.json();
       setMovies(data.movies);
       setPagination(data.pagination);

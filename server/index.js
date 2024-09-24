@@ -9,15 +9,19 @@ const router = new Router();
 
 // router.use('/movies', movieRoutes.routes(), movieRoutes.allowedMethods());
 
-router.get('/', async (ctx) => {
-  await ctx.render('index', { title: '首页', message: '欢迎来到Koa首页!' });
-});
+// router.get('/', async (ctx) => {
+//   await ctx.render('index', { title: '首页', message: '欢迎来到Koa首页!' });
+// });
 
-app.use(router.routes())
-  .use(movieRoutes.routes())
-  .use(playLinkRoutes.routes())
-  .use(router.allowedMethods());
+// app.use(router.routes())
+//   .use(movieRoutes.routes())
+//   .use(playLinkRoutes.routes())
+//   .use(router.allowedMethods());
+router.use( movieRoutes.routes(), movieRoutes.allowedMethods());
+router.use(playLinkRoutes.routes(), playLinkRoutes.allowedMethods());
 
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 
 app.listen(3000, () => {

@@ -15,7 +15,7 @@ import { koaBody } from 'koa-body';
 // } = playLinkController;
 
 const router = new Router({
-  prefix: '/playLinks',
+  prefix: '/api/playLinks',
 });
 
 // get movie's playLinks

@@ -46,7 +46,7 @@ const MovieDetail = () => {
 
     const fetchMovieById = async (id) => {
       try {
-        const response = await axios.get(`/movies/${id}`);
+        const response = await axios.get(`/api/movies/${id}`);
         setMovie(response.data);
       } catch (err) {
         setError(err.response ? err.response.data.message : err.message);
@@ -57,7 +57,7 @@ const MovieDetail = () => {
 
     const fetchPlayLinks = async () => {
       try {
-        const response = await axios.get(`/playLinks?MovieId=${movieId}`);
+        const response = await axios.get(`/api/playLinks?MovieId=${movieId}`);
         setPlayLinks(response.data);
       } catch (error) {
         console.error('Error fetching playLinks:', error);

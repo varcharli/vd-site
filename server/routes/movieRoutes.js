@@ -14,7 +14,7 @@ const {
 } = movieController;
 
 const router = new Router({
-  prefix: '/movies',
+  prefix: '/api/movies',
 });
 
 router.post('/',koaBody(), async (ctx) => {
