@@ -121,3 +121,14 @@
     gap: 20px;
   }
   
+  .play-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .down-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './PlayLink.css';
+import { NoRecords, RainbowButton, WindowCloseButton } from './components';
+// import { on } from 'events';
 
-const PlayLink = ({ MovieId, onClose }) => {
+
+const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
     const [playLinks, setPlayLinks] = useState([]);
+    const linkInputRef = useRef(null);
     MovieId = parseInt(MovieId);
+
+    useEffect(() => {
+        // 设置link input的焦点
+        if (linkInputRef.current) {
+            linkInputRef.current.focus();
+        }
+    }, []);
 
     useEffect(() => {
         // 添加点击事件监听器
@@ -31,7 +42,8 @@ const PlayLink = ({ MovieId, onClose }) => {
             try {
                 const response = await axios.get(`/playLinks?MovieId=${MovieId}`);
                 setPlayLinks(response.data);
-                console.log('response.data ' + MovieId + ' ' + response.data);
+                onPlayLinksUpdate(response.data);
+                // console.log('response.data ' + MovieId + ' ' + response.data);
             } catch (error) {
                 console.error('Error fetching playLinks:', error);
             }
@@ -39,11 +51,26 @@ const PlayLink = ({ MovieId, onClose }) => {
 
         fetchPlayLinks();
         console.log('fetchPlayLinks ' + MovieId);
-    }, [MovieId]);
+    }, [MovieId, onPlayLinksUpdate]);
 
     const handleCreate = async () => {
+        let movieName = name.trim();
+        if (!movieName) {
+            let defaultNumber = 1;
+            const existingNames = playLinks.map(playLink => playLink.name);
+            while (existingNames.includes(defaultNumber.toString().padStart(3, '0'))) {
+                defaultNumber++;
+            }
+            movieName = defaultNumber.toString().padStart(3, '0');
+        }
+
+        if (!link) {
+            alert('Link cannot be empty');
+            return;
+        }
+
         try {
-            const response = await axios.post('/playLinks', { MovieId, name, link });
+            const response = await axios.post('/playLinks', { MovieId, name: movieName, link });
             console.log('response.data ' + MovieId + ' ' + name + ' ' + link);
             setPlayLinks([...playLinks, response.data]);
             setName('');
@@ -70,6 +97,11 @@ const PlayLink = ({ MovieId, onClose }) => {
     };
 
     const handleDelete = async (index) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this playLink?');
+        if (!confirmDelete) {
+            return;
+        }
+
         try {
             await axios.delete(`/playLinks/${playLinks[index].id}`);
             const updatedPlayLinks = playLinks.filter((_, i) => i !== index);
@@ -82,76 +114,91 @@ const PlayLink = ({ MovieId, onClose }) => {
     return (
         <div className="popup-window">
             <div className='popup-inner'>
-                {/* <button onClick={onClose}>Close</button> */}
+
                 <div className='dialog-header'>
-                    <h2>Play Links</h2>
+                    <h2>播放链接</h2>
+                    {/* <button className='icon-big-button' onClick={onClose}>
+                        <i className="fas fa-close"></i>
+                    </button> */}
+                    <WindowCloseButton onClick={onClose} />
                 </div>
-                <div className="create-section">
-                    <div class="table-row">
-                        <div class="cell-1">
-                            <input
-                                type="text"
-                                placeholder="Name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                        </div>
-                        <div class="cell-2">
-                            <input
-                                type="text"
-                                placeholder="Link"
-                                value={link}
-                                onChange={(e) => setLink(e.target.value)}
-                            />
-                        </div>
-                        <div class="cell-3">
-                            <button onClick={handleCreate}>
-                                <i className="fas fa-plus"></i>
-                            </button>
+                <div className='dialog-content'>
+                    <div className="create-section">
+                        <div class="table-row">
+                            <div class="cell-1">
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </div>
+                            <div class="cell-2">
+                                <input
+                                    type="text"
+                                    placeholder="Link"
+                                    value={link}
+                                    onChange={(e) => setLink(e.target.value)}
+                                    ref={linkInputRef} 
+                                />
+                            </div>
+                            <div class="cell-3">
+                                {/* <button onClick={handleCreate}>
+                                    <i className="fas fa-plus"></i>
+                                </button> */}
+                                <RainbowButton colorIndex={1} onClick={handleCreate}
+                                    icon="fas fa-plus" />
+
+                            </div>
                         </div>
                     </div>
-
-
-
-                </div>
-                <div className="manage-section">
-                    {playLinks.map((playLink, index) => (
-                        <div>
-                            <div key={index} className="table-row">
-                                <div class="cell-1">
-                                    <div className='table-col'>
-                                        <span>{playLink.name}</span> </div>
-                                </div>
-                                <div class="cell-2">
-                                    <div className='table-col' >
-                                        <span>
-                                            {playLink.link}
-                                        </span>
+                    <div className="manage-section">
+                        {playLinks.length === 0 ? (
+                            <NoRecords />
+                        ) : (
+                            playLinks.map((playLink, index) => (
+                                <div>
+                                    <div key={index} className="table-row">
+                                        <div class="cell-1">
+                                            <div className='table-col'>
+                                                <span>{playLink.name}</span> </div>
+                                        </div>
+                                        <div class="cell-2">
+                                            <div className='table-col' >
+                                                <span>
+                                                    {playLink.link}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="cell-3">
+                                            <div className='table-col' >
+                                                {/* <button onClick={() => handleEdit(index)}>
+                                                    <i className="fas fa-edit"></i>
+                                                </button> */}
+                                                <RainbowButton colorIndex={3} onClick={() => handleEdit(index)}
+                                                    icon="fas fa-edit" />
+                                                {/* <button onClick={() => handleDelete(index)}>
+                                                    <i className="fas fa-trash"></i>
+                                                </button> */}
+                                                <RainbowButton colorIndex={4} onClick={() => handleDelete(index)}
+                                                    icon="fas fa-trash" />
+                                            </div>
+                                        </div>
                                     </div>
+                                    <hr className='divider' />
                                 </div>
-                                <div class="cell-3">
-                                    <div className='table-col' >
-                                        <button onClick={() => handleEdit(index)}>
-                                            <i className="fas fa-edit"></i>
-                                        </button>
-                                        <button onClick={() => handleDelete(index)}>
-                                            <i className="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className='divider' />
-                        </div>
-                    )
-                    )}
+                            )
+                            )
+                        )}
+                    </div>
+                    <div className='popup-space' />
                 </div>
-                <div className='popup-space' />
-                <div className='dialog-bottom'>
+                {/* <div className='dialog-bottom'>
                     <button className='close-popup-button' onClick={onClose}>
                         <i className="fas fa-close"></i>
                         Close
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

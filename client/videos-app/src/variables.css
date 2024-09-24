@@ -12,4 +12,12 @@
     --global-background-color-button-active: #bbf7d0;
     --global-background-color-button-disable: grey;
     --global-label-color: #8a8a8a;
+
+    --rainbowColor1: rgb(254, 228, 203);
+    --rainbowColor2: rgb(209, 213, 219);
+    --rainbowColor3: rgb(187, 247, 208);
+    --rainbowColor4: rgb(191, 219, 254);
+    --rainbowColor5: rgb(254, 202, 202);
+    --rainbowColor6: rgb(233, 213, 255);
+    --rainbowColor7: rgb(254, 228, 203);
 }
