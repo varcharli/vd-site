@@ -189,7 +189,6 @@ const MovieDetail = () => {
         <div className="down">
           <div className='down-header'>
             <div className="play-panel">
-             
               {playLinks && playLinks.length > 0 && (
                 <div className="play-panel">
                   {/* <div><h1>播放</h1></div>   */}

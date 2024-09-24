@@ -8,6 +8,12 @@
     background-color: var(--global-web-background-color);
 }
 
+.main {
+    max-width: 1200px; /* 你可以根据需要调整这个值 */
+    margin: 0 auto; /* 将容器居中 */
+    padding: 0 20px; /* 可选：为容器添加一些内边距 */
+  }
+
 .content {
     /* margin-left: 20px; */
     padding: 0;
