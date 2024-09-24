@@ -80,9 +80,34 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
         }
     };
 
-    const handleEdit = async (index) => {
-        const newName = prompt('Enter new name:', playLinks[index].name);
-        const newLink = prompt('Enter new link:', playLinks[index].link);
+    // const handleEdit = async (index) => {
+    //     const newName = prompt('Enter new name:', playLinks[index].name);
+    //     const newLink = prompt('Enter new link:', playLinks[index].link);
+    //     if (newName && newLink) {
+    //         try {
+    //             const response = await axios.put(`/playLinks/${playLinks[index].id}`, { MovieId, name: newName, link: newLink });
+    //             const updatedPlayLinks = playLinks.map((playLink, i) =>
+    //                 i === index ? response.data : playLink
+    //             );
+    //             setPlayLinks(updatedPlayLinks);
+    //         } catch (error) {
+    //             console.error('Error updating playLink:', error);
+    //         }
+    //     }
+    // };
+
+    // edit in row
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [newName, setNewName] = useState('');
+    const [newLink, setNewLink] = useState('');
+
+    const handleEdit = (index) => {
+        setEditingIndex(index);
+        setNewName(playLinks[index].name);
+        setNewLink(playLinks[index].link);
+    };
+
+    const handleSave = async (index) => {
         if (newName && newLink) {
             try {
                 const response = await axios.put(`/playLinks/${playLinks[index].id}`, { MovieId, name: newName, link: newLink });
@@ -90,12 +115,18 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                     i === index ? response.data : playLink
                 );
                 setPlayLinks(updatedPlayLinks);
+                setEditingIndex(null);
             } catch (error) {
                 console.error('Error updating playLink:', error);
             }
         }
     };
 
+    const handleCancel = () => {
+        setEditingIndex(null);
+    };
+
+    // delete
     const handleDelete = async (index) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this playLink?');
         if (!confirmDelete) {
@@ -139,7 +170,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                                     placeholder="Link"
                                     value={link}
                                     onChange={(e) => setLink(e.target.value)}
-                                    ref={linkInputRef} 
+                                    ref={linkInputRef}
                                 />
                             </div>
                             <div class="cell-3">
@@ -158,34 +189,64 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                         ) : (
                             playLinks.map((playLink, index) => (
                                 <div className='editable-row' >
-                                    <div key={index} className="table-row">
-                                        <div class="cell-1">
-                                            <div className='table-col'>
-                                                <span>{playLink.name}</span> </div>
-                                        </div>
-                                        <div class="cell-2">
-                                            <div className='table-col' >
-                                                <span>
-                                                    {playLink.link}
-                                                </span>
+                                    <div key={playLink.id}>
+                                        {editingIndex === index ? (
+                                            <div className="table-row" >
+                                                <div class="cell-1">
+                                                    <input
+                                                        type="text"
+                                                        value={newName}
+                                                        onChange={(e) => setNewName(e.target.value)}
+                                                    /></div>
+                                                <div class="cell-2">
+                                                    <div className='table-col' >
+                                                        <input
+                                                            type="text"
+                                                            value={newLink}
+                                                            onChange={(e) => setNewLink(e.target.value)}
+                                                        /></div></div>
+                                                {/* <button onClick={() => handleSave(index)}>Save</button>
+                                                <button onClick={handleCancel}>Cancel</button> */}
+                                                <div class="cell-3">
+                                                    <div className='table-col' >
+                                                        <RainbowButton colorIndex={5} onClick={() => handleSave(index)}
+                                                            icon="fas fa-save" />
+                                                        <RainbowButton colorIndex={6} onClick={() => handleCancel(index)}
+                                                            icon="fas fa-undo" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="cell-3">
-                                            <div className='table-col' >
-                                                {/* <button onClick={() => handleEdit(index)}>
-                                                    <i className="fas fa-edit"></i>
-                                                </button> */}
-                                                <RainbowButton colorIndex={3} onClick={() => handleEdit(index)}
-                                                    icon="fas fa-edit" />
-                                                {/* <button onClick={() => handleDelete(index)}>
-                                                    <i className="fas fa-trash"></i>
-                                                </button> */}
-                                                <RainbowButton colorIndex={4} onClick={() => handleDelete(index)}
-                                                    icon="fas fa-trash" />
+                                        ) : (
+                                            <div className="table-row" >
+                                                <div class="cell-1">
+                                                    <div className='table-col'>
+                                                        <span>{playLink.name}</span> </div>
+                                                </div>
+                                                <div class="cell-2">
+                                                    <div className='table-col' >
+                                                        <span>
+                                                            {playLink.link}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="cell-3">
+                                                    <div className='table-col' >
+                                                        <RainbowButton colorIndex={3} onClick={() => handleEdit(index)}
+                                                            icon="fas fa-edit" />
+                                                        <RainbowButton colorIndex={4} onClick={() => handleDelete(index)}
+                                                            icon="fas fa-trash" />
+                                                    </div>
+                                                </div>
+                                                {/* <span>{playLink.name}</span>
+                                                <span>{playLink.link}</span>
+                                                <button onClick={() => handleEdit(index)}>Edit</button> */}
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
+
+
                                     <div className='divider' />
+
                                 </div>
                             )
                             )

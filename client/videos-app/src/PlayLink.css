@@ -110,7 +110,7 @@
 }
 
 .editable-row :hover {
-  background-color: var(--global-web-background-color);
+  color: var(--global-focus-color);
 }
 
 .cell-1 {
@@ -129,6 +129,7 @@
   display:flex;
   width: 120px;
 }
+
 
 .table-row input  {
   width: 100%;
