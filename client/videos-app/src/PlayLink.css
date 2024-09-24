@@ -164,3 +164,21 @@
   border-top: 1px solid #494949; /* 定制分割线的颜色和样式 */
   padding:0;
 }
+
+.loading-container {
+  display: flex;
+  /* width: 300px; */
+  justify-content: center; 
+  align-items: center;
+  width: 50vw;
+  height: 30vh; 
+  /* min-height: 30%;
+  min-width: 50%;
+  max-width: 80%;
+  max-height: 80%; */
+}
+
+.loading-gif {
+  width: 100px; /* 根据需要调整大小 */
+  height: 100px; /* 根据需要调整大小 */
+}

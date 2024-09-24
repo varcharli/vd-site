@@ -3,9 +3,11 @@ import axios from 'axios';
 import './PlayLink.css';
 import { NoRecords, RainbowButton, WindowCloseButton } from './components';
 // import { on } from 'events';
+import loadingGif from './assets/loading.gif';
 
 
 const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
+    const [loading, setLoading] = useState(true);
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
     const [playLinks, setPlayLinks] = useState([]);
@@ -43,9 +45,11 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                 const response = await axios.get(`/playLinks?MovieId=${MovieId}`);
                 setPlayLinks(response.data);
                 onPlayLinksUpdate(response.data);
+                setLoading(false);
                 // console.log('response.data ' + MovieId + ' ' + response.data);
             } catch (error) {
                 console.error('Error fetching playLinks:', error);
+                setLoading(false);
             }
         };
 
@@ -79,22 +83,6 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
             console.error('Error creating playLink:', error);
         }
     };
-
-    // const handleEdit = async (index) => {
-    //     const newName = prompt('Enter new name:', playLinks[index].name);
-    //     const newLink = prompt('Enter new link:', playLinks[index].link);
-    //     if (newName && newLink) {
-    //         try {
-    //             const response = await axios.put(`/playLinks/${playLinks[index].id}`, { MovieId, name: newName, link: newLink });
-    //             const updatedPlayLinks = playLinks.map((playLink, i) =>
-    //                 i === index ? response.data : playLink
-    //             );
-    //             setPlayLinks(updatedPlayLinks);
-    //         } catch (error) {
-    //             console.error('Error updating playLink:', error);
-    //         }
-    //     }
-    // };
 
     // edit in row
     const [editingIndex, setEditingIndex] = useState(null);
@@ -141,6 +129,18 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
             console.error('Error deleting playLink:', error);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="popup-window">
+                <div className='popup-inner'>
+                    <div className="loading-container">
+                        <img src={loadingGif} alt="Loading..." className="loading-gif" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="popup-window">
