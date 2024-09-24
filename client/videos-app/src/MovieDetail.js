@@ -206,9 +206,9 @@ const MovieDetail = () => {
               )}
             </div>
             <div className="button-bar">
-              <RainbowButton colorIndex={0} onClick={openPlayLink} icon="fas fa-link" title="播放" />
+              <RainbowButton colorIndex={0} onClick={openPlayLink} icon="fas fa-link" title="播放链接" />
               <RainbowButton colorIndex={1} icon="fas fa-tag" title="标签" />
-              <RainbowButton colorIndex={2} icon="fas fa-download" title="下载" />
+              <RainbowButton colorIndex={2} icon="fas fa-download" title="下载链接" />
             </div>
           </div>
           <h1>简介</h1>

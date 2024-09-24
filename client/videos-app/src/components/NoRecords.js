@@ -18,9 +18,7 @@ const NoRecords = () => {
     return (
         <div style={containerStyle}>
             <img src={img} alt="No records" style={{ width: '200px', height: '200px' }} />
-                {/* <i className="fas fa-plus-circle" style={{ fontSize: '2em' }} /> */}
-            
-           {/* <p>没有记录，请添加新记录。</p>  */}
+            <p>没有记录，请添加新记录。</p>
         </div>
     );
 };
