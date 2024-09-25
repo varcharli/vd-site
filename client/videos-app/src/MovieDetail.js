@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import api from './client/api';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import ImageGallery from './ImageGallery';
 import PlayLink from './PlayLink';
@@ -48,7 +49,8 @@ const MovieDetail = () => {
 
     const fetchMovieById = async (id) => {
       try {
-        const response = await axios.get(`/api/movies/${id}`);
+        // const response = await axios.get(`/api/movies/${id}`);
+        const response = await api.getMovieById(id);
         setMovie(response.data);
         await fetchPlayLinks();
       } catch (err) {
@@ -60,7 +62,8 @@ const MovieDetail = () => {
 
     const fetchPlayLinks = async () => {
       try {
-        const response = await axios.get(`/api/playLinks?MovieId=${movieId}`);
+        // const response = await axios.get(`/api/playLinks?MovieId=${movieId}`);
+        const response = await api.getPlayLinks(movieId);
         setPlayLinks(response.data);
       } catch (error) {
         // console.error('Error fetching playLinks:', error);

@@ -4,6 +4,7 @@ import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import { ErrorInfo } from './components';
+import api from './client/api';
 
 const Movies = () => {
   
@@ -32,11 +33,9 @@ const Movies = () => {
       console.log('fetchMovies pagination:', pagination);
       
       if (queryString === undefined) { queryString = ''; }
-      const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
+      // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
+      const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
+      const data=response.data;
       setMovies(data.movies);
       setPagination(data.pagination);
     } catch (error) {
@@ -89,7 +88,7 @@ const Movies = () => {
 
   const handleMovieClick = (id) => {
     // window.open(`/movie/${id}`, '_blank');
-    window.location.href = `/movie/${id}`;
+    window.location.href = `/movies/${id}`;
   };
 
 

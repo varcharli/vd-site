@@ -25,7 +25,7 @@ const secret = 'shared-secret';
 
 router.use('/auth', authRoutes.routes(), authRoutes.allowedMethods());
 
-app.use(jwt({ secret }).unless({ path: [/^\/auth/] }));
+// app.use(jwt({ secret }).unless({ path: [/^\/auth/] }));
 
 router.use(movieRoutes.routes(), movieRoutes.allowedMethods());
 router.use(playLinkRoutes.routes(), playLinkRoutes.allowedMethods());

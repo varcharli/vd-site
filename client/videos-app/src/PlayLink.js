@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from './client/api';
 import './PlayLink.css';
 import { NoRecords, RainbowButton, WindowCloseButton } from './components';
 // import { on } from 'events';
@@ -42,7 +43,8 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
         // Fetch existing playLinks for the given MovieId when the component mounts
         const fetchPlayLinks = async () => {
             try {
-                const response = await axios.get(`/api/playLinks?MovieId=${MovieId}`);
+                // const response = await axios.get(`/api/playLinks?MovieId=${MovieId}`);
+                const response = await api.getPlayLinks(MovieId);
                 setPlayLinks(response.data);
                 onPlayLinksUpdate(response.data);
                 setLoading(false);
@@ -74,7 +76,8 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
         }
 
         try {
-            const response = await axios.post('/api/playLinks', { MovieId, name: movieName, link });
+            // const response = await axios.post('/api/playLinks', { MovieId, name: movieName, link });
+            const response = await api.createPlayLink({ MovieId, name: movieName, link });
             console.log('response.data ' + MovieId + ' ' + name + ' ' + link);
             setPlayLinks([...playLinks, response.data]);
             setName('');
@@ -98,7 +101,8 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
     const handleSave = async (index) => {
         if (newName && newLink) {
             try {
-                const response = await axios.put(`/api/playLinks/${playLinks[index].id}`, { MovieId, name: newName, link: newLink });
+                // const response = await axios.put(`/api/playLinks/${playLinks[index].id}`, { MovieId, name: newName, link: newLink });
+                const response = await api.updatePlayLink(playLinks[index].id, { MovieId, name: newName, link: newLink });
                 const updatedPlayLinks = playLinks.map((playLink, i) =>
                     i === index ? response.data : playLink
                 );
@@ -122,7 +126,8 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
         }
 
         try {
-            await axios.delete(`/api/playLinks/${playLinks[index].id}`);
+            // await axios.delete(`/api/playLinks/${playLinks[index].id}`);
+            await api.deletePlayLink(playLinks[index].id);
             const updatedPlayLinks = playLinks.filter((_, i) => i !== index);
             setPlayLinks(updatedPlayLinks);
         } catch (error) {

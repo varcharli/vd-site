@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 
 import Home from './Home';
@@ -8,6 +8,9 @@ import Movies from './Movies';
 import MovieDetail from './MovieDetail';
 import Favorite from './Favorite';
 import History from './History';
+import Login from './Login'; // 引入 Login 组件
+import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
+
 
 import './Navbar.css';
 import './App.css';
@@ -68,11 +71,33 @@ function App() {
           </div>
           <div >
             <Routes>
-              <Route path="/" element={<Home />} />
+              {/* <Route path="/" element={<Home />} />
               <Route path="/movies" element={<Movies />} />
               <Route path="/favorite" element={<Favorite />} />
               <Route path="/history" element={<History />} />
-              <Route path="/movie/:id" element={<MovieDetail />} />
+              <Route path="/movie/:id" element={<MovieDetail />} /> */}
+              <Route path="/login" element={<Login />} />
+              {/* <Route path="/home" element={<Home />} /> */}
+              <Route exact path='/' element={<PrivateRoute />}>
+                <Route exact path='/' element={<Home />} />
+              </Route>
+              <Route path="/movies" element={<PrivateRoute />} >
+                <Route path="/movies" element={<Movies />} />
+              </Route>
+              <Route path="/movies/:id" element={<PrivateRoute />} >
+                <Route path="/movies/:id" element={<MovieDetail />} />
+              </Route>
+              <Route path="/favorite" element={<PrivateRoute />} >
+                <Route path="/favorite" element={<Favorite />} />
+              </Route>
+              <Route path="/history" element={<PrivateRoute />} >
+                <Route path="/history" element={<History />} />
+              </Route>
+
+              {/* <Route path="/movies/:id" element={<MovieDetail />} />
+              <Route path="/favorite" element={<Favorite />} />
+              <Route path="/history" element={<History />} /> */}
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
         </div>

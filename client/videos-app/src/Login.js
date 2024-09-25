@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { login } from './client/auth.js';
 
 const Login = () => {
     const [name, setName] = useState('');
@@ -9,8 +9,13 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/login', { name, password });
-            localStorage.setItem('token', response.data.token);
+            // const response = await axios.post('/auth/login', { name, password });
+            const message=await login(name,password);
+            if(message){
+                setError(message);
+                return;
+            }
+            // localStorage.setItem('token', response.data.token);
             setError('');
             // Redirect to another page or update the UI
         } catch (err) {

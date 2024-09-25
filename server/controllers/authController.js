@@ -9,6 +9,7 @@ const secret = process.env.JWT_SECRET;
 // 生成token
 export const generateToken = async (ctx) => {
     const { name, password } = ctx.request.body;
+    console.log('ctx:'+ ctx.request.body);
     const user = await User.findOne({ where: { name } });
 
     if (!user) {
@@ -16,7 +17,7 @@ export const generateToken = async (ctx) => {
         ctx.body = { message: 'Invalid credentials' };
         return;
     }
-
+    console.log('PassCheck: '+password + '  ' +user.passwordHash);
     const validPassword = await bcrypt.compare(password, user.passwordHash);
     if (!validPassword) {
         ctx.status = 401;

@@ -2,11 +2,11 @@ import axios from 'axios';
 
 const authPath = '/auth/login'; 
 
-const login = async (username, password) => {
+export const login = async (username, password) => {
   try {
     const response = await axios.post(authPath, {
       name: username,
-      passwordHash: password, 
+      password, 
     });
 
     const { token } = response.data;
