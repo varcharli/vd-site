@@ -39,7 +39,7 @@ const Movies = () => {
       setMovies(data.movies);
       setPagination(data.pagination);
     } catch (error) {
-      setError('连接服务器出现错误：'+error.message);
+      setError('连接服务器出现错误：'+error.message+' --- '+error.response.data );
     }
   };
 

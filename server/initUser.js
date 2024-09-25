@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import { User } from './models/db.js';
 import dotenv from 'dotenv';
-
 dotenv.config();
 
 const saltRounds = 10;

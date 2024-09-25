@@ -20,6 +20,11 @@ import user from './assets/user.png';
 function App() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
 
   const handleSearch = () => {
     // navigate('/movies', { state: { query } });
@@ -30,6 +35,11 @@ function App() {
     if (event.key === 'Enter') {
       handleSearch();
     }
+  };
+  const handleLogout = () => {
+    // 清除用户数据并重定向到登录页面
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   };
 
   return (
@@ -68,6 +78,18 @@ function App() {
             <div className="user-icon">
               <img src={user} alt="User" className="user-photo" />
             </div>
+            <nav>
+              <ul>
+                <li>
+                  <button onClick={handleLogout}>User</button>
+                  {/* {menuVisible && (
+                    <ul className="dropdown-menu">
+                      <li><button onClick={handleLogout}>Logout</button></li>
+                    </ul>
+                  )} */}
+                </li>
+              </ul>
+            </nav>
           </div>
           <div >
             <Routes>

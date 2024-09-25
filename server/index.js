@@ -6,10 +6,12 @@ import playLinkRoutes from './routes/playLinkRoutes.js';
 import jwt from 'koa-jwt';
 import authRoutes from './routes/authRoutes.js';
 import { createInitialUser } from './initUser.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = new Koa();
 const router = new Router();
-const secret = 'shared-secret';
+const secret = process.env.JWT_SECRET;
 
 // router.use('/movies', movieRoutes.routes(), movieRoutes.allowedMethods());
 
@@ -25,7 +27,8 @@ const secret = 'shared-secret';
 
 router.use('/auth', authRoutes.routes(), authRoutes.allowedMethods());
 
-// app.use(jwt({ secret }).unless({ path: [/^\/auth/] }));
+app.use(jwt({ secret }).unless({ path: [/^\/auth/] }));
+// app.use(jwt({ secret }));
 
 router.use(movieRoutes.routes(), movieRoutes.allowedMethods());
 router.use(playLinkRoutes.routes(), playLinkRoutes.allowedMethods());

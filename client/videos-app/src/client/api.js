@@ -26,9 +26,7 @@ const getMovies = async (page, pageSize, title) => {
   console.log('getMovies response:', response);
   return response;
 };
-
 api.getMovies = getMovies;
-
 
 const getMovieById = async (id) => {
   const response = await api.get(`/movies/${id}`);
@@ -36,23 +34,24 @@ const getMovieById = async (id) => {
 };
 api.getMovieById = getMovieById;
 
+const playLinkPath = '/playLinks';
 const getPlayLinks = async (movieId) => {
-  const response = await api.get(`/playLinks?MovieId=${movieId}`);
+  const response = await api.get(`${playLinkPath}?MovieId=${movieId}`);
   return response;
 }
 api.getPlayLinks = getPlayLinks;
 const createPlayLink = async (data) => {
-  const response = await api.post('/playLinks', data);
+  const response = await api.post(playLinkPath, data);
   return response;
 };
 api.createPlayLink = createPlayLink;
 const updatePlayLink = async (id, data) => {
-  const response = await api.put(`/playLinks/${id}`, data);
+  const response = await api.put(`${playLinkPath}/${id}`, data);
   return response;
 }
 api.updatePlayLink = updatePlayLink;
 const deletePlayLink = async (id) => {
-  const response = await api.delete(`/playLinks/${id}`);
+  const response = await api.delete(`${playLinkPath}/${id}`);
   return response;
 }
 api.deletePlayLink = deletePlayLink;
