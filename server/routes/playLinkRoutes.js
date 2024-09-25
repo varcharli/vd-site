@@ -5,8 +5,9 @@ import {
   createPlayLink,
   updatePlayLink,
   deletePlayLink,
-}from '../controllers/playLinkController.js';
-import { koaBody } from 'koa-body';
+} from '../controllers/playLinkController.js';
+
+// import { koaBody } from 'koa-body';
 
 // const {
 //   createPlayLink,
@@ -31,7 +32,7 @@ router.get('/', async (ctx) => {
 
 
 // 创建新的 playLink
-router.post('/', koaBody(), async (ctx) => {
+router.post('/', async (ctx) => {
   try {
     const data = ctx.request.body;
     const playLink = await createPlayLink(data);
@@ -43,7 +44,7 @@ router.post('/', koaBody(), async (ctx) => {
 });
 
 // 更新现有的 playLink
-router.put('/:id', koaBody(), async (ctx) => {
+router.put('/:id', async (ctx) => {
   try {
     const id = ctx.params.id;
     const data = ctx.request.body;

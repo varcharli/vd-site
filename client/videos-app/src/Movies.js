@@ -3,6 +3,7 @@ import { useLocation,useNavigate } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
+import { ErrorInfo } from './components';
 
 const Movies = () => {
   
@@ -163,7 +164,10 @@ const Movies = () => {
       </div>
 
       <div className='container-content' >
-        {error && <p className='error-message'>{error}</p>}
+        {error && 
+        <ErrorInfo info={error} />
+        // <p className='error-message'>{error}</p>
+        }
         <ul className='ul-movies'>
           {movies.map((movie, index) => (
             <li key={movie.id}

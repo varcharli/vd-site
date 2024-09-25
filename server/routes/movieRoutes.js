@@ -17,11 +17,10 @@ const router = new Router({
   prefix: '/api/movies',
 });
 
-router.post('/',koaBody(), async (ctx) => {
+router.post('/', async (ctx) => {
   try {
     // const data = JSON.parse(ctx.request.body);
     const data = ctx.request.body;
-
     const movie = await createFullMovie(data);
     ctx.body = movie;
   } catch (error) {
@@ -33,8 +32,7 @@ router.post('/',koaBody(), async (ctx) => {
 router.get('/', async (ctx) => {
   try {
     // const movies = await getAllMovies(ctx.query);
-    console.log('ctx.query', ctx.query);
-
+    // console.log('ctx.query', ctx.query);
     const movies = await getMovies(ctx.query);
 
     ctx.body = movies;

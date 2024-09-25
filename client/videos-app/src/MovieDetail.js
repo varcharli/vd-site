@@ -5,8 +5,10 @@ import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import ImageGallery from './ImageGallery';
 import PlayLink from './PlayLink';
 
+
 import './MovieDetail.css';
 import { RainbowButton, WindowCloseButton ,TextButton} from './components/CommonButtons';
+import { ErrorInfo } from './components';
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -48,6 +50,7 @@ const MovieDetail = () => {
       try {
         const response = await axios.get(`/api/movies/${id}`);
         setMovie(response.data);
+        await fetchPlayLinks();
       } catch (err) {
         setError(err.response ? err.response.data.message : err.message);
       } finally {
@@ -60,14 +63,12 @@ const MovieDetail = () => {
         const response = await axios.get(`/api/playLinks?MovieId=${movieId}`);
         setPlayLinks(response.data);
       } catch (error) {
-        console.error('Error fetching playLinks:', error);
+        // console.error('Error fetching playLinks:', error);
+        setError('Error fetching playLinks:' + error.message);
       }
     };
-
-
+    
     fetchMovieById(movieId);
-    fetchPlayLinks();
-
   }, [movieId]);
 
   if (loading) {
@@ -75,11 +76,13 @@ const MovieDetail = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    // return <div>Error: {error}</div>;
+    return <ErrorInfo info={error} />
   }
 
   if (!movie) {
-    return <div>Movie not found</div>;
+    // return <div>Movie not found</div>;
+    return <ErrorInfo info='Movie not found.' />
   }
 
   // 确保 directors 和 actors 是数组

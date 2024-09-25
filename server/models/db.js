@@ -140,6 +140,18 @@ const User = sequelize.define('User', {
   }
 });
 
+const Token = sequelize.define('Token', {
+  token: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  expiredAt: {
+    type: DataTypes.DATE,
+    allowNull: false
+  }
+});
+
+
 // Download links
 const DownloadLink = sequelize.define('DownloadLink', {
   link: {
@@ -200,15 +212,21 @@ Movie.hasMany(PlayLink);
 RelatedPicture.belongsTo(Movie);
 Movie.hasMany(RelatedPicture);
 
+Token.belongsTo(User);
+User.hasMany(Token);
+
+
 export {
   sequelize,
   Movie,
   User,
+  Token,
   Tag,
   Actor,
   Director,
   History,
   DownloadLink,
   PlayLink,
-  RelatedPicture
+  RelatedPicture,
+
 };
