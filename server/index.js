@@ -5,7 +5,7 @@ import movieRoutes from './routes/movieRoutes.js';
 import playLinkRoutes from './routes/playLinkRoutes.js';
 import jwt from 'koa-jwt';
 import authRoutes from './routes/authRoutes.js';
-
+import { createInitialUser } from './initUser.js';
 
 const app = new Koa();
 const router = new Router();
@@ -35,6 +35,16 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
-});
+// app.listen(3000, () => {
+//   await createInitialUser();
+//   console.log('Server is running on http://localhost:3000');
+// });
+
+const startServer = async () => {
+  await createInitialUser(); // init user if first time running
+  app.listen(3000, () => {
+      console.log('Server running on http://localhost:3000');
+  });
+};
+
+startServer();

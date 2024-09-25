@@ -1,13 +1,15 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 // import { Op } from 'sequelize';
 import { User } from '../models/db.js';
-
-const secret = 'your_secret_key';
+import dotenv from 'dotenv';
+dotenv.config();
+const secret = process.env.JWT_SECRET;
 
 // 生成token
 export const generateToken = async (ctx) => {
-    const { name, passwordMd5 } = ctx.request.body;
-    const user = await User.findOne({ where: { name, passwordMd5 } });
+    const { name, password } = ctx.request.body;
+    const user = await User.findOne({ where: { name } });
 
     if (!user) {
         ctx.status = 401;
@@ -15,6 +17,13 @@ export const generateToken = async (ctx) => {
         return;
     }
 
+    const validPassword = await bcrypt.compare(password, user.passwordHash);
+    if (!validPassword) {
+        ctx.status = 401;
+        ctx.body = { message: 'Invalid credentials' };
+        return;
+    }
+    
     const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, secret, { expiresIn: '1h' });
     // let expiredAt = new Date()+3600;
     // await Token.create({ token, UserId: user.id, expiredAt});

@@ -130,7 +130,7 @@ const User = sequelize.define('User', {
     allowNull: false,
     unique: true
   },
-  passwordMd5: {
+  passwordHash: {
     type: DataTypes.STRING,
     allowNull: false
   },
