@@ -1,0 +1,45 @@
+// custom-bootstrap.scss
+
+// --global-web-background-color: #111827;
+// --global-background-color: #1f2937;
+// --global-text-color: white;
+// --global-focus-color: #60aedb;
+// --global-background-color-button: white;
+// --global-background-color-button-active: #bbf7d0;
+// --global-background-color-button-disable: grey;
+// --global-label-color: #8a8a8a;
+
+// --rainbowColor1: rgb(254, 228, 203);
+// --rainbowColor2: rgb(209, 213, 219);
+// --rainbowColor3: rgb(187, 247, 208);
+// --rainbowColor4: rgb(191, 219, 254);
+// --rainbowColor5: rgb(254, 202, 202);
+// --rainbowColor6: rgb(233, 213, 255);
+// --rainbowColor7: rgb(254, 228, 203);
+
+
+
+
+// 导入 Bootstrap 的功能和变量
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+// 自定义变量
+$primary: #1f2937; // 自定义主色
+$secondary: #111827; // 自定义次色
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #343a40;
+
+$body-color:white;
+
+body {
+    background-color: #111827 !important;
+    font-family: 'Microsoft YaHei', sans-serif ,'Arial', 'Helvetica';
+}
+
+// 导入 Bootstrap 的其余部分
+@import '~bootstrap/scss/bootstrap';

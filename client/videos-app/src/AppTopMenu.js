@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import user from './assets/user.png';
 import './AppTopMenu.css';
 import { logout } from './client/auth';
+import logo from './assets/logo.png'; // 引入 LOGO 图像
 // import { Dropdown } from 'react-bootstrap';
 
 const TopMenu = () => {
@@ -34,6 +35,9 @@ const TopMenu = () => {
     const [query, setQuery] = useState('');
     return (
         <div className="top-menu">
+            <div className="logo-container">
+                <img src={logo} alt="Logo" className="logo" />
+            </div>
             <button className="icon-button-menu">
                 <i className="fas fa-bars"></i>
             </button>

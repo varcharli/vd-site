@@ -1,20 +1,5 @@
 @import './variables.css';
 
-body {
-
-  font-family: 'Microsoft YaHei', sans-serif ,'Arial', 'Helvetica';
-
-  /* margin: 20px; */
-  /* font-family: 'Microsoft YaHei',sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color:var(--global-web-background-color);
-   /* rgb(17, 24, 39); */
-  color: var(--global-text-color);
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
