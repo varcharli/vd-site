@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const secret = process.env.JWT_SECRET;
 
+
 // 生成token
 export const generateToken = async (ctx) => {
     const { name, password } = ctx.request.body;

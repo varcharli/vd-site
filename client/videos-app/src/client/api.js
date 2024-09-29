@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {logout} from './auth';
 
 const api = axios.create({
   baseURL: '/api', // 设置基础 URL
@@ -15,6 +16,19 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
+  }
+);
+
+// 添加响应拦截器
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 401) {
+      // 401
+      // alert('Session expired. Please log in again.');
+      logout();
+    }
+    return error;
   }
 );
 

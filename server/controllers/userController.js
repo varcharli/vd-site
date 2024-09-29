@@ -3,7 +3,7 @@ import { User } from '../models/db.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const saltRounds = 10;
+const saltRounds = process.env.SALT_ROUNDS || 10;
 
 // 创建用户
 export const createUser = async (ctx) => {

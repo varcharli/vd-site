@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilm, faStar, faHistory } from '@fortawesome/free-solid-svg-icons'; // 使用 solid 样式图标
-import './Navbar.css';
+import './AppNavbar.css';
 import logo from './assets/logo.png'; // 引入 LOGO 图像
 
 const Navbar = () => {
