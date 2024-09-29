@@ -46,11 +46,10 @@ const Login = () => {
                 <img src={img} alt="Welcome" />
             </div>
             <div className="right-panel">
-
+                <div className='right-box'>
                 {/* <h2>Login</h2> */}
                 <form onSubmit={handleSubmit}>
                     <div className="login-form">
-                        {/* <label>Username:</label> */}
                         <h2>欢迎来到这里</h2>
                         <input
                             type="text"
@@ -59,7 +58,6 @@ const Login = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
-                        {/* <label>Password:</label> */}
                         <input
                             type="password"
                             value={password}
@@ -70,7 +68,7 @@ const Login = () => {
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         <button type="submit">登录</button>
                     </div>
-                </form>
+                </form></div>
 
             </div>
         </div>

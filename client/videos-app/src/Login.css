@@ -2,7 +2,7 @@
 
 .login-content {
     display: flex;
-    height: 100vh;
+    height: 90vh;
     align-items: center;
 }
 
@@ -22,7 +22,11 @@
 }
 
 .right-panel {
-    /* flex: 1; */
+    width: 360px;
+    /* height: 400px; */
+}
+
+.right-box {
     background-color: var(--global-background-color);
     display: flex;
     justify-content: center;
@@ -35,6 +39,7 @@
 .login-form {
     display: flex;
     flex-direction: column;
+    width: 260px;
     gap: 10px;
     align-self: center;
     align-items: center;

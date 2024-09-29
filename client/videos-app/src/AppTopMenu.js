@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Dropdown } from 'react-bootstrap';
 import user from './assets/user.png';
 import './AppTopMenu.css';
 import { logout } from './client/auth';
 import logo from './assets/logo.png'; // 引入 LOGO 图像
-// import { Dropdown } from 'react-bootstrap';
+import { ButtonInput } from './components';
+// import './custom-bootstrap.scss';
 
 const TopMenu = () => {
     const navigate = useNavigate();
@@ -15,22 +17,21 @@ const TopMenu = () => {
     };
 
 
-
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
-        }
+    const handleLogout = () => {
+        // 清除用户数据并重定向到登录页面
+        logout();
+        // window.location.href = '/login';
     };
 
-    // const handleLogout = () => {
-    //     // 清除用户数据并重定向到登录页面
-    //     logout();
-    //     // window.location.href = '/login';
-    // };
+    const handleToggle = () => {
+        setShowDropdown(!showDropdown);
+    };
 
-    // const toggleDropdown = () => {
-    //     setShowDropdown(!showDropdown);
-    // };
+    const closeMenu = () => {
+        setShowDropdown(false);
+    };
+
+
 
     const [query, setQuery] = useState('');
     return (
@@ -41,18 +42,13 @@ const TopMenu = () => {
             <button className="icon-button-menu">
                 <i className="fas fa-bars"></i>
             </button>
-            <div className='search-container'>
-                <button className="search-icon"
-                    onClick={handleSearch}>
-                    <i className="fas fa-search"></i>
-                </button>
-                <input type="text" placeholder="Search Movies" className="search-box"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyUp={handleKeyPress}
-                    onFocus={(e) => e.target.select()} // 添加 onFocus 事件处理程序
-                />
-            </div>
+            <ButtonInput
+                icon="fas fa-search"
+                value={query}
+                onClick={handleSearch}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search Movies"
+            />
             <div className='menu-space' />
             <div className="menu-icons">
                 <button className="icon-button">
@@ -65,24 +61,23 @@ const TopMenu = () => {
                     <i className="fas fa-envelope"></i>
                 </button>
             </div>
-            <div className="user-icon">
+            {/* <div className="user-icon">
                 <img src={user} alt="User" className="user-photo" />
+            </div> */}
+
+            <div className="user-menu">
+                <Dropdown show={showDropdown} onToggle={handleToggle}>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
+                        <i className="fas fa-user"></i>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => navigate('/userinfo')}>UserInfo</Dropdown.Item>
+                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={()=> { closeMenu();}}>Close Menu</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
-            {/* <nav>
-                <ul>
-                    <li>
-                        <button className='icon-button' onClick={toggleDropdown}>
-                            <i className="fas fa-user"></i>
-                        </button>
-                        {showDropdown && (
-                            <div className="dropdown-menu">
-                                <button onClick={() => navigate('/userinfo')}>UserInfo</button>
-                                <button onClick={handleLogout}>Logout</button>
-                            </div>
-                        )}
-                    </li>
-                </ul>
-            </nav> */}
         </div>
     );
 }

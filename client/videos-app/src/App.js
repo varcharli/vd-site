@@ -67,7 +67,6 @@ function App() {
             </main>
           </div> </div>
         <div className="App-footer">
-          <p>© 2021</p>
         </div>
       </div>
     </div>
