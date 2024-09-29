@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import user from './assets/user.png';
 import './AppTopMenu.css';
 import { logout } from './client/auth';
-import { Dropdown } from 'react-bootstrap';
+// import { Dropdown } from 'react-bootstrap';
 
 const TopMenu = () => {
     const navigate = useNavigate();
@@ -21,15 +21,15 @@ const TopMenu = () => {
         }
     };
 
-    const handleLogout = () => {
-        // 清除用户数据并重定向到登录页面
-        logout();
-        // window.location.href = '/login';
-    };
+    // const handleLogout = () => {
+    //     // 清除用户数据并重定向到登录页面
+    //     logout();
+    //     // window.location.href = '/login';
+    // };
 
-    const toggleDropdown = () => {
-        setShowDropdown(!showDropdown);
-    };
+    // const toggleDropdown = () => {
+    //     setShowDropdown(!showDropdown);
+    // };
 
     const [query, setQuery] = useState('');
     return (
