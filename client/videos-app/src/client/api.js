@@ -70,6 +70,45 @@ const deletePlayLink = async (id) => {
 }
 api.deletePlayLink = deletePlayLink;
 
+const tagPath = '/tags';
+const getTags = async () => {
+  const response = await api.get(tagPath);
+  return response;
+};
+api.getTags = getTags;
+
+const createTag = async (data) => {
+  const response = await api.post(tagPath, data);
+  return response;
+};
+api.createTag = createTag;
+
+
+const updateTag = async (id, data) => {
+  const response = await api.put(`${tagPath}/${id}`, data);
+  return response;
+}
+api.updateTag = updateTag;
+
+const deleteTag = async (id) => {
+  const response = await api.delete(`${tagPath}/${id}`);
+  return response;
+}
+api.deleteTag = deleteTag;
+
+const setTagsForMovie = async (movieId, tagIds) => {
+  const response = await api.post(`${tagPath}/movies/${movieId}`, { tagIds });
+  return response;
+}
+api.setTagsForMovie = setTagsForMovie;
+
+const getTagsForMovie = async (movieId) => {
+  const response = await api.get(`${tagPath}/movies/${movieId}`);
+  return response;
+}
+api.getTagsForMovie = getTagsForMovie;
+
+
 
 
 

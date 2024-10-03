@@ -20,7 +20,7 @@ const createFullMovie = async (data) => {
 
     // 检查 movie.name 是否存在
     if (!data.name) {
-      throw new Error('Movie name is required');
+      throw new Error('Movie name is required.data:' + data);
     }
 
     // 创建电影

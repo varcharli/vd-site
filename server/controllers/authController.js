@@ -5,6 +5,7 @@ import { User } from '../models/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
 const secret = process.env.JWT_SECRET;
+const expiredTime = process.env.JWT_EXPIRED_TIME;
 
 
 // 生成token
@@ -26,7 +27,7 @@ export const generateToken = async (ctx) => {
         return;
     }
     
-    const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, secret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, secret, { expiresIn: expiredTime });
     // let expiredAt = new Date()+3600;
     // await Token.create({ token, UserId: user.id, expiredAt});
 

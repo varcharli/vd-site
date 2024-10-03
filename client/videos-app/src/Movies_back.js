@@ -167,7 +167,7 @@ const Movies = () => {
           {pagination.totalRecords}</span>
       </div>
 
-      <div className='container-content' >
+      <div className='container-body' >
         {error && <p>Error: {error}</p>}
         <ul className='ul-movies'>
           {movies.map((movie, index) => (

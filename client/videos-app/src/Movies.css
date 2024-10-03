@@ -39,6 +39,7 @@
     margin: 5px 0 0;
     font-size: 14px;
 }
+
 .movie-name {
   white-space: nowrap; /* 防止换行 */
   overflow: hidden; /* 隐藏溢出内容 */

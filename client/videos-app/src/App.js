@@ -11,9 +11,9 @@ import History from './History';
 import Login from './Login'; // 引入 Login 组件
 import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
 
+import './custom-bootstrap.scss';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './custom-bootstrap.scss';
 
 import Navbar from './AppNavbar';
 import TopMenu from './AppTopMenu';

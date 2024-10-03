@@ -6,6 +6,7 @@ import './AppTopMenu.css';
 import { logout } from './client/auth';
 import logo from './assets/logo.png'; // 引入 LOGO 图像
 import { ButtonInput } from './components';
+import { MyDropdown } from './components';
 // import './custom-bootstrap.scss';
 
 const TopMenu = () => {
@@ -66,17 +67,15 @@ const TopMenu = () => {
             </div> */}
 
             <div className="user-menu">
-                <Dropdown show={showDropdown} onToggle={handleToggle}>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
-                        <i className="fas fa-user"></i>
-                    </Dropdown.Toggle>
+                <MyDropdown
+                    icon="fas fa-user"
+                    items={[
+                        { text: 'UserInfo', onClick: () => navigate('/userinfo') },
+                        { text: 'Logout', onClick: handleLogout },
+                        { text: 'Close Menu', onClick: closeMenu },
+                    ]}
+                />
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => navigate('/userinfo')}>UserInfo</Dropdown.Item>
-                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> { closeMenu();}}>Close Menu</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
             </div>
         </div>
     );

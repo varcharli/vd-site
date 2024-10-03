@@ -5,10 +5,11 @@ import api from './client/api';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import ImageGallery from './ImageGallery';
 import PlayLink from './PlayLink';
+import Tags, { TagField } from './Tags';
 
 
 import './MovieDetail.css';
-import { RainbowButton, WindowCloseButton ,TextButton} from './components/CommonButtons';
+import { RainbowButton, WindowCloseButton, TextButton } from './components/CommonButtons';
 import { ErrorInfo } from './components';
 
 const MovieDetail = () => {
@@ -31,6 +32,24 @@ const MovieDetail = () => {
   const handlePlayLinkClick = (link) => {
     window.open(link, '_blank');
   };
+
+  const [isTagsPopupOpen, setIsTagsPopupOpen] = useState(false);
+
+  const handleOpenTagsPopup = () => {
+    setIsTagsPopupOpen(true);
+  };
+  const handleCloseTagsPopup = () => {
+    setIsTagsPopupOpen(false);
+  };
+  const [tags, setTags] = useState([]);
+  const handleTagsUpdate = (updatedTags) => {
+    setTags(updatedTags);
+  };
+
+  const navigateTag = (tagId) => {
+    navigate(`/tags/${tagId}`);
+  };
+
   useEffect(() => {
     // const fetchMovieById = async (id) => {
     //   try {
@@ -53,6 +72,7 @@ const MovieDetail = () => {
         const response = await api.getMovieById(id);
         setMovie(response.data);
         await fetchPlayLinks();
+        await fetchTags();
       } catch (err) {
         setError(err.response ? err.response.data.message : err.message);
       } finally {
@@ -70,7 +90,16 @@ const MovieDetail = () => {
         setError('Error fetching playLinks:' + error.message);
       }
     };
-    
+
+    const fetchTags = async () => {
+      try {
+        const response = await api.getTagsForMovie(movieId);
+        setTags(response.data);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+      }
+    };
+
     fetchMovieById(movieId);
   }, [movieId]);
 
@@ -91,7 +120,9 @@ const MovieDetail = () => {
   // 确保 directors 和 actors 是数组
   const directors = movie.directors || [];
   const actors = movie.actors || [];
-  const tags = movie.tags || [];
+  // setTags(movie.tags || []);
+  // const tags = movie.tags || [];
+
 
   // gallery 相关
   const relatedPictures = movie.relatedPictures || [];
@@ -118,17 +149,21 @@ const MovieDetail = () => {
 
   return (
     <div className="container">
-      <div className="movie-detail">
-        {/* <button className="back-button icon-big-button" onClick={() => navigate(-1)}>
-          <i className="fas fa-arrow-left"></i>
-        </button> */}
-        <div className="back-button">
+      <div className='container-title'>
+        <div styles={"flex:1"}>
           <WindowCloseButton
             onClick={() => navigate(-1)}
             icon="fas fa-arrow-left"
           />
         </div>
-        <h1 className="movie-title">{movie.name}</h1>
+        <div styles={"flex:5"}>
+          <h1 className="movie-title">{movie.name}</h1>
+        </div>
+        <div styles={"flex:1"}>
+          <span />
+        </div>
+      </div>
+      <div className="movie-detail">
         <div className="top">
           <div className="top-left">
             <img src={movie.posterUrl || defaultImage} alt={movie.name}
@@ -166,28 +201,23 @@ const MovieDetail = () => {
                   ""
                 )}</span>
             </p>
-
-            <p>
-              <span className="horizontal-list">
-                <span className='label' >标签：</span>
-                {tags.length > 0 ? (
-                  tags.map((tag, index) => (
-                    <span key={index}>
-                      <a href={`/tags/${tag.id}`}>{tag.name}</a>
-                    </span>
-                  ))
-                ) : (
-                  ""
-                )}
-              </span>
-            </p>
-
             <p><span className='label' >日期：</span><span>{movie.releaseDate}</span> </p>
             <p><span className='label' >评分：</span> {movie.rating}</p>
             <p>
               <span className="horizontal-list">
                 <span className='label' >来源：</span>
                 <span><a href={movie.fromUrl} >点击跳转</a></span>
+              </span>
+            </p>
+            <p>
+              <span className="horizontal-list">
+                {/* <span className='label' >标签：</span> */}
+                {/* <TagField tags={tags} onClick={handleOpenTagsPopup} /> */}
+                <TagField tags={tags} 
+                onManage={handleOpenTagsPopup} 
+                onNavigateTag={navigateTag} 
+                />
+                {/* <button onClick={handleOpenTagsPopup}>Manage Tags</button> */}
               </span>
             </p>
           </div>
@@ -199,14 +229,14 @@ const MovieDetail = () => {
                 <div className="play-panel">
                   {/* <div><h1>播放</h1></div>   */}
                   {playLinks.map((playLink, index) => (
-                    <TextButton 
-                      key={index} 
+                    <TextButton
+                      key={index}
                       // colorIndex={4} 
-                      onClick={() => handlePlayLinkClick(playLink.link)}  
+                      onClick={() => handlePlayLinkClick(playLink.link)}
                       text={playLink.name}
                       title={playLink.link}
                       icon="fas fa-play-circle"
-                      />
+                    />
                   ))}
                 </div>
               )}
@@ -247,6 +277,11 @@ const MovieDetail = () => {
           index={currentImageIndex}
           referrerPolicy="no-referrer"
         />
+      )}
+      {isTagsPopupOpen && (
+        <Tags movieId={movieId}
+          onClose={handleCloseTagsPopup}
+          onUpdate={handleTagsUpdate} />
       )}
     </div>
   );

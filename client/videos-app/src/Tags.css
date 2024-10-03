@@ -1,0 +1,20 @@
+/* src/styles.css */
+
+  .tags-field-list {
+    /* max-height: 200px; */
+    /* overflow-y: auto; */
+    /* margin-bottom: 20px; */
+    display: flex;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  
+  .new-tag {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .new-tag input {
+    margin-right: 10px;
+  }

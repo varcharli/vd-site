@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import axios from 'axios';
 import api from './client/api';
-import './PlayLink.css';
+import './App-popup.css';
 import { NoRecords, RainbowButton, WindowCloseButton } from './components';
 // import { on } from 'events';
 import loadingGif from './assets/loading.gif';

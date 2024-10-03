@@ -162,7 +162,7 @@ const Movies = () => {
           {pagination.totalRecords}</span>
       </div>
 
-      <div className='container-content' >
+      <div className='container-body' >
         {error && 
         <ErrorInfo info={error} />
         // <p className='error-message'>{error}</p>

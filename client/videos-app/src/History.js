@@ -8,7 +8,7 @@ const Favorite = () => {
       <div className='container-title'>
         History Movies
       </div>
-      <div className='container-content'>
+      <div className='container-body'>
       </div>
     </div>
   );

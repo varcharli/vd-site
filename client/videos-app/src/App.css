@@ -1,11 +1,25 @@
 @import './variables.css';
 
+body{
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--global-web-background-color);
+    color: var(--global-text-color);
+}
+
+.main {
+    max-width: 1200px; /* 你可以根据需要调整这个值 */
+    margin: 0 auto; /* 将容器居中 */
+    /* padding: 0 0px;  */
+  }
+
 .App {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    /* padding: 10px; */
-    
+    text-align: center;    
+    margin-right: 30px;
 }
 
 .App-menu {
@@ -21,46 +35,56 @@
     width: 100%;
 }
 
-.main {
-    max-width: 1200px; /* 你可以根据需要调整这个值 */
-    margin: 0 auto; /* 将容器居中 */
-    /* padding: 0 0px;  */
-  }
+
 
 .content {
-    /* margin-left: 20px; */
+    flex-grow: 1;
     padding: 0;
     /* width: calc(100% - 0px); */
-    width: 100%;
+    /* width: 100%; */
     display: flex;
+    flex-direction: column;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+.container {
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    background-color: rgb(31, 41, 55);
+    padding: 20px;
+    /* display: flex;
+    flex-direction: column; */
 }
 
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.container-title {
+    display: flex;
+    justify-content: space-between;
+    /* text-align: left; */
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--global-text-color);
+    /* padding: 0px 0px 10px 0px; */
 }
 
-
-.App-link {
-    color: #61dafb;
+.container-subtitle {
+    font-size: 18px;
+    font-weight: normal;
+    align-self: flex-end;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+.container-body {
+    text-align: left;
+    min-height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
 }
+
+.spacer {
+    flex-grow: 1;
+}
+
 
 .icon-button {
     background: none;
@@ -100,44 +124,7 @@
 }
 
 
-
-
-
-
-.container {
-    /* border: 1px solid black; */
-    border-radius: 10px;
-    background-color: rgb(31, 41, 55);
-    padding: 20px;
-
+.App-link {
+    color: #61dafb;
 }
 
-.container-title {
-    display: flex;
-    justify-content: space-between;
-    /* text-align: left; */
-    font-size: 30px;
-    font-weight: bold;
-    color: var(--global-text-color);
-    /* padding: 0px 0px 10px 0px; */
-}
-
-.container-subtitle {
-    font-size: 18px;
-    font-weight: normal;
-    align-self: flex-end;
-}
-
-.container-content {
-    text-align: left;
-    min-height: 500px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 10px;
-}
-
-.spacer {
-    flex-grow: 1;
-}
