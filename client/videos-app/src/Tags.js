@@ -1,14 +1,11 @@
 // src/Tags.js
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
 import api from './client/api';
 import './App-popup.css';
 import './Tags.css';
 
 
 import { CheckTag, RainbowButton, WindowCloseButton } from './components';
-import { on } from 'events';
-// import { on } from 'events';
 
 export const TagField = ({ tags, onManage, onNavigateTag }) => {
     //use checktag component
@@ -127,6 +124,19 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
                     <h2>标签</h2>
                     <WindowCloseButton onClick={onClose} />
                 </div>
+                <div className='dialog-body'>
+                    <div className="tags-list">
+                        {
+                            Array.isArray(tags) && tags.map(tag => (
+                                <CheckTag
+                                    key={tag.id}
+                                    tagName={tag.name}
+                                    status={selectedTags.some(t => t.id === tag.id) ? 'checked' : 'unchecked'}
+                                    onClick={() => handleTagSelection(tag)}
+                                />
+                            ))}
+                    </div>
+                </div>
                 <div className='table-row'>
                     <div className="new-tag">
                         <input
@@ -139,17 +149,6 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
                         <RainbowButton colorIndex={1} onClick={handleAddTag}
                             icon="fas fa-plus" />
                     </div>
-                </div>
-                <div className="tags-list">
-                    {
-                    Array.isArray(tags) && tags.map(tag => (
-                        <CheckTag
-                            key={tag.id}
-                            tagName={tag.name}
-                            status={selectedTags.some(t => t.id === tag.id) ? 'checked' : 'unchecked'}
-                            onClick={() => handleTagSelection(tag)}
-                        />
-                    ))}
                 </div>
 
             </div>

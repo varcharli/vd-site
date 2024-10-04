@@ -79,6 +79,7 @@ const MovieList = ({ title, params }) => {
         console.log('search query:', query);
         pagination.page = page;
         fetchMovies(query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search]);
 
     const handlePageChange = (newPage) => {

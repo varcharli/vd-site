@@ -42,6 +42,13 @@
   margin: 0;
 }
 
+.dialog-body{
+  /* width: 100%; */
+  display: flex;
+  flex:1;
+  /* gap: 20px; */
+}
+
 .dialog-bottom {
   width: 100%;
   display: flex;
