@@ -6,13 +6,26 @@ import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import { ErrorInfo } from './components';
 import api from './client/api';
 
-const MovieList = ({title}) => {
+const MovieList = ({ title, params }) => {
 
-    title=title || '';
+    title = title || '';
+    // params 定义了一组参数，用于传递给组件的数据
+    // 格式：{'tagIds': [1,2,3]}
+    params = params || {};
 
     const cstPageSize = 8
     const location = useLocation();
     const navigate = useNavigate();
+
+    let tagIds = [];
+    if (params.tagIds) {
+        if (Array.isArray(params.tagIds)) {
+            tagIds = params.tagIds;
+        } else {
+            tagIds = [params.tagIds];
+        }
+    }
+
 
     const queryParams = new URLSearchParams(location.search);
 
@@ -36,7 +49,13 @@ const MovieList = ({title}) => {
 
             if (queryString === undefined) { queryString = ''; }
             // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
-            const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
+            const response = await api.getMovies(
+                {
+                    page: pagination.page,
+                    pageSize: pagination.pageSize,
+                    title: queryString,
+                    tagIds: tagIds
+                });
             const data = response.data;
             setMovies(data.movies);
             setPagination(data.pagination);

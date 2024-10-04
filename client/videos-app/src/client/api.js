@@ -34,9 +34,15 @@ api.interceptors.response.use(
 
 // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
 // const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
-const getMovies = async (page, pageSize, title) => {
+const getMovies = async ({page=1, pageSize=12, title='',tagIds=[]}) => {
   console.log('getMovies page:', page);
-  const response = await api.get(`/movies?page=${page}&pageSize=${pageSize}&title=${title}`);
+  let requestUrl = `/movies?page=${page}&pageSize=${pageSize}&title=${title}`;
+  if ( tagIds.length > 0) {
+    //tagIds: [1,2,3] => tagIds='1,2,3'
+    tagIds = tagIds.join(',');
+    requestUrl += `&tagIds=${tagIds}`;
+  }
+  const response = await api.get(requestUrl);
   console.log('getMovies response:', response);
   return response;
 };
@@ -76,6 +82,12 @@ const getTags = async () => {
   return response;
 };
 api.getTags = getTags;
+
+const getTagById = async (id) => {
+  const response = await api.get(`${tagPath}/${id}`);
+  return response;
+}
+api.getTagById = getTagById;
 
 const createTag = async (data) => {
   const response = await api.post(tagPath, data);

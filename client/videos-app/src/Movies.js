@@ -33,8 +33,9 @@ const Movies = () => {
       console.log('fetchMovies pagination:', pagination);
       
       if (queryString === undefined) { queryString = ''; }
-      // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
-      const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
+      const response = await api.getMovies(
+        {page: pagination.page,pageSize: pagination.pageSize,title: queryString});
+      
       const data=response.data;
       setMovies(data.movies);
       setPagination(data.pagination);

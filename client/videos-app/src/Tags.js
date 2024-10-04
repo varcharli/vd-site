@@ -41,6 +41,7 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
     const [tags, setTags] = useState([]);
     const [newTag, setNewTag] = useState('');
     const [selectedTags, setSelectedTags] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // 添加点击事件监听器
@@ -64,16 +65,17 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
         api.getTagsForMovie(movieId)
             .then(response => {
                 setSelectedTags(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching tags:', error);
-            });
-
-        // Fetch all tags for the user
-        api.getTags()
-            .then(response => {
-                setTags(response.data);
-            })
+                // Fetch all tags for the user
+                api.getTags()
+                    .then(response => {
+                        setTags(response.data);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching tags:', error);
+                    });
+            }
+            )
             .catch(error => {
                 console.error('Error fetching tags:', error);
             });
@@ -114,6 +116,10 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
         onUpdate(updatedTags);
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="popup-window">
             <div className='popup-inner'>
@@ -135,7 +141,8 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
                     </div>
                 </div>
                 <div className="tags-list">
-                    {tags.map(tag => (
+                    {
+                    Array.isArray(tags) && tags.map(tag => (
                         <CheckTag
                             key={tag.id}
                             tagName={tag.name}

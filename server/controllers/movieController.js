@@ -85,7 +85,7 @@ const createFullMovie = async (data) => {
       // Clear all related pictures
       await movie.setRelatedPictures([]);
       const relatedPictures = await Promise.all(data.relatedPictures.map(async (relatedPicture) => {
-        const pic = await RelatedPicture.create({link: relatedPicture });
+        const pic = await RelatedPicture.create({ link: relatedPicture });
         return pic;
       }));
       await movie.setRelatedPictures(relatedPictures.map(relatedPicture => relatedPicture.id));
@@ -118,8 +118,28 @@ async function getMovies(query) {
     };
   }
 
+  // 获取标签ID查询参数: tagIds=1,2,3
+  const tagIds = query.tagIds ? query.tagIds.split(',').map(id => parseInt(id, 10)) : [];
+  // 构建包含标签的查询条件
+  const include = [];
+  if (tagIds.length > 0) {
+    include.push({
+      model: Tag,
+      where: {
+        id: {
+          [Op.in]: tagIds
+        }
+      },
+      through: {
+        attributes: [] // 不需要中间表的属性
+      }
+    });
+  }
+
+
   const { count, rows: movies } = await Movie.findAndCountAll({
-    where, // 使用构建的查询条件
+    where, 
+    include, 
     limit,
     offset,
     order: [['releaseDate', 'DESC']], // 根据需要排序

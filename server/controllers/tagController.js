@@ -31,7 +31,10 @@ export async function createTag(data) {
 // Retrieve all tags by user ID
 export async function getTagsByUserId(userId) {
     try {
-        const tags = await Tag.findAll({ where: { userId } });
+        const tags = await Tag.findAll({ 
+            where: { userId },
+            order: [['createdAt', 'DESC']], 
+         });
         return tags;
     } catch (error) {
         throw new Error(error.message);
