@@ -34,6 +34,33 @@ router.get('/', async (ctx) => {
     }
 });
 
+// get favorite playList
+router.get('/favorite', async (ctx) => {
+    try {
+        const UserId = ctx.state.user.id;
+        const playLists = await playListController.getFavoritePlayList(UserId);
+        ctx.status = 200;
+        ctx.body = playLists;
+    } catch (error) {
+        ctx.status = 500;
+        ctx.body = { error: error.message };
+    }
+});
+
+// get watch later playList
+router.get('/watchLater', async (ctx) => {
+    try {
+        const UserId = ctx.state.user.id;
+        const playLists = await playListController.getWatchLaterPlayList(UserId);
+        ctx.status = 200;
+        ctx.body = playLists;
+    } catch (error) {
+        ctx.status = 500;
+        ctx.body = { error: error.message };
+    }
+});
+
+
 // 获取特定播放列表
 router.get('/:id', async (ctx) => {
     try {
