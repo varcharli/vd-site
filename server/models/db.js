@@ -215,6 +215,19 @@ Movie.hasMany(RelatedPicture);
 Token.belongsTo(User);
 User.hasMany(Token);
 
+const PlayList = sequelize.define('PlayList', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+});
+
+// 定义关系
+User.hasMany(PlayList);
+PlayList.belongsTo(User);
+
+PlayList.belongsToMany(Movie, { through: 'PlayListMovies' });
+Movie.belongsToMany(PlayList, { through: 'PlayListMovies' });
 
 export {
   sequelize,
@@ -228,5 +241,5 @@ export {
   DownloadLink,
   PlayLink,
   RelatedPicture,
-
+  PlayList,
 };

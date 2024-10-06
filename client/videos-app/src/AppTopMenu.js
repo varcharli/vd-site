@@ -1,17 +1,16 @@
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dropdown } from 'react-bootstrap';
-import user from './assets/user.png';
+// import user from './assets/user.png';
 import './AppTopMenu.css';
 import { logout } from './client/auth';
 import logo from './assets/logo.png'; // 引入 LOGO 图像
 import { ButtonInput } from './components';
-import { MyDropdown } from './components';
+import { MyDropMenu } from './components';
 // import './custom-bootstrap.scss';
 
 const TopMenu = () => {
     const navigate = useNavigate();
-    const [showDropdown, setShowDropdown] = useState(false);
+    // const [showDropdown, setShowDropdown] = useState(false);
     const handleSearch = () => {
         // navigate('/movies', { state: { query } });
         navigate(`/movies?query=${query}`);
@@ -24,13 +23,13 @@ const TopMenu = () => {
         // window.location.href = '/login';
     };
 
-    const handleToggle = () => {
-        setShowDropdown(!showDropdown);
-    };
+    // const handleToggle = () => {
+    //     setShowDropdown(!showDropdown);
+    // };
 
-    const closeMenu = () => {
-        setShowDropdown(false);
-    };
+    // const closeMenu = () => {
+    //     setShowDropdown(false);
+    // };
 
 
 
@@ -67,12 +66,12 @@ const TopMenu = () => {
             </div> */}
 
             <div className="user-menu">
-                <MyDropdown
+                < MyDropMenu
                     icon="fas fa-user"
                     items={[
                         { text: 'UserInfo', onClick: () => navigate('/userinfo') },
                         { text: 'Logout', onClick: handleLogout },
-                        { text: 'Close Menu', onClick: closeMenu },
+                        // { text: 'Close Menu', onClick: closeMenu },
                     ]}
                 />
 

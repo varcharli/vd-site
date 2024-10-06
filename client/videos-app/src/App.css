@@ -48,7 +48,7 @@ body{
 
 .container {
     /* border: 1px solid black; */
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: rgb(31, 41, 55);
     padding: 20px;
     /* display: flex;

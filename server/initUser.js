@@ -2,8 +2,7 @@ import bcrypt from 'bcrypt';
 import { User } from './models/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
-
-const saltRounds = process.env.SALT_ROUNDS || 10;
+const saltRounds = parseInt(process.env.SALT_ROUNDS, 10) || 10;
 
 export const createInitialUser = async () => {
     const name = process.env.INIT_USER_NAME;
