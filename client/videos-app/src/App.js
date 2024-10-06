@@ -10,6 +10,7 @@ import Favorite from './Favorite';
 import History from './History';
 import Login from './Login'; // 引入 Login 组件
 import Tag from './TagMovies';
+import PlayList from './PlayList';
 import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
 
 import './custom-bootstrap.scss';
@@ -29,6 +30,7 @@ function App() {
   const pathFavorite = '/favorite';
   const pathHistory = '/history';
   const pathTag = '/tags';
+  const pathPlayList = '/playLists';
 
   function chkNeedNav() {
     return location.pathname === pathLogin;
@@ -61,11 +63,14 @@ function App() {
                 <Route path={pathTag + "/:id"} element={<PrivateRoute />} >
                   <Route path={pathTag + "/:id"} element={<Tag />} />
                 </Route>
-                <Route path={pathFavorite} element={<PrivateRoute />} >
+                {/* <Route path={pathFavorite} element={<PrivateRoute />} >
                   <Route path={pathFavorite} element={<Favorite />} />
-                </Route>
+                </Route> */}
                 <Route path={pathHistory} element={<PrivateRoute />} >
                   <Route path={pathHistory} element={<History />} />
+                </Route>
+                <Route path={pathPlayList} element={<PrivateRoute />} >
+                  <Route path={pathPlayList} element={<PlayList />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>

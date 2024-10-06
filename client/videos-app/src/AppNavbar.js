@@ -22,7 +22,7 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/favorite" activeClassName="active">
+          <NavLink to="/playlists" activeClassName="active">
             <FontAwesomeIcon icon={faStar} />
           </NavLink>
         </li>

@@ -17,7 +17,7 @@ const createPlayList = async (data) => {
     }
 };
 
-const createSystemPlayList = async (UserId, systemTag) => {
+const createSystemPlayList = async ({UserId, systemTag}) => {
     try {
         if (!UserId) {
             throw new Error('UserId is required');
@@ -35,7 +35,7 @@ const createSystemPlayList = async (UserId, systemTag) => {
     }
 }
 
-const getSystemPlayList = async (UserId, systemTag) => {
+const getSystemPlayList = async ({UserId, systemTag}) => {
     try {
         if (!UserId) {
             throw new Error('UserId is required');
@@ -46,7 +46,7 @@ const getSystemPlayList = async (UserId, systemTag) => {
             }
         );
         if (!playList) {
-            return await createSystemPlayList(UserId, systemTag);
+            return await createSystemPlayList({UserId, systemTag});
         }
         return playList;
     } catch (error) {
@@ -54,18 +54,18 @@ const getSystemPlayList = async (UserId, systemTag) => {
     }
 }
 
-const getFavoritePlayList = async (UserId) => {
-    return await getSystemPlayList(UserId, FavoriteListName);
+const getFavoritePlayList = async ({UserId}) => {
+    return await getSystemPlayList({UserId,systemTag: FavoriteListName});
 }
 
-const getWatchLaterPlayList = async (UserId) => {
-    return await getSystemPlayList(UserId, WatchLaterListName);
+const getWatchLaterPlayList = async ({UserId}) => {
+    return await getSystemPlayList({UserId,systemTag: WatchLaterListName});
 }
 
 
 
 // 获取所有播放列表, 不包括系统创建的播放列表
-const getAllPlayLists = async (UserId) => {
+const getAllPlayLists = async ({UserId}) => {
     try {
         if (!UserId) {
             throw new Error('UserId is required');
@@ -150,6 +150,28 @@ const getMoviesFromPlayList = async ({ id, UserId, limit }) => {
     }
 }
 
+const getMoviesFromFavorite= async ({ UserId }) => {
+    try {
+        const playList = await getFavoritePlayList({UserId});
+        const movies = await playList.getMovies();
+        return movies;
+    } catch (error) {
+        throw new Error(`Error fetching Movies from PlayList: ${error.message}`);
+    }
+}
+
+const getMoviesFromWatchLater = async ({ UserId }) => {
+    try {
+        const playList = await getWatchLaterPlayList({UserId});
+        const movies = await playList.getMovies();
+        return movies;
+    } catch (error) {
+        throw new Error(`Error fetching Movies from PlayList: ${error.message}`);
+    }
+}
+
+
+
 const addMovieToPlayList = async ({ id, MovieId, UserId }) => {
     try {
         const playList = await getPlayListById({ id, UserId });
@@ -183,5 +205,7 @@ export default {
     addMovieToPlayList,
     removeMovieFromPlayList,
     getFavoritePlayList,
-    getWatchLaterPlayList
+    getWatchLaterPlayList,
+    getMoviesFromFavorite,
+    getMoviesFromWatchLater
 };

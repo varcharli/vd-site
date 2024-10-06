@@ -25,7 +25,7 @@ router.post('/', async (ctx) => {
 router.get('/', async (ctx) => {
     try {
         const UserId = ctx.state.user.id;
-        const playLists = await playListController.getAllPlayLists(UserId);
+        const playLists = await playListController.getAllPlayLists({UserId});
         ctx.status = 200;
         ctx.body = playLists;
     } catch (error) {
@@ -38,9 +38,21 @@ router.get('/', async (ctx) => {
 router.get('/favorite', async (ctx) => {
     try {
         const UserId = ctx.state.user.id;
-        const playLists = await playListController.getFavoritePlayList(UserId);
+        const playLists = await playListController.getFavoritePlayList({UserId});
         ctx.status = 200;
         ctx.body = playLists;
+    } catch (error) {
+        ctx.status = 500;
+        ctx.body = { error: error.message };
+    }
+});
+
+router.get('/favorite/movies', async (ctx) => {
+    try {
+        const UserId = ctx.state.user.id;
+        const movies = await playListController.getMoviesFromFavorite({UserId});
+        ctx.status = 200;
+        ctx.body = movies;
     } catch (error) {
         ctx.status = 500;
         ctx.body = { error: error.message };
@@ -51,7 +63,7 @@ router.get('/favorite', async (ctx) => {
 router.get('/watchLater', async (ctx) => {
     try {
         const UserId = ctx.state.user.id;
-        const playLists = await playListController.getWatchLaterPlayList(UserId);
+        const playLists = await playListController.getWatchLaterPlayList({ UserId });
         ctx.status = 200;
         ctx.body = playLists;
     } catch (error) {
@@ -60,6 +72,18 @@ router.get('/watchLater', async (ctx) => {
     }
 });
 
+router.get('/watchLater/movies', async (ctx) => {
+    try {
+        const UserId = ctx.state.user.id;
+        console.log('watch later UserId:', UserId);
+        const movies = await playListController.getMoviesFromWatchLater({ UserId });
+        ctx.status = 200;
+        ctx.body = movies;
+    } catch (error) {
+        ctx.status = 500;
+        ctx.body = { error: error.message };
+    }
+});
 
 // 获取特定播放列表
 router.get('/:id', async (ctx) => {
