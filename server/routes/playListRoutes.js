@@ -1,7 +1,7 @@
 // playListRoutes.js
 
 import Router from 'koa-router';
-import playListController from '../controllers/playListController';
+import playListController from '../controllers/playListController.js';
 
 const router = new Router({
     prefix: '/api/playLists'

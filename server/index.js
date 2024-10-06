@@ -4,6 +4,7 @@ import {koaBody} from 'koa-body';
 import movieRoutes from './routes/movieRoutes.js';
 import playLinkRoutes from './routes/playLinkRoutes.js';
 import tagRoutes from './routes/tagRoutes.js';
+import playListRoutes from './routes/playListRoutes.js';
 import jwt from 'koa-jwt';
 import authRoutes from './routes/authRoutes.js';
 import { createInitialUser } from './initUser.js';
@@ -34,6 +35,7 @@ app.use(jwt({ secret }).unless({ path: [/^\/auth/] }));
 router.use(movieRoutes.routes(), movieRoutes.allowedMethods());
 router.use(playLinkRoutes.routes(), playLinkRoutes.allowedMethods());
 router.use(tagRoutes.routes(), tagRoutes.allowedMethods());
+router.use(playListRoutes.routes(), playListRoutes.allowedMethods());
 
 app.use(koaBody());
 app.use(router.routes());

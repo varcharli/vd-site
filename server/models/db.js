@@ -220,6 +220,20 @@ const PlayList = sequelize.define('PlayList', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  createBySystem: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  movieCount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  posterUrl: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
 });
 
 // 定义关系
