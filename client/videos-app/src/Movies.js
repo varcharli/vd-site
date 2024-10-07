@@ -90,7 +90,8 @@ const Movies = () => {
 
   const handleMovieClick = (id) => {
     // window.open(`/movie/${id}`, '_blank');
-    window.location.href = `/movies/${id}`;
+    // window.location.href = `/movies/${id}`;
+    navigate(`/movies/${id}`);
   };
 
 

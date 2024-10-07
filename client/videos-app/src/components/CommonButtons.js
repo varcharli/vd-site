@@ -12,7 +12,7 @@ export const WindowCloseButton = ({ onClick, title, icon }) => {
 };
 
 // 彩虹按钮
-export const RainbowButton = ({ colorIndex, onClick, icon, title }) => {
+export const RainbowButton = ({ colorIndex, onClick, icon, title, checked = false, checkedColor }) => {
     const colors = [
         'var(--rainbowColor1)',
         'var(--rainbowColor2)',
@@ -23,9 +23,13 @@ export const RainbowButton = ({ colorIndex, onClick, icon, title }) => {
         'var(--rainbowColor7)',
     ];
     colorIndex = colorIndex || 0;
-    const color = colors[colorIndex % colors.length];
+    const bgColor = colors[colorIndex % colors.length];
+    let color = 'var(--global-background-color)';
+    if (checked) {
+        color = checkedColor || 'white';
+    }
     return (
-        <button onClick={onClick} title={title} className="rainbow-button" style={{ backgroundColor: color }}>
+        <button onClick={onClick} title={title} className="rainbow-button" style={{ backgroundColor: bgColor, color: color }}>
             <i className={icon}></i>
         </button>
     );

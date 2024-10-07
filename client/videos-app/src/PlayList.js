@@ -39,7 +39,7 @@ const PlayList = () => {
                 <ul>
 
                     {watchLater.map(item => (
-                        <li key={item.id}>{item.id}</li>
+                        <li key={item.id}>{item.name}</li>
                     ))}
                 </ul>
             </div>

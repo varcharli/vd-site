@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import user from './assets/user.png';
 import './AppTopMenu.css';
@@ -7,8 +7,10 @@ import logo from './assets/logo.png'; // 引入 LOGO 图像
 import { ButtonInput } from './components';
 import { MyDropMenu } from './components';
 // import './custom-bootstrap.scss';
+import { useGlobal } from './GlobalContext';
 
 const TopMenu = () => {
+    const { user } = useGlobal();
     const navigate = useNavigate();
     // const [showDropdown, setShowDropdown] = useState(false);
     const handleSearch = () => {
@@ -23,25 +25,17 @@ const TopMenu = () => {
         // window.location.href = '/login';
     };
 
-    // const handleToggle = () => {
-    //     setShowDropdown(!showDropdown);
-    // };
-
-    // const closeMenu = () => {
-    //     setShowDropdown(false);
-    // };
-
-
-
     const [query, setQuery] = useState('');
     return (
         <div className="top-menu">
             <div className="logo-container">
-                <img src={logo} alt="Logo" className="logo" />
+                <button className="icon-button-menu">
+                    <i className="fas fa-bars"></i>
+                </button>
             </div>
-            <button className="icon-button-menu">
-                <i className="fas fa-bars"></i>
-            </button>
+            <div className="logo-container">
+                <img src={logo} alt="Logo" className="logo" />
+            </div><span />
             <ButtonInput
                 icon="fas fa-search"
                 value={query}
@@ -69,13 +63,14 @@ const TopMenu = () => {
                 < MyDropMenu
                     icon="fas fa-user"
                     items={[
-                        { text: 'UserInfo', onClick: () => navigate('/userinfo') },
+                        { text: user.name +' Info' , onClick: () => navigate('/userinfo') },
                         { text: 'Logout', onClick: handleLogout },
                         // { text: 'Close Menu', onClick: closeMenu },
                     ]}
                 />
 
             </div>
+            <span>{user?.name+' '+user.favoriteId+' '+user.watchLaterId}</span>
         </div>
     );
 }

@@ -1,12 +1,12 @@
 // src/App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 
 import Home from './Home';
 import Movies from './Movies';
 import MovieDetail from './MovieDetail';
-import Favorite from './Favorite';
+// import Favorite from './Favorite';
 import History from './History';
 import Login from './Login'; // 引入 Login 组件
 import Tag from './TagMovies';
@@ -27,7 +27,7 @@ function App() {
   const pathLogin = '/login';
   const pathHome = '/';
   const pathMovies = '/movies';
-  const pathFavorite = '/favorite';
+  // const pathFavorite = '/favorite';
   const pathHistory = '/history';
   const pathTag = '/tags';
   const pathPlayList = '/playLists';
@@ -36,6 +36,7 @@ function App() {
     return location.pathname === pathLogin;
   }
   const hideNav = chkNeedNav();
+
 
   return (
     <div className="main">

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { User } from '../models/db.js';
 import dotenv from 'dotenv';
+import playList from './playListController.js';
 
 dotenv.config();
 const saltRounds = process.env.SALT_ROUNDS || 10;
@@ -62,5 +63,26 @@ export const resetPassword = async (ctx) => {
     } catch (err) {
         ctx.status = 400;
         ctx.body = { message: 'Error resetting password', error: err.message };
+    }
+};
+
+// get current user info
+export const getCurrentUser = async (ctx) => {
+    const { id } = ctx.state.user;
+
+    try {
+        const user = await User.findByPk(id, {
+            attributes: { exclude: ['passwordHash'] },
+            // attributes: ['id', 'username'], 
+        });
+        // user.favoriteId = (await playList.getFavoritePlayList({UserId:id})).id;
+        // user.watchLaterId = (await playList.getWatchLaterPlayList({UserId:id})).id;
+        user.setDataValue('favoriteId', (await playList.getFavoritePlayList({ UserId: id })).id);
+        user.setDataValue('watchLaterId', (await playList.getWatchLaterPlayList({ UserId: id })).id);
+        ctx.status = 200;
+        ctx.body = user;
+    } catch (err) {
+        ctx.status = 400;
+        ctx.body = { message: 'Error getting user info', error: err.message };
     }
 };

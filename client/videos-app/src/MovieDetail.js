@@ -6,11 +6,13 @@ import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import ImageGallery from './ImageGallery';
 import PlayLink from './PlayLink';
 import Tags, { TagField } from './Tags';
-
+import { PageLoading } from './components';
 
 import './MovieDetail.css';
 import { RainbowButton, WindowCloseButton, TextButton } from './components/CommonButtons';
 import { ErrorInfo } from './components';
+
+import models from './client/models';
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -19,6 +21,9 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isWatchLater, setIsWatchLater] = useState(false);
 
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -51,21 +56,6 @@ const MovieDetail = () => {
   };
 
   useEffect(() => {
-    // const fetchMovieById = async (id) => {
-    //   try {
-    //     const response = await fetch(`/movies/${id}`);
-    //     if (!response.ok) {
-    //       throw new Error('Movie not found');
-    //     }
-    //     const data = await response.json();
-    //     setMovie(data);
-    //   } catch (err) {
-    //     setError(err.message);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
     const fetchMovieById = async (id) => {
       try {
         // const response = await axios.get(`/api/movies/${id}`);
@@ -103,8 +93,45 @@ const MovieDetail = () => {
     fetchMovieById(movieId);
   }, [movieId]);
 
+  useEffect(() => {
+    const checkFavorite = async () => {
+      try {
+        const response = await models.playList.getFavoriteMovies();
+        const favoriteMovies = response.data;
+        const isFavorite = favoriteMovies.some((movie) => movie.id === movieId);
+        setIsFavorite(isFavorite);
+      } catch (error) {
+        console.error('Error checking favorite:', error);
+      }
+    };
+
+    const checkWatchLater = async () => {
+      try {
+        const response = await models.playList.getWatchLaterMovies();
+        const watchLaterMovies = response.data;
+        const isWatchLater = watchLaterMovies.some((movie) => movie.id === movieId);
+        setIsWatchLater(isWatchLater);
+      } catch (error) {
+        console.error('Error checking watch later:', error);
+      }
+    };
+
+    checkFavorite();
+    checkWatchLater();
+  }, [isFavorite, isWatchLater, movieId]);
+
+
+  const handleFovorite =async () => {
+    // 收藏
+    try {
+      await models.playList.addFavoriteMovie(movieId);
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+    }
+  }
+
   if (loading) {
-    return <div id='loading'>Loading...</div>;
+    return <PageLoading />;
   }
 
   if (error) {
@@ -243,8 +270,8 @@ const MovieDetail = () => {
             </div>
             <div className="button-bar">
               <RainbowButton colorIndex={0} onClick={openPlayLink} icon="fas fa-link" title="播放链接" />
-              <RainbowButton colorIndex={1} icon="fas fa-tag" title="标签" />
-              <RainbowButton colorIndex={2} icon="fas fa-download" title="下载链接" />
+              <RainbowButton colorIndex={1} icon="fas fa-heart" title="收藏" checked={true} checkedColor="red" />
+              <RainbowButton colorIndex={2} icon="fas fa-clock" title="稍后观看" />
             </div>
           </div>
           <h1>简介</h1>

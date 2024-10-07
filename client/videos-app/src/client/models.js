@@ -1,7 +1,9 @@
 import playList from "./apiPlayList";
+import user from "./apiUser";
 
 const models = {
-    playList
+    playList,
+    user,
 }
 
 export default models;
