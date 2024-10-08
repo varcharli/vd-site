@@ -44,7 +44,8 @@ router.get('/', async (ctx) => {
 
 router.get('/:id', async (ctx) => {
   try {
-    const movie = await getMovieById(ctx.params.id);
+    const user = ctx.state.user;
+    const movie = await getMovieById(ctx.params.id,{ UserId: user?.id });
     ctx.body = movie.toJSON();
   } catch (error) {
     ctx.status = 404;

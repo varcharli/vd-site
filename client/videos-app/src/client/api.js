@@ -32,6 +32,7 @@ api.interceptors.response.use(
   }
 );
 
+
 // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
 // const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
 const getMovies = async ({page=1, pageSize=12, title='',tagIds=[]}) => {

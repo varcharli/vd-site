@@ -13,15 +13,17 @@ import { RainbowButton, WindowCloseButton, TextButton } from './components/Commo
 import { ErrorInfo } from './components';
 
 import models from './client/models';
+import { useGlobal } from './GlobalContext';
 
 const MovieDetail = () => {
+  const { user } = useGlobal();
   const { id } = useParams();
   const movieId = parseInt(id);
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [isWatchLater, setIsWatchLater] = useState(false);
 
@@ -60,6 +62,7 @@ const MovieDetail = () => {
       try {
         // const response = await axios.get(`/api/movies/${id}`);
         const response = await api.getMovieById(id);
+        console.log('fetchMovieById response:', response);
         setMovie(response.data);
         await fetchPlayLinks();
         await fetchTags();
@@ -90,43 +93,47 @@ const MovieDetail = () => {
       }
     };
 
+
+
     fetchMovieById(movieId);
   }, [movieId]);
 
   useEffect(() => {
-    const checkFavorite = async () => {
-      try {
-        const response = await models.playList.getFavoriteMovies();
-        const favoriteMovies = response.data;
-        const isFavorite = favoriteMovies.some((movie) => movie.id === movieId);
-        setIsFavorite(isFavorite);
-      } catch (error) {
-        console.error('Error checking favorite:', error);
-      }
-    };
+    if(!movie) {
+      setIsFavorite(false);
+      setIsWatchLater(false);
+      return;
+    }
 
-    const checkWatchLater = async () => {
-      try {
-        const response = await models.playList.getWatchLaterMovies();
-        const watchLaterMovies = response.data;
-        const isWatchLater = watchLaterMovies.some((movie) => movie.id === movieId);
-        setIsWatchLater(isWatchLater);
-      } catch (error) {
-        console.error('Error checking watch later:', error);
-      }
-    };
-
-    checkFavorite();
-    checkWatchLater();
-  }, [isFavorite, isWatchLater, movieId]);
+    setIsFavorite(movie.isFavorite);
+    setIsWatchLater(movie.isWatchLater);
+  }, [movie]);
 
 
-  const handleFovorite =async () => {
+  const handleFovorite = async () => {
     // 收藏
     try {
-      await models.playList.addFavoriteMovie(movieId);
+      if (isFavorite) {
+        await models.playList.removeFavoriteMovie({user, movieId});
+      } else {
+        await models.playList.addFavoriteMovie({user, movieId});
+      }
+      setIsFavorite(!isFavorite);
     } catch (error) {
       console.error('Error adding favorite:', error);
+    }
+  }
+
+  const handelWatchLater = async () => {
+    try {
+      if (isWatchLater) {
+        await models.playList.removeWatchLaterMovie({user, movieId});
+      } else {
+        await models.playList.addWatchLaterMovie({user, movieId});
+      }
+      setIsWatchLater(!isWatchLater);
+    } catch (error) {
+      console.error('Error adding watch later:', error);
     }
   }
 
@@ -240,9 +247,9 @@ const MovieDetail = () => {
               <span className="horizontal-list">
                 {/* <span className='label' >标签：</span> */}
                 {/* <TagField tags={tags} onClick={handleOpenTagsPopup} /> */}
-                <TagField tags={tags} 
-                onManage={handleOpenTagsPopup} 
-                onNavigateTag={navigateTag} 
+                <TagField tags={tags}
+                  onManage={handleOpenTagsPopup}
+                  onNavigateTag={navigateTag}
                 />
                 {/* <button onClick={handleOpenTagsPopup}>Manage Tags</button> */}
               </span>
@@ -270,8 +277,19 @@ const MovieDetail = () => {
             </div>
             <div className="button-bar">
               <RainbowButton colorIndex={0} onClick={openPlayLink} icon="fas fa-link" title="播放链接" />
-              <RainbowButton colorIndex={1} icon="fas fa-heart" title="收藏" checked={true} checkedColor="red" />
-              <RainbowButton colorIndex={2} icon="fas fa-clock" title="稍后观看" />
+              <RainbowButton colorIndex={1} 
+              icon="fas fa-heart" 
+              title="收藏" 
+              onClick={handleFovorite}
+              checked={isFavorite} 
+              checkedColor="red" />
+              <RainbowButton colorIndex={2} 
+              icon="fas fa-clock" 
+              title="稍后观看" 
+              onClick={handelWatchLater}
+              checked={isWatchLater}
+              checkedColor="red"
+              />
             </div>
           </div>
           <h1>简介</h1>

@@ -1,6 +1,6 @@
 // playListController.js
 
-import { PlayList } from '../models/db.js'; // 导入PlayList模型
+import { PlayList,Movie } from '../models/db.js'; // 导入PlayList模型
 const FavoriteListName = 'Favorite';
 const WatchLaterListName = 'Watch Later';
 import { Op } from 'sequelize';
@@ -152,8 +152,11 @@ const getMoviesFromPlayList = async ({ id, UserId, limit }) => {
 
 const getMoviesFromFavorite= async ({ UserId }) => {
     try {
+        console.log('getMoviesFromFavorite UserId:', UserId);
         const playList = await getFavoritePlayList({UserId});
+        console.log('getMoviesFromFavorite playList:', playList);
         const movies = await playList.getMovies();
+        console.log('getMoviesFromFavorite movies:', movies);
         return movies;
     } catch (error) {
         throw new Error(`Error fetching Movies from PlayList: ${error.message}`);
@@ -175,7 +178,7 @@ const getMoviesFromWatchLater = async ({ UserId }) => {
 const addMovieToPlayList = async ({ id, MovieId, UserId }) => {
     try {
         const playList = await getPlayListById({ id, UserId });
-        const movie = await getMovieById(MovieId);
+        const movie = await Movie.findByPk(MovieId);
         await playList.addMovie(movie);
         playList.movieCount = await playList.countMovies();
         playList.posterUrl = movie.posterUrl;   // update posterUrl with the latest added movie.But not remove when movie removed.
@@ -188,13 +191,33 @@ const addMovieToPlayList = async ({ id, MovieId, UserId }) => {
 const removeMovieFromPlayList = async ({ id, MovieId, UserId }) => {
     try {
         const playList = await getPlayListById({ id, UserId });
-        const movie = await getMovieById(MovieId);
+        const movie = await Movie.findByPk(MovieId);
+        // console.log('removeMovieFromPlayList movie:'+ movie + ' playList:'+ playList + ' MovieId:'+ MovieId + ' UserId:'+ UserId);
         await playList.removeMovie(movie);
     } catch (error) {
         throw new Error(`Error removing Movie from PlayList: ${error.message}`);
     }
 }
 
+const movieIsFavorite = async ({ UserId, MovieId }) => {
+    try {
+        const playList = await getFavoritePlayList({ UserId });
+        const movies = await playList.getMovies({ where: { id: MovieId } });
+        return movies.length > 0;
+    } catch (error) {
+        throw new Error(`Error checking if Movie is in Favorite: ${error.message}`);
+    }
+}
+
+const movieIsWatchLater = async ({ UserId, MovieId }) => {
+    try {
+        const playList = await getWatchLaterPlayList({ UserId });
+        const movies = await playList.getMovies({ where: { id: MovieId } });
+        return movies.length > 0;
+    } catch (error) {
+        throw new Error(`Error checking if Movie is in Watch Later: ${error.message}`);
+    }
+}
 
 export default {
     createPlayList,
@@ -208,5 +231,7 @@ export default {
     getFavoritePlayList,
     getWatchLaterPlayList,
     getMoviesFromFavorite,
-    getMoviesFromWatchLater
+    getMoviesFromWatchLater,
+    movieIsFavorite,
+    movieIsWatchLater,
 };

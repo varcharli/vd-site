@@ -9,6 +9,7 @@ import {
   PlayLink,
   RelatedPicture
 } from '../models/db.js';
+import playList from './playListController.js';
 
 // 创建电影
 // createMovie 方法接收一个对象参数，包含电影的所有信息，包括导演、演员和标签等。
@@ -203,7 +204,7 @@ async function createOrUpdateMovie(data) {
 }
 
 // 获取单个电影
-async function getMovieById(id) {
+async function getMovieById(id,{UserId}) {
   try {
     const movie = await Movie.findByPk(id);
     if (!movie) {
@@ -241,6 +242,12 @@ async function getMovieById(id) {
       id: relatedPicture.id,
       link: relatedPicture.link
     }));
+
+    // isFavorite
+    const isFavorite = await playList.movieIsFavorite({UserId, MovieId: id });
+    movie.dataValues.isFavorite = isFavorite;
+    const isWatchLater = await playList.movieIsWatchLater({UserId, MovieId: id });
+    movie.dataValues.isWatchLater = isWatchLater;
 
     return movie;
   } catch (error) {

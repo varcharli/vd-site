@@ -157,8 +157,9 @@ router.post('/:id/movies', async (ctx) => {
 router.delete('/:id/movies/:movieId', async (ctx) => {
     try {
         const id = ctx.params.id;
-        const UserId = ctx.state.user
+        const UserId = ctx.state.user.id;
         const MovieId = ctx.params.movieId;
+        console.log('removeMovie id:' + id + ' MovieId:' + MovieId + ' UserId:' + UserId);
         await playListController.removeMovieFromPlayList({ id, MovieId, UserId });
         ctx.status = 204;
     } catch (error) {
