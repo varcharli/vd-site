@@ -18,7 +18,7 @@ const seedMovies = async () => {
       movies.push(generateRandomMovie(i));
     }
     await Movie.bulkCreate(movies);
-    console.log('100 movies have been added to the database.');
+    // console.log('100 movies have been added to the database.');
   } catch (error) {
     console.error('Error seeding movies:', error);
   } finally {

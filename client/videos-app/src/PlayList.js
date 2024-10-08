@@ -47,7 +47,7 @@ const PlayList = () => {
                 <h2>Favorite</h2>
                 <ul>
                     {favorite.map(item => (
-                        <li key={item.id}>{item.id}</li>
+                        <li key={item.id}>{item.name}</li>
                     ))}
                 </ul>
             </div>

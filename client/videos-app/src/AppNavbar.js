@@ -12,22 +12,22 @@ const Navbar = () => {
 
       <ul>
         <li>
-          <NavLink to="/" exact activeClassName="active">
+          <NavLink to="/" exact="true" activeclassname="active">
             <FontAwesomeIcon icon={faHome} />
           </NavLink>
         </li>
         <li>
-          <NavLink to="/movies" activeClassName="active">
+          <NavLink to="/movies" activeclassname="active">
             <FontAwesomeIcon icon={faFilm} />
           </NavLink>
         </li>
         <li>
-          <NavLink to="/playlists" activeClassName="active">
+          <NavLink to="/playlists" activeclassname="active">
             <FontAwesomeIcon icon={faStar} />
           </NavLink>
         </li>
         <li>
-          <NavLink to="/history" activeClassName="active">
+          <NavLink to="/history" activeclassname="active">
             <FontAwesomeIcon icon={faHistory} />
           </NavLink>
         </li>

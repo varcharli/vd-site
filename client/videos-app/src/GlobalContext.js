@@ -43,7 +43,7 @@ export const GlobalProvider = ({ children }) => {
 
                 dispatch({ type: 'SET_USER', payload: user });
             } catch (error) {
-                console.log('Error getting user info: ', error);
+                // console.log('Error getting user info: ', error);
             }
         }
 

@@ -37,7 +37,7 @@ const createFullMovie = async (data) => {
 
     // 查找或创建导演并关联
     let directors = [];
-    console.log('data is createFullMovie:', data.directorNames);
+    // console.log('data is createFullMovie:', data.directorNames);
     if (data.directorNames && data.directorNames.length > 0) {
       directors = await Promise.all(data.directorNames.map(async (directorName) => {
         const [director] = await Director.findOrCreate({
@@ -95,7 +95,7 @@ const createFullMovie = async (data) => {
 
     return movie;
   } catch (error) {
-    console.log('create error:', error);
+    // console.log('create error:', error);
     throw error;
   }
 }
@@ -178,8 +178,8 @@ async function createMovie(data) {
     if (!data.name) {
       throw new Error('Movie name is required');
     }
-    console.log('data is createMovie');
-    console.log('data', data);
+    // console.log('data is createMovie');
+    // console.log('data', data);
     const movie = await Movie.create(data);
     return movie;
   } catch (error) {

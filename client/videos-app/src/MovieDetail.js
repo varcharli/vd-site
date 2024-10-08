@@ -62,7 +62,7 @@ const MovieDetail = () => {
       try {
         // const response = await axios.get(`/api/movies/${id}`);
         const response = await api.getMovieById(id);
-        console.log('fetchMovieById response:', response);
+        // console.log('fetchMovieById response:', response);
         setMovie(response.data);
         await fetchPlayLinks();
         await fetchTags();
@@ -202,7 +202,7 @@ const MovieDetail = () => {
           <div className="top-left">
             <img src={movie.posterUrl || defaultImage} alt={movie.name}
               onError={(e) => { e.target.src = defaultImage; }}
-              referrerpolicy="no-referrer"
+              referrerPolicy="no-referrer"
               onClick={() => openGallery(posterIndex)
               }
             />
@@ -243,7 +243,7 @@ const MovieDetail = () => {
                 <span><a href={movie.fromUrl} >点击跳转</a></span>
               </span>
             </p>
-            <p>
+            <div>
               <span className="horizontal-list">
                 {/* <span className='label' >标签：</span> */}
                 {/* <TagField tags={tags} onClick={handleOpenTagsPopup} /> */}
@@ -253,7 +253,7 @@ const MovieDetail = () => {
                 />
                 {/* <button onClick={handleOpenTagsPopup}>Manage Tags</button> */}
               </span>
-            </p>
+            </div>
           </div>
         </div>
         <div className="down">
@@ -302,7 +302,7 @@ const MovieDetail = () => {
                   src={pic.link}
                   alt={pic.id}
                   onError={(e) => { e.target.src = defaultImage; }}
-                  referrerpolicy="no-referrer"
+                  referrerPolicy="no-referrer"
                   onClick={() => openGallery(index)}
                 />
               ))}

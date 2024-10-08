@@ -16,7 +16,7 @@ const playList = {
     },
     getFavoriteMovies: async () => {
         const response = await api.get('/playLists/favorite/movies');
-        console.log('getFavoriteMovies response:', response);
+        // console.log('getFavoriteMovies response:', response);
         return response;
     },
     getWatchLater: async () => {
@@ -50,7 +50,7 @@ const playList = {
     removeMovie: async (id, movieId) => {
         // console.log('removeMovie id:'+id+' movieId:'+movieId);
         const response = await api.delete(`/playLists/${id}/movies/${movieId}`);
-        console.log('removeMovie response:', response);
+        // console.log('removeMovie response:', response);
         return response;
     },
     addFavoriteMovie: async ({ user, movieId }) => {

@@ -31,16 +31,11 @@ app.use(koaBody());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-
-// app.listen(3000, () => {
-//   await createInitialUser();
-//   console.log('Server is running on http://localhost:3000');
-// });
-
+const port = process.env.PORT || 3000;
 const startServer = async () => {
   await createInitialUser(); // init user if first time running
-  app.listen(3000, () => {
-      console.log('Server running on http://localhost:3000');
+  app.listen(port, () => {
+      console.log('Server running on http://localhost:'+port);
   });
 };
 

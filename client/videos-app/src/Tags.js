@@ -12,7 +12,6 @@ export const TagField = ({ tags, onManage, onNavigateTag }) => {
     return (
         <div className='tags-field-list' >
             {tags.map((tag, index) => (
-                <div >
                     <CheckTag
                         key={tag.id}
                         tagName={tag.name}
@@ -21,7 +20,6 @@ export const TagField = ({ tags, onManage, onNavigateTag }) => {
                             onNavigateTag &&
                             onNavigateTag(tag.id)}
                     />
-                </div>
             ))}
 
             <CheckTag tagName='+ 标签' status='unchecked' onClick={() =>

@@ -44,8 +44,8 @@ const MovieList = ({ title, params }) => {
 
     const fetchMovies = async (queryString) => {
         try {
-            console.log('fetchMovies queryString:', queryString);
-            console.log('fetchMovies pagination:', pagination);
+            // console.log('fetchMovies queryString:', queryString);
+            // console.log('fetchMovies pagination:', pagination);
 
             if (queryString === undefined) { queryString = ''; }
             // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
@@ -65,7 +65,7 @@ const MovieList = ({ title, params }) => {
     };
 
     useEffect(() => {
-        console.log('location.search:', location.search);
+        // console.log('location.search:', location.search);
         const queryParams = new URLSearchParams(location.search);
         const query = queryParams.get('query') || '';
         const page = parseInt(queryParams.get('page'), 10) || 1;
@@ -76,14 +76,14 @@ const MovieList = ({ title, params }) => {
             page,
             pageSize,
         }));
-        console.log('search query:', query);
+        // console.log('search query:', query);
         pagination.page = page;
         fetchMovies(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search]);
 
     const handlePageChange = (newPage) => {
-        console.log('newPage:', newPage);
+        // console.log('newPage:', newPage);
         queryParams.set('page', newPage);
         navigate(`?${queryParams.toString()}`);
         // window.location.reload();
@@ -200,7 +200,7 @@ const MovieList = ({ title, params }) => {
                                 src={movie.posterUrl || defaultImage}
                                 alt={movie.name}
                                 onError={(e) => { e.target.src = defaultImage; }}
-                                referrerpolicy="no-referrer"
+                                referrerPolicy="no-referrer"
                             />
                             <div className="movie-info">
                                 <h2 className='movie-name'>{movie.name}</h2>

@@ -5,7 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 const Home = () => {
 
   const closeMenu = () => {
-    console.log('close menu');
+    // console.log('close menu');
   }
   return (
     <div>

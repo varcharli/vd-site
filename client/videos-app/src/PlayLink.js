@@ -56,7 +56,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
         };
 
         fetchPlayLinks();
-        console.log('fetchPlayLinks ' + MovieId);
+        // console.log('fetchPlayLinks ' + MovieId);
     }, [MovieId, onPlayLinksUpdate]);
 
     const handleCreate = async () => {
@@ -78,7 +78,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
         try {
             // const response = await axios.post('/api/playLinks', { MovieId, name: movieName, link });
             const response = await api.createPlayLink({ MovieId, name: movieName, link });
-            console.log('response.data ' + MovieId + ' ' + name + ' ' + link);
+            // console.log('response.data ' + MovieId + ' ' + name + ' ' + link);
             setPlayLinks([...playLinks, response.data]);
             setName('');
             setLink('');

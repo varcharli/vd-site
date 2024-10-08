@@ -152,11 +152,11 @@ const getMoviesFromPlayList = async ({ id, UserId, limit }) => {
 
 const getMoviesFromFavorite= async ({ UserId }) => {
     try {
-        console.log('getMoviesFromFavorite UserId:', UserId);
+        // console.log('getMoviesFromFavorite UserId:', UserId);
         const playList = await getFavoritePlayList({UserId});
-        console.log('getMoviesFromFavorite playList:', playList);
+        // console.log('getMoviesFromFavorite playList:', playList);
         const movies = await playList.getMovies();
-        console.log('getMoviesFromFavorite movies:', movies);
+        // console.log('getMoviesFromFavorite movies:', movies);
         return movies;
     } catch (error) {
         throw new Error(`Error fetching Movies from PlayList: ${error.message}`);

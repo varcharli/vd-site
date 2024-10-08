@@ -45,7 +45,7 @@ const Movies = () => {
     }
 
     if (query) {
-      console.log('query in effect:', query);
+      // console.log('query in effect:', query);
       fetchMovies(query);
 
     } else {
@@ -63,7 +63,7 @@ const Movies = () => {
 
   function savePagination() {
     localStorage.setItem('pagination', JSON.stringify(pagination));
-    console.log('set item pagination:', pagination);
+    // console.log('set item pagination:', pagination);
   }  // Save pagination state to localStorage whenever it changes
   
   // useEffect(() => {
@@ -179,7 +179,7 @@ const Movies = () => {
                 src={movie.posterUrl || defaultImage}
                 alt={movie.name}
                 onError={(e) => { e.target.src = defaultImage; }}
-                referrerpolicy="no-referrer"
+                referrerPolicy="no-referrer"
               />
               <div className="movie-info">
                 <h2 className='movie-name'>{movie.name}</h2>

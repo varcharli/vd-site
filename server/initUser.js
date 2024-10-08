@@ -16,7 +16,7 @@ export const createInitialUser = async () => {
 
     const existingUser = await User.findOne({ where: { name } });
     if (existingUser) {
-        console.log('Initial user already exists');
+        // console.log('Initial user already exists');
         return;
     }
 
@@ -24,7 +24,7 @@ export const createInitialUser = async () => {
 
     try {
         const user = await User.create({ name, passwordHash, isAdmin });
-        console.log('Initial user created:', user);
+        // console.log('Initial user created:', user);
     } catch (err) {
         console.error('Error creating initial user:', err.message);
     }

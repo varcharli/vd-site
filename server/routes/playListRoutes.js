@@ -75,7 +75,7 @@ router.get('/watchLater', async (ctx) => {
 router.get('/watchLater/movies', async (ctx) => {
     try {
         const UserId = ctx.state.user.id;
-        console.log('watch later UserId:', UserId);
+        // console.log('watch later UserId:', UserId);
         const movies = await playListController.getMoviesFromWatchLater({ UserId });
         ctx.status = 200;
         ctx.body = movies;
@@ -159,7 +159,7 @@ router.delete('/:id/movies/:movieId', async (ctx) => {
         const id = ctx.params.id;
         const UserId = ctx.state.user.id;
         const MovieId = ctx.params.movieId;
-        console.log('removeMovie id:' + id + ' MovieId:' + MovieId + ' UserId:' + UserId);
+        // console.log('removeMovie id:' + id + ' MovieId:' + MovieId + ' UserId:' + UserId);
         await playListController.removeMovieFromPlayList({ id, MovieId, UserId });
         ctx.status = 204;
     } catch (error) {
