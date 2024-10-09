@@ -5,3 +5,4 @@ export { RainbowButton, WindowCloseButton, MenuButton,TextButton } from './Commo
 export { MyDropMenu } from './Dropdown';
 export { default as CheckTag } from './CheckTag';
 export { PageLoading } from './Loading';
+export { MovieBox } from './MovieBox';

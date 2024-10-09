@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
-import { ErrorInfo } from './components';
+import { ErrorInfo,MovieBox } from './components';
 import api from './client/api';
 
 const MovieList = ({ title, params }) => {

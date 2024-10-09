@@ -8,44 +8,9 @@
     padding: 0;
     /* align-self: center; */
 }
-.ul-movies li {
-    margin: 10px;
-    width: 200px;
-    height: 370px;
-    border-radius: 15px;
-}
 
-.ul-movies li img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover; /* 保持图片比例 */
-    border-radius: 15px 15px 0 0; /* 圆角处理 */
-}
 
-.ul-movies li .movie-info {
-    padding: 10px;
-    text-align: center;
-    /* background-color: rgb(31, 41, 55); */
-    color: black;
-    flex-grow: 1;
-}
 
-.ul-movies li .movie-info h2 {
-    margin: 0;
-    font-size: 16px;
-}
-
-.ul-movies li .movie-info p {
-    margin: 5px 0 0;
-    font-size: 14px;
-}
-
-.movie-name {
-  white-space: nowrap; /* 防止换行 */
-  overflow: hidden; /* 隐藏溢出内容 */
-  text-overflow: ellipsis; /* 显示省略号 */
-  max-width: 100%; /* 根据需要设置最大宽度 */
-}
 .pagination {
     display: flex;
     justify-content: center;

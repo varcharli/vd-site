@@ -1,0 +1,41 @@
+.movie-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .movie-container {
+    display: flex;
+    overflow: hidden;
+    /* width: 80%; */
+    margin: 0 auto; /* 使容器居中 */
+  }
+  
+  .nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1; /* 确保按钮在最上层 */
+  }
+  
+  .nav-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+  
+  .nav-button:first-of-type {
+    left: 35px; /* 调整按钮位置，使其一半在容器外 */
+  }
+  
+  .nav-button:last-of-type {
+    right: 35px; /* 调整按钮位置，使其一半在容器外 */
+  }

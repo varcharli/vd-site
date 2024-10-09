@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation,useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
-import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
-import { ErrorInfo } from './components';
+import { ErrorInfo, MovieBox } from './components';
 import api from './client/api';
 
 const Movies = () => {
-  
+
   const cstPageSize = 12
-  
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
-  // const query = queryParams.get('query') || '';
   const page = parseInt(queryParams.get('page'), 10) || 1;
   const pageSize = parseInt(queryParams.get('pageSize'), 10) || cstPageSize;
   const [pagination, setPagination] = useState({
@@ -23,24 +21,21 @@ const Movies = () => {
     totalPages: 0,
     totalRecords: 0,
   });
-  
+
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
 
   const fetchMovies = async (queryString) => {
     try {
-      // console.log('fetchMovies queryString:', queryString);
-      // console.log('fetchMovies pagination:', pagination);
-      
       if (queryString === undefined) { queryString = ''; }
       const response = await api.getMovies(
-        {page: pagination.page,pageSize: pagination.pageSize,title: queryString});
-      
-      const data=response.data;
+        { page: pagination.page, pageSize: pagination.pageSize, title: queryString });
+
+      const data = response.data;
       setMovies(data.movies);
       setPagination(data.pagination);
     } catch (error) {
-      setError('连接服务器出现错误：'+error.message+' --- '+error.response.data );
+      setError('连接服务器出现错误：' + error.message + ' --- ' + error.response.data);
     }
   };
 
@@ -59,7 +54,7 @@ const Movies = () => {
     // console.log('search query:', query);
     pagination.page = page;
     fetchMovies(query);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   const handlePageChange = (newPage) => {
@@ -68,32 +63,6 @@ const Movies = () => {
     navigate(`?${queryParams.toString()}`);
     // window.location.reload();
   };
-
-  // const handlePageSizeChange = (newPageSize) => {
-  //   queryParams.set('pageSize', newPageSize);
-  //   navigate({ search: queryParams.toString() });
-  // };
-
-  // const handleQueryChange = (newQuery) => {
-  //   queryParams.set('query', newQuery);
-  //   navigate({ search: queryParams.toString() });
-  // };
-
-  const colors = [
-    'rgb(254, 228, 203)',
-    'rgb(209, 213, 219)',
-    'rgb(187, 247, 208)',
-    'rgb(191, 219, 254)',
-    'rgb(254, 202, 202)',
-    'rgb(233, 213, 255)'
-  ];
-
-  const handleMovieClick = (id) => {
-    // window.open(`/movie/${id}`, '_blank');
-    // window.location.href = `/movies/${id}`;
-    navigate(`/movies/${id}`);
-  };
-
 
   const renderPageNumbers = () => {
     const { page, totalPages } = pagination;
@@ -166,26 +135,13 @@ const Movies = () => {
       </div>
 
       <div className='container-body' >
-        {error && 
-        <ErrorInfo info={error} />
-        // <p className='error-message'>{error}</p>
+        {error &&
+          <ErrorInfo info={error} />
         }
         <ul className='ul-movies'>
           {movies.map((movie, index) => (
-            <li key={movie.id}
-              style={{ backgroundColor: colors[index % colors.length] }}
-              onClick={() => handleMovieClick(movie.id)}
-            >
-              <img
-                src={movie.posterUrl || defaultImage}
-                alt={movie.name}
-                onError={(e) => { e.target.src = defaultImage; }}
-                referrerPolicy="no-referrer"
-              />
-              <div className="movie-info">
-                <h2 className='movie-name'>{movie.name}</h2>
-                <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
-              </div>
+            <li>
+              <MovieBox index={index} movie={movie} />
             </li>
           ))}
         </ul>

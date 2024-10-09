@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import models from "./client/models";
+import MovieSlider from "./components/MovieSlider";
+import './PlayList.css';
 
 const PlayList = () => {
     const [watchLater, setWatchLater] = useState([]);
@@ -33,26 +35,17 @@ const PlayList = () => {
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-            <div style={{ flex: 1, overflowY: 'auto' }}>
-                <h2>Watch Later</h2>
-                <ul>
-
-                    {watchLater.map(item => (
-                        <li key={item.id}>{item.name}</li>
-                    ))}
-                </ul>
+        <div className='play-list-body'>
+            <div className='play-list-panel' >
+                <h2>Watch Later {watchLater.length}</h2>
+                <MovieSlider movies={watchLater} />
             </div>
-            <div style={{ flex: 1, overflowY: 'auto' }}>
-                <h2>Favorite</h2>
-                <ul>
-                    {favorite.map(item => (
-                        <li key={item.id}>{item.name}</li>
-                    ))}
-                </ul>
+            <div className='play-list-panel' >
+                <h2>Favorite {favorite.length} </h2>
+                <MovieSlider movies={favorite} />
             </div>
-            <div style={{ flex: 1, overflowY: 'auto' }}>
-                <h2>PlayList</h2>
+            <div className='play-list-panel' >
+                <h2>PlayList {userPlayList.length}  </h2>
                 <ul>
                     {userPlayList.map(item => (
                         <li key={item.id}>{item.id}</li>
