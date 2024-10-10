@@ -4,7 +4,7 @@
     align-items: center;
   }
   
-  .movie-container {
+  .movie-slider-container {
     display: flex;
     overflow: hidden;
     margin-left: 20px;
@@ -39,5 +39,5 @@
   }
   
   .nav-button:last-of-type {
-    left: 870px; /* 调整按钮位置，使其一半在容器外 */
+    right: 10px; /* 调整按钮位置，使其一半在容器外 */
   }

@@ -70,7 +70,7 @@ const TopMenu = () => {
                 />
 
             </div>
-            <span>{user?.name+' '+user.favoriteId+' '+user.watchLaterId}</span>
+            {/* <span>{user?.name+' '+user.favoriteId+' '+user.watchLaterId}</span> */}
         </div>
     );
 }

@@ -24,7 +24,7 @@ const MovieSlider = ({ movies, displayCount = 4 }) => {
             <button className="nav-button" onClick={handlePrevClick} disabled={startIndex === 0}>
                 <i className="fas fa-chevron-left"/>
             </button>
-            <div className="movie-container">
+            <div className="movie-slider-container">
                 {displayedMovies.map((movie, index) => (
                     <MovieBox index={index} movie={movie} />
                 ))}

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
-import { ErrorInfo,MovieBox } from './components';
+import { ErrorInfo, MovieBox } from './components';
 import api from './client/api';
 
 const MovieList = ({ title, params }) => {
@@ -79,7 +79,7 @@ const MovieList = ({ title, params }) => {
         // console.log('search query:', query);
         pagination.page = page;
         fetchMovies(query);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search]);
 
     const handlePageChange = (newPage) => {
@@ -192,20 +192,8 @@ const MovieList = ({ title, params }) => {
                 }
                 <ul className='ul-movies'>
                     {movies.map((movie, index) => (
-                        <li key={movie.id}
-                            style={{ backgroundColor: colors[index % colors.length] }}
-                            onClick={() => handleMovieClick(movie.id)}
-                        >
-                            <img
-                                src={movie.posterUrl || defaultImage}
-                                alt={movie.name}
-                                onError={(e) => { e.target.src = defaultImage; }}
-                                referrerPolicy="no-referrer"
-                            />
-                            <div className="movie-info">
-                                <h2 className='movie-name'>{movie.name}</h2>
-                                <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
-                            </div>
+                        <li>
+                            <MovieBox index={index} movie={movie} />
                         </li>
                     ))}
                 </ul>
