@@ -10,7 +10,11 @@ const MovieSlider = ({ movies, displayCount = 4 }) => {
     };
 
     const handleNextClick = () => {
-        setStartIndex((prevIndex) => Math.min(prevIndex + displayCount, movies.length - displayCount));
+        
+        setStartIndex((prevIndex) => 
+            prevIndex+displayCount
+            // Math.min(prevIndex + displayCount, movies.length - displayCount)
+    );
     };
 
     const displayedMovies = movies.slice(startIndex, startIndex + displayCount);

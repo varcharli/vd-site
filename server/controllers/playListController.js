@@ -141,7 +141,7 @@ const getMoviesFromPlayList = async ({ id, UserId, limit }) => {
         const movies = await playList.getMovies(
             {
                 limit,
-                order: [[{ model: PlayListMovies, as: 'PlayListMovies' }, 'createdAt', 'DESC']]
+                order: [['createdAt', 'DESC']]
             }
         );
         return movies;
@@ -150,12 +150,17 @@ const getMoviesFromPlayList = async ({ id, UserId, limit }) => {
     }
 }
 
-const getMoviesFromFavorite= async ({ UserId }) => {
+const getMoviesFromFavorite= async ({ UserId,limit=500}) => {
     try {
         // console.log('getMoviesFromFavorite UserId:', UserId);
         const playList = await getFavoritePlayList({UserId});
         // console.log('getMoviesFromFavorite playList:', playList);
-        const movies = await playList.getMovies();
+        const movies = await playList.getMovies(
+            {
+                limit,
+                order: [['createdAt', 'DESC']]
+            }
+        );
         // console.log('getMoviesFromFavorite movies:', movies);
         return movies;
     } catch (error) {
@@ -163,10 +168,15 @@ const getMoviesFromFavorite= async ({ UserId }) => {
     }
 }
 
-const getMoviesFromWatchLater = async ({ UserId }) => {
+const getMoviesFromWatchLater = async ({ UserId ,limit=500}) => {
     try {
         const playList = await getWatchLaterPlayList({UserId});
-        const movies = await playList.getMovies();
+        const movies = await playList.getMovies(
+            {
+                limit,
+                order: [['createdAt', 'DESC']]
+            }
+        );
         return movies;
     } catch (error) {
         throw new Error(`Error fetching Movies from PlayList: ${error.message}`);

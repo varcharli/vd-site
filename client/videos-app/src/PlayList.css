@@ -12,7 +12,7 @@
 
 .play-list-panel h2 {
     text-align: left;
-    margin-left: 60px;
+    margin-left: 30px;
     font-size: 1.5rem;
     color: var(--global-text-color);
 }

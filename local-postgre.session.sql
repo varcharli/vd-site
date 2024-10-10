@@ -1,1 +1,1 @@
-select * from "PlayLists"
+select * from "PlayListMovies" where "PlayListId"=2 order by "createdAt" desc

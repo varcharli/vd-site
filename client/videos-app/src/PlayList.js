@@ -38,11 +38,11 @@ const PlayList = () => {
         <div className='play-list-body'>
             <div className='play-list-panel' >
                 <h2>Watch Later {watchLater.length}</h2>
-                <MovieSlider movies={watchLater} />
+                <MovieSlider key="watchLater" movies={watchLater} />
             </div>
-            <div className='play-list-panel' >
+            <div className='play-list-panel'>
                 <h2>Favorite {favorite.length} </h2>
-                <MovieSlider movies={favorite} />
+                <MovieSlider key="favorite" movies={favorite} />
             </div>
             <div className='play-list-panel' >
                 <h2>PlayList {userPlayList.length}  </h2>
