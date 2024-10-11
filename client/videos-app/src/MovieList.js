@@ -26,6 +26,8 @@ const MovieList = ({ title, params }) => {
         }
     }
 
+    const playListId = params.playListId || null;
+
 
     const queryParams = new URLSearchParams(location.search);
 
@@ -54,8 +56,10 @@ const MovieList = ({ title, params }) => {
                     page: pagination.page,
                     pageSize: pagination.pageSize,
                     title: queryString,
-                    tagIds: tagIds
+                    tagIds: tagIds,
+                    playListId: playListId,
                 });
+            console.log('fetchMovies response:', response);
             const data = response.data;
             setMovies(data.movies);
             setPagination(data.pagination);

@@ -239,9 +239,18 @@ const PlayList = sequelize.define('PlayList', {
 // 定义关系
 User.hasMany(PlayList);
 PlayList.belongsTo(User);
+const PlayListMovies = sequelize.define('PlayListMovies', {
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW
+  }
+});
 
-PlayList.belongsToMany(Movie, { through: 'PlayListMovies' });
-Movie.belongsToMany(PlayList, { through: 'PlayListMovies' });
+PlayList.belongsToMany(Movie, { through: PlayListMovies });
+Movie.belongsToMany(PlayList, { through: PlayListMovies });
+// PlayList.belongsToMany(Movie, { through: 'PlayListMovies' });
+// Movie.belongsToMany(PlayList, { through: 'PlayListMovies' });
 
 export {
   sequelize,
@@ -256,4 +265,5 @@ export {
   PlayLink,
   RelatedPicture,
   PlayList,
+  PlayListMovies,
 };

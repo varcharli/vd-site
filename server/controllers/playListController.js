@@ -229,6 +229,15 @@ const movieIsWatchLater = async ({ UserId, MovieId }) => {
     }
 }
 
+const checkPlayListOwner = async ({ PlayListId, UserId }) => {
+    try {
+        const playList = await getPlayListById({ id:PlayListId , UserId });
+        return playList;
+    } catch (error) {
+        return false;
+    }
+}
+
 export default {
     createPlayList,
     getAllPlayLists,
@@ -244,4 +253,5 @@ export default {
     getMoviesFromWatchLater,
     movieIsFavorite,
     movieIsWatchLater,
+    checkPlayListOwner,
 };

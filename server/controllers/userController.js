@@ -71,6 +71,7 @@ export const getCurrentUser = async (ctx) => {
     const { id } = ctx.state.user;
 
     try {
+        console.log('------------getCurrentUser id:', id);
         const user = await User.findByPk(id, {
             attributes: { exclude: ['passwordHash'] },
             // attributes: ['id', 'username'], 

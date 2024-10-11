@@ -35,7 +35,7 @@ api.interceptors.response.use(
 
 // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
 // const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
-const getMovies = async ({page=1, pageSize=12, title='',tagIds=[]}) => {
+const getMovies = async ({page=1, pageSize=12, title='',tagIds=[],playListId=''}) => {
   // console.log('getMovies page:', page);
   let requestUrl = `/movies?page=${page}&pageSize=${pageSize}&title=${title}`;
   if ( tagIds.length > 0) {
@@ -43,8 +43,11 @@ const getMovies = async ({page=1, pageSize=12, title='',tagIds=[]}) => {
     tagIds = tagIds.join(',');
     requestUrl += `&tagIds=${tagIds}`;
   }
+  if (playListId) {
+    requestUrl += `&playListId=${playListId}`;
+  }
   const response = await api.get(requestUrl);
-  // console.log('getMovies response:', response);
+  console.log('getMovies response:', response);
   return response;
 };
 api.getMovies = getMovies;

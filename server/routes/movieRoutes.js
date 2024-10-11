@@ -33,7 +33,8 @@ router.get('/', async (ctx) => {
   try {
     // const movies = await getAllMovies(ctx.query);
     // console.log('ctx.query', ctx.query);
-    const movies = await getMovies(ctx.query);
+    const user = ctx.state.user;
+    const movies = await getMovies(ctx.query,{ UserId: user?.id });
 
     ctx.body = movies;
   } catch (error) {

@@ -1,13 +1,17 @@
 // controllers/movieController.js
-import { Op } from 'sequelize';
+// import sequelize from 'sequelize';
+import { Op, or } from 'sequelize';
 import {
+  sequelize,
   Movie,
   Actor,
   Director,
   Tag,
   DownloadLink,
   PlayLink,
-  RelatedPicture
+  PlayList,
+  PlayListMovies,
+  RelatedPicture,
 } from '../models/db.js';
 import playList from './playListController.js';
 
@@ -102,7 +106,7 @@ const createFullMovie = async (data) => {
 
 // 获取电影列表，支持分页
 // 获取电影列表，支持分页和标题部分字符查询
-async function getMovies(query) {
+async function getMovies(query, { UserId = null }) {
   const page = parseInt(query.page, 10) || 1;
   const pageSize = parseInt(query.pageSize, 10) || 20;
   const offset = (page - 1) * pageSize;
@@ -118,7 +122,7 @@ async function getMovies(query) {
       [Op.like]: `%${titleQuery}%`
     };
   }
-
+  console.log('------------------1getMovies 2');
   // 获取标签ID查询参数: tagIds=1,2,3
   const tagIds = query.tagIds ? query.tagIds.split(',').map(id => parseInt(id, 10)) : [];
   // 构建包含标签的查询条件
@@ -137,14 +141,59 @@ async function getMovies(query) {
     });
   }
 
+  //init values
+  let hasGetMovies = false;
+  let count = 0;
+  let movies = [];
+  console.log('------------------2getMovies 2');
+  //获取播放列表ID查询参数
+  const playListId = query.playListId ? parseInt(query.playListId, 10) : null;
+  if (playListId) {
+    console.log('------------------21 getMovies 2 UserId:',UserId);
+    if (!UserId) {
+      throw new Error('UserId is required');
+    }
+    console.log('------------------221getMovies 2');
+    if (playList.checkPlayListOwner({ UserId, PlayListId: playListId })) {
+      console.log('------------------22getMovies 2');
+      try{
+        const query = `select a.* from "Movies" a 
+        INNER JOIN "PlayListMovies" b 
+        ON a."id" = b."MovieId" 
+        WHERE b."PlayListId" = :playListId 
+        Order by b."createdAt" desc`;
+      const [results, metadata] = await sequelize.query(query, {
+        replacements: { playListId },
+        // if use select type then return rows only without metadata
+        // type: sequelize.QueryTypes.SELECT
+      });
+      count = results.length;
+      movies=results;
+      hasGetMovies = true;
+      } catch (error) {
+        console.error('------------------getMovies error:', error);
+        throw error;
+      }
+    } else {
+      console.log('------------------3331getMovies 2');
+      throw new Error('You are not the owner of the playList');
+    }
+  }
+  console.log('------------------3getMovies 2');
+  if (!hasGetMovies) {
+    const re = await Movie.findAndCountAll({
+      where,
+      include,
+      limit,
+      offset,
+      order: [['releaseDate', 'DESC']],
+    });
+    count = re.count;
+    movies = re.rows;
+  }
 
-  const { count, rows: movies } = await Movie.findAndCountAll({
-    where, 
-    include, 
-    limit,
-    offset,
-    order: [['releaseDate', 'DESC']], // 根据需要排序
-  });
+  console.log('---------end find movies:', movies);
+
 
   const totalPages = Math.ceil(count / pageSize);
 
@@ -204,7 +253,7 @@ async function createOrUpdateMovie(data) {
 }
 
 // 获取单个电影
-async function getMovieById(id,{UserId}) {
+async function getMovieById(id, { UserId }) {
   try {
     const movie = await Movie.findByPk(id);
     if (!movie) {
@@ -244,9 +293,9 @@ async function getMovieById(id,{UserId}) {
     }));
 
     // isFavorite
-    const isFavorite = await playList.movieIsFavorite({UserId, MovieId: id });
+    const isFavorite = await playList.movieIsFavorite({ UserId, MovieId: id });
     movie.dataValues.isFavorite = isFavorite;
-    const isWatchLater = await playList.movieIsWatchLater({UserId, MovieId: id });
+    const isWatchLater = await playList.movieIsWatchLater({ UserId, MovieId: id });
     movie.dataValues.isWatchLater = isWatchLater;
 
     return movie;
