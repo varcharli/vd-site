@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { MovieBox } from './index.js'; // 假设MovieBox组件已经存在
 import './MovieSlider.css'; // 假设CSS文件已经存在
 
-const MovieSlider = ({ movies, displayCount = 4 }) => {
+const MovieSlider = ({index=0, movies, displayCount = 4}) => {
     const [startIndex, setStartIndex] = useState(0);
-
+    const keyIndex = index;
     const handlePrevClick = () => {
         setStartIndex((prevIndex) => Math.max(prevIndex - displayCount, 0));
     };
@@ -26,7 +26,7 @@ const MovieSlider = ({ movies, displayCount = 4 }) => {
             </button>
             <div className="movie-slider-container">
                 {displayedMovies.map((movie, index) => (
-                    <MovieBox index={index} movie={movie} />
+                    <MovieBox key={keyIndex+' '+ index} index={index} movie={movie} />
                 ))}
             </div>
             <button className="nav-button" onClick={handleNextClick} disabled={startIndex + displayCount >= movies.length}>

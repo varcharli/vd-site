@@ -151,9 +151,7 @@ async function getMovies(query, { UserId = null }) {
     if (!UserId) {
       throw new Error('UserId is required');
     }
-    console.log('------------------221getMovies 2');
     if (playList.checkPlayListOwner({ UserId, PlayListId: playListId })) {
-      console.log('------------------22getMovies 2');
       try{
         const query = `select a.* from "Movies" a 
         INNER JOIN "PlayListMovies" b 

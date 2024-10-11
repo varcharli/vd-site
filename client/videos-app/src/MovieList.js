@@ -197,7 +197,7 @@ const MovieList = ({ title, params }) => {
                 <ul className='ul-movies'>
                     {movies.map((movie, index) => (
                         <li>
-                            <MovieBox index={index} movie={movie} />
+                            <MovieBox  index={index} movie={movie} />
                         </li>
                     ))}
                 </ul>

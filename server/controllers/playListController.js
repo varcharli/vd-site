@@ -1,6 +1,5 @@
 // playListController.js
-
-import { PlayList,Movie } from '../models/db.js'; // 导入PlayList模型
+import { sequelize, PlayList, Movie } from '../models/db.js'; // 导入PlayList模型
 const FavoriteListName = 'Favorite';
 const WatchLaterListName = 'Watch Later';
 import { Op } from 'sequelize';
@@ -17,7 +16,7 @@ const createPlayList = async (data) => {
     }
 };
 
-const createSystemPlayList = async ({UserId, systemTag}) => {
+const createSystemPlayList = async ({ UserId, systemTag }) => {
     try {
         if (!UserId) {
             throw new Error('UserId is required');
@@ -35,7 +34,7 @@ const createSystemPlayList = async ({UserId, systemTag}) => {
     }
 }
 
-const getSystemPlayList = async ({UserId, systemTag}) => {
+const getSystemPlayList = async ({ UserId, systemTag }) => {
     try {
         if (!UserId) {
             throw new Error('UserId is required');
@@ -46,7 +45,7 @@ const getSystemPlayList = async ({UserId, systemTag}) => {
             }
         );
         if (!playList) {
-            return await createSystemPlayList({UserId, systemTag});
+            return await createSystemPlayList({ UserId, systemTag });
         }
         return playList;
     } catch (error) {
@@ -54,18 +53,18 @@ const getSystemPlayList = async ({UserId, systemTag}) => {
     }
 }
 
-const getFavoritePlayList = async ({UserId}) => {
-    return await getSystemPlayList({UserId,systemTag: FavoriteListName});
+const getFavoritePlayList = async ({ UserId }) => {
+    return await getSystemPlayList({ UserId, systemTag: FavoriteListName });
 }
 
-const getWatchLaterPlayList = async ({UserId}) => {
-    return await getSystemPlayList({UserId,systemTag: WatchLaterListName});
+const getWatchLaterPlayList = async ({ UserId }) => {
+    return await getSystemPlayList({ UserId, systemTag: WatchLaterListName });
 }
 
 
 
 // 获取所有播放列表, 不包括系统创建的播放列表
-const getAllPlayLists = async ({UserId}) => {
+const getAllPlayLists = async ({ UserId }) => {
     try {
         if (!UserId) {
             throw new Error('UserId is required');
@@ -137,47 +136,73 @@ const deletePlayList = async ({ id, UserId }) => {
 // Use for show 4 movie images in the playList box
 const getMoviesFromPlayList = async ({ id, UserId, limit }) => {
     try {
-        const playList = await getPlayListById({ id, UserId });
-        const movies = await playList.getMovies(
-            {
-                limit,
-                order: [['createdAt', 'DESC']]
-            }
-        );
-        return movies;
+
+        const playList = await checkPlayListOwner({ PlayListId: id, UserId });
+        if (!playList) {
+            throw new Error('PlayList not found');
+        }
+        const playListId = id;
+        const limit = 500;
+        const offset = 0;
+        // const movies = await playList.getMovies(
+        //     {
+        //         limit,
+        //         order: [['createdAt', 'DESC']]
+        //     }
+        // );
+
+        const query = `select a.* from "Movies" a 
+            INNER JOIN "PlayListMovies" b 
+            ON a."id" = b."MovieId" 
+            WHERE b."PlayListId" = :playListId 
+            Order by b."createdAt" desc
+            limit :limit offset :offset`;
+        const results = await sequelize.query(query, {
+            replacements: { playListId, limit, offset },
+            // if use select type then return rows only without metadata
+            type: sequelize.QueryTypes.SELECT
+        });
+        return results;
     } catch (error) {
         throw new Error(`Error fetching Movies from PlayList: ${error.message}`);
     }
 }
 
-const getMoviesFromFavorite= async ({ UserId,limit=500}) => {
+const getMoviesFromFavorite = async ({ UserId, limit = 500 }) => {
     try {
         // console.log('getMoviesFromFavorite UserId:', UserId);
-        const playList = await getFavoritePlayList({UserId});
-        // console.log('getMoviesFromFavorite playList:', playList);
-        const movies = await playList.getMovies(
-            {
-                limit,
-                order: [['createdAt', 'DESC']]
-            }
-        );
+        const playList = await getFavoritePlayList({ UserId });
+        const playListId = playList.id;
+        console.log('-------------------------getMoviesFromFavorite playListId:', playListId);
+        return await getMoviesFromPlayList({ id: playListId, UserId, limit });
+        
+        // const movies = await playList.getMovies(
+        //     {
+        //         limit,
+        //         order: [['createdAt', 'DESC']]
+        //     }
+        // );
         // console.log('getMoviesFromFavorite movies:', movies);
-        return movies;
+        // return movies;
     } catch (error) {
+        console.log('-------------------------getMoviesFromFavorite error:', error);
         throw new Error(`Error fetching Movies from PlayList: ${error.message}`);
     }
 }
 
-const getMoviesFromWatchLater = async ({ UserId ,limit=500}) => {
+const getMoviesFromWatchLater = async ({ UserId, limit = 500 }) => {
     try {
-        const playList = await getWatchLaterPlayList({UserId});
-        const movies = await playList.getMovies(
-            {
-                limit,
-                order: [['createdAt', 'DESC']]
-            }
-        );
-        return movies;
+        const playList = await getWatchLaterPlayList({ UserId });
+        const playListId = playList.id;
+        return await getMoviesFromPlayList({ id: playListId, UserId, limit });
+
+        // const movies = await playList.getMovies(
+        //     {
+        //         limit,
+        //         order: [['createdAt', 'DESC']]
+        //     }
+        // );
+        // return movies;
     } catch (error) {
         throw new Error(`Error fetching Movies from PlayList: ${error.message}`);
     }
@@ -231,7 +256,7 @@ const movieIsWatchLater = async ({ UserId, MovieId }) => {
 
 const checkPlayListOwner = async ({ PlayListId, UserId }) => {
     try {
-        const playList = await getPlayListById({ id:PlayListId , UserId });
+        const playList = await getPlayListById({ id: PlayListId, UserId });
         return playList;
     } catch (error) {
         return false;

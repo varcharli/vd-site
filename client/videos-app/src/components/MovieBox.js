@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import defaultImage from '../assets/null_movie.jpeg'; // 引入默认图片
 import './MovieBox.css';
 
-export const MovieBox = ({index, movie }) => {
+export const MovieBox = ({ index, movie }) => {
     const navigate = useNavigate();
 
     const colors = [
