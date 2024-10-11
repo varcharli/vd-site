@@ -145,11 +145,9 @@ async function getMovies(query, { UserId = null }) {
   let hasGetMovies = false;
   let count = 0;
   let movies = [];
-  console.log('------------------2getMovies 2');
   //获取播放列表ID查询参数
   const playListId = query.playListId ? parseInt(query.playListId, 10) : null;
   if (playListId) {
-    console.log('------------------21 getMovies 2 UserId:',UserId);
     if (!UserId) {
       throw new Error('UserId is required');
     }
@@ -161,9 +159,10 @@ async function getMovies(query, { UserId = null }) {
         INNER JOIN "PlayListMovies" b 
         ON a."id" = b."MovieId" 
         WHERE b."PlayListId" = :playListId 
-        Order by b."createdAt" desc`;
+        Order by b."createdAt" desc
+        limit :limit offset :offset`;
       const [results, metadata] = await sequelize.query(query, {
-        replacements: { playListId },
+        replacements: { playListId, limit, offset },
         // if use select type then return rows only without metadata
         // type: sequelize.QueryTypes.SELECT
       });
