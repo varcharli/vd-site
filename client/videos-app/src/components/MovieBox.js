@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import defaultImage from '../assets/null_movie.jpeg'; // 引入默认图片
 import './MovieBox.css';
 
-export const MovieBox = ({ index, movie }) => {
+export const MovieBox = ({ index, movie = '' }) => {
     const navigate = useNavigate();
 
     const colors = [
@@ -15,26 +15,41 @@ export const MovieBox = ({ index, movie }) => {
         'rgb(233, 213, 255)'
     ];
 
+    // const nullMovie = {
+    //     id: index,
+    //     name: '',
+    //     releaseDate: '',
+    //     posterUrl: '',
+    // };
+    const isNullMovie = !movie || !movie.id;
+    const movieId = isNullMovie ? movie.id : index;
+
     const handleMovieClick = (id) => {
+        if (isNullMovie) {
+            return;
+        }
         navigate(`/movies/${id}`);
     };
+    const backgroundColor = isNullMovie ? 'rgba(0, 0, 0, 0.2)' : colors[index % colors.length];
 
     return (
-        <div key={movie.id}
-            style={{ backgroundColor: colors[index % colors.length] }}
+        <div key={movieId}
+            style={{ backgroundColor }}
             onClick={() => handleMovieClick(movie.id)}
-            className="movie-box"
-        >
-            <img
-                src={movie.posterUrl || defaultImage}
-                alt={movie.name}
-                onError={(e) => { e.target.src = defaultImage; }}
-                referrerPolicy="no-referrer"
-            />
-            <div className="movie-info">
-                <h2>{movie.name}</h2>
-                <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
-            </div>
+            className="movie-box">
+            {isNullMovie ? <div className="null-movie"></div>
+                : (<>
+                    <img
+                        src={movie.posterUrl || defaultImage}
+                        alt={movie.name}
+                        onError={(e) => { e.target.src = defaultImage; }}
+                        referrerPolicy="no-referrer"
+                    />
+                    <div className="movie-info">
+                        <h2>{movie.name}</h2>
+                        <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
+                    </div>
+                </>)}
         </div>
     );
 }

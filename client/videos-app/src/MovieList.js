@@ -6,14 +6,14 @@ import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import { ErrorInfo, MovieBox } from './components';
 import api from './client/api';
 
-const MovieList = ({ title, params }) => {
+const MovieList = ({ title, setPageSize = 8, params }) => {
 
     title = title || '';
     // params 定义了一组参数，用于传递给组件的数据
     // 格式：{'tagIds': [1,2,3]}
     params = params || {};
 
-    const cstPageSize = 8
+    // const cstPageSize = 8
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const MovieList = ({ title, params }) => {
 
     // const query = queryParams.get('query') || '';
     const page = parseInt(queryParams.get('page'), 10) || 1;
-    const pageSize = parseInt(queryParams.get('pageSize'), 10) || cstPageSize;
+    const pageSize = parseInt(queryParams.get('pageSize'), 10) || setPageSize;
     const [pagination, setPagination] = useState({
         page,
         pageSize,
@@ -43,6 +43,17 @@ const MovieList = ({ title, params }) => {
 
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState(null);
+
+    const fillMovies = (movies) => {
+        const filledMovies = [...movies];
+        const emptyCount = pageSize - movies.length;
+        for (let i = 0; i < emptyCount; i++) {
+            filledMovies.push("");
+        }
+        return filledMovies;
+    }
+
+
 
     const fetchMovies = async (queryString) => {
         try {
@@ -61,7 +72,7 @@ const MovieList = ({ title, params }) => {
                 });
             console.log('fetchMovies response:', response);
             const data = response.data;
-            setMovies(data.movies);
+            setMovies(fillMovies(data.movies));
             setPagination(data.pagination);
         } catch (error) {
             setError('连接服务器出现错误：' + error.message + ' --- ' + error.response.data);
@@ -92,32 +103,6 @@ const MovieList = ({ title, params }) => {
         navigate(`?${queryParams.toString()}`);
         // window.location.reload();
     };
-
-    // const handlePageSizeChange = (newPageSize) => {
-    //   queryParams.set('pageSize', newPageSize);
-    //   navigate({ search: queryParams.toString() });
-    // };
-
-    // const handleQueryChange = (newQuery) => {
-    //   queryParams.set('query', newQuery);
-    //   navigate({ search: queryParams.toString() });
-    // };
-
-    const colors = [
-        'rgb(254, 228, 203)',
-        'rgb(209, 213, 219)',
-        'rgb(187, 247, 208)',
-        'rgb(191, 219, 254)',
-        'rgb(254, 202, 202)',
-        'rgb(233, 213, 255)'
-    ];
-
-    const handleMovieClick = (id) => {
-        // window.open(`/movie/${id}`, '_blank');
-        // window.location.href = `/movies/${id}`;
-        navigate(`/movies/${id}`);
-    };
-
 
     const renderPageNumbers = () => {
         const { page, totalPages } = pagination;
@@ -197,7 +182,7 @@ const MovieList = ({ title, params }) => {
                 <ul className='ul-movies'>
                     {movies.map((movie, index) => (
                         <li>
-                            <MovieBox  index={index} movie={movie} />
+                            <MovieBox index={index} movie={movie} />
                         </li>
                     ))}
                 </ul>

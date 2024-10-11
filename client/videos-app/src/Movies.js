@@ -3,7 +3,7 @@ import MovieList from './MovieList';
 const Movies = () => {
   return (
     <div>
-      <MovieList title={'Movies'} />
+      <MovieList title={'Movies'} setPageSize={12} />
     </div>
   );
 }
