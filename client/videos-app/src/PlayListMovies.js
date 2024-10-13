@@ -33,6 +33,7 @@ const PlayListMovies = () => {
         <div>
 
             <MovieList title={'标签：' + playList.name}
+                setPageSize={12}
                 params={{ playListId }}
             />
         </div>

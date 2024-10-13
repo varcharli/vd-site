@@ -43,6 +43,18 @@ const MovieDetail = () => {
 
   const [isTagsPopupOpen, setIsTagsPopupOpen] = useState(false);
 
+  const [playLists, setPlayLists] = useState([]);
+  const [isPlayListOpen, setIsPlayListOpen] = useState(false);
+  const handleOpenPlayList = () => {
+    setIsPlayListOpen(true);
+  };
+  const handleClosePlayList = () => {
+    setIsPlayListOpen(false);
+  };
+  const handlePlayListUpdate = (updatedPlayLists) => {
+    setPlayLists(updatedPlayLists);
+  };
+
   const handleOpenTagsPopup = () => {
     setIsTagsPopupOpen(true);
   };
@@ -64,9 +76,11 @@ const MovieDetail = () => {
         // const response = await axios.get(`/api/movies/${id}`);
         const response = await api.getMovieById(id);
         // console.log('fetchMovieById response:', response);
-        setMovie(response.data);
+        const data = response.data;
+        setMovie(data);
         await fetchPlayLinks();
         await fetchTags();
+        setPlayLists(data.playLists || []);
       } catch (err) {
         setError(err.response ? err.response.data.message : err.message);
       } finally {
@@ -291,6 +305,13 @@ const MovieDetail = () => {
               checked={isWatchLater}
               checkedColor="red"
               />
+                            <RainbowButton colorIndex={3} 
+              icon="fas fa-bookmark" 
+              title="播放列表" 
+              onClick={handleOpenPlayList}
+              checked={false}
+              // checkedColor="red"
+              />
             </div>
           </div>
           <h1>简介</h1>
@@ -329,6 +350,15 @@ const MovieDetail = () => {
           onClose={handleCloseTagsPopup}
           onUpdate={handleTagsUpdate} />
       )}
+      
+        <MovieDetailPlayList
+          show={isPlayListOpen}
+          movieId={movieId}
+          checkedPlayList={playLists}
+          onClose={handleClosePlayList}
+          onUpdate={handlePlayListUpdate}
+        />
+      
     </div>
   );
 };

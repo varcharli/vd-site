@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 import './Movies.css';
-import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
+// import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import { ErrorInfo, MovieBox } from './components';
 import api from './client/api';
 
@@ -181,7 +181,7 @@ const MovieList = ({ title, setPageSize = 8, params }) => {
                 }
                 <ul className='ul-movies'>
                     {movies.map((movie, index) => (
-                        <li>
+                        <li key ={index}>
                             <MovieBox index={index} movie={movie} />
                         </li>
                     ))}

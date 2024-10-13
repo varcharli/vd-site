@@ -6,9 +6,12 @@ $myBg: #111827 !default;
 $myContentBg: #1f2937 !default;
 $myText: white !default;
 $myButtonBg: white !default;
-$myButtonActiveBg: #bbf7d0 !default;
+$myButtonColor: #111827 !default;
+$myButtonActiveBg: #016d27 !default;
 $myButtonDisableBg: grey !default;
 $myLabelColor: #8a8a8a !default;
+
+
 
 
 // Colors
@@ -71,7 +74,7 @@ body {
     font-family: 'Microsoft YaHei', sans-serif, 'Arial', 'Helvetica';
 }
 
-h2{
+h2 {
     color: $myText ;
 }
 
@@ -82,7 +85,7 @@ h2{
 }
 
 .dropdown-menu a {
-    color: $myText !important;  
+    color: $myText !important;
 }
 
 
@@ -102,6 +105,33 @@ h2{
     border: none;
     padding: 0;
 }
+
+.btn-primary {
+    background-color: $myButtonBg !important;
+    border-color: $myButtonBg !important;
+    color: $myButtonColor !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: darken($myButtonBg, 10%) !important;
+    border-color: darken($myButtonBg, 10%) !important;
+}
+
+.form-check-input:checked {
+    background-color: $myButtonActiveBg !important;
+    border-color: $myButtonActiveBg !important;
+}
+
+.form-check-input:focus {
+    border-color: $myButtonActiveBg !important;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25) !important;
+}
+
+
+
+
 
 // 导入 Bootstrap 的其余部分
 @import '~bootstrap/scss/bootstrap';

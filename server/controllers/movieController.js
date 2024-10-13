@@ -122,7 +122,7 @@ async function getMovies(query, { UserId = null }) {
       [Op.like]: `%${titleQuery}%`
     };
   }
-  console.log('------------------1getMovies 2');
+  // console.log('------------------1getMovies 2');
   // 获取标签ID查询参数: tagIds=1,2,3
   const tagIds = query.tagIds ? query.tagIds.split(',').map(id => parseInt(id, 10)) : [];
   // 构建包含标签的查询条件
@@ -164,19 +164,24 @@ async function getMovies(query, { UserId = null }) {
         // if use select type then return rows only without metadata
         // type: sequelize.QueryTypes.SELECT
       });
-      count = results.length;
       movies=results;
+      const queryCount = `select count(*) from "PlayListMovies" where "PlayListId" = :playListId`;
+      const countResults = await sequelize.query(queryCount, {
+        replacements: { playListId },
+        type: sequelize.QueryTypes.SELECT
+      });
+      count = countResults[0].count;
       hasGetMovies = true;
       } catch (error) {
-        console.error('------------------getMovies error:', error);
+        // console.error('------------------getMovies error:', error);
         throw error;
       }
     } else {
-      console.log('------------------3331getMovies 2');
+      // console.log('------------------3331getMovies 2');
       throw new Error('You are not the owner of the playList');
     }
   }
-  console.log('------------------3getMovies 2');
+  // console.log('------------------3getMovies 2');
   if (!hasGetMovies) {
     const re = await Movie.findAndCountAll({
       where,
@@ -189,7 +194,7 @@ async function getMovies(query, { UserId = null }) {
     movies = re.rows;
   }
 
-  console.log('---------end find movies:', movies);
+  // console.log('---------end find movies:', movies);
 
 
   const totalPages = Math.ceil(count / pageSize);
@@ -294,6 +299,13 @@ async function getMovieById(id, { UserId }) {
     movie.dataValues.isFavorite = isFavorite;
     const isWatchLater = await playList.movieIsWatchLater({ UserId, MovieId: id });
     movie.dataValues.isWatchLater = isWatchLater;
+
+    // playLists
+    const playLists = await movie.getPlayLists();
+    movie.dataValues.playLists = playLists.map(playList => ({
+      id: playList.id,
+      name: playList.name
+    }));
 
     return movie;
   } catch (error) {

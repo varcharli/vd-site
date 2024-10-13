@@ -4,6 +4,7 @@ import models from "./client/models";
 import MovieSlider from "./components/MovieSlider";
 import './PlayList.css';
 import { useGlobal } from './GlobalContext';
+import { PlayListBox } from './components';
 
 const PlayList = () => {
     const navigate = useNavigate();
@@ -51,7 +52,7 @@ const PlayList = () => {
                     <div className='play-list-panel'>
                         <div className='play-list-header'>
                             <div onClick={() => handleGoToPlayList(watchLaterId)} className='play-list-title'>
-                                Watch Later
+                                稍后观看
                                 <div className='play-list-subtitle'>{watchLater.length}</div>
                             </div>
                             <div onClick={() => handleGoToPlayList(watchLaterId)} className='view-all-button'>View all</div>
@@ -62,7 +63,7 @@ const PlayList = () => {
                     <div className='play-list-panel'>
                         <div className='play-list-header'>
                             <div onClick={() => handleGoToPlayList(favoriteId)} className='play-list-title'>
-                                Favorite
+                                收藏夹
                                 <div className='play-list-subtitle'>{favorite.length}</div>
                             </div>
 
@@ -73,17 +74,18 @@ const PlayList = () => {
                     <div className='play-list-panel' >
                         <div className='play-list-header'>
                             <div className='play-list-title'>
-                                Play List
+                                播放清单
                                 <div className='play-list-subtitle'>{userPlayList.length}</div>
                             </div>
-
-                            {/* <div className='view-all-button'>View all</div> */}
                         </div>
-                        <ul>
+                        <div className='play-list-content'>
                             {userPlayList.map(item => (
-                                <li key={item.id}>{item.id}</li>
+                                <PlayListBox key={'play-list-'+item.id} 
+                                    playList={item} 
+                                    onClick={() => handleGoToPlayList(item.id)} 
+                                />
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

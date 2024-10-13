@@ -129,3 +129,14 @@ body{
     color: #61dafb;
 }
 
+.label {
+    /* font-size: 20px; */
+    /* font-weight: bold; */
+    color: var(--global-label-color);
+}
+
+
+/* padding: 10px; 上、右、下、左 都是 10px */
+/* padding: 10px 20px; 上下 10px，左右 20px */
+/* padding: 10px 20px 30px; 上 10px，左右 20px，下 30px */
+/* padding: 10px 20px 30px 40px; 上 10px，右 20px，下 30px，左 40px */
