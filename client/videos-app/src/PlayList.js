@@ -5,6 +5,7 @@ import MovieSlider from "./components/MovieSlider";
 import './PlayList.css';
 import { useGlobal } from './GlobalContext';
 import { PlayListBox } from './components';
+import { IconButton } from './components/CommonButtons';
 
 const PlayList = () => {
     const navigate = useNavigate();
@@ -77,6 +78,7 @@ const PlayList = () => {
                                 播放清单
                                 <div className='play-list-subtitle'>{userPlayList.length}</div>
                             </div>
+                            <IconButton icon='fa fa-cog' onClick={() => navigate('/playLists/new')} />
                         </div>
                         <div className='play-list-content'>
                             {userPlayList.map(item => (

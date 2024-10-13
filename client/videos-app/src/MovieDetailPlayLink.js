@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import axios from 'axios';
 import api from './client/api';
 import './App-popup.css';
 import { NoRecords, RainbowButton, WindowCloseButton } from './components';

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api from './client/api';
 import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
 import ImageGallery from './ImageGallery';
-import PlayLink from './PlayLink';
+import PlayLink from './MovieDetailPlayLink.js';
 import Tags, { TagField } from './Tags';
 import MovieDetailPlayList from './MovieDetailPlayList.js';
 import { PageLoading } from './components';
