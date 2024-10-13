@@ -10,7 +10,7 @@ import MovieDetailPlayList from './MovieDetailPlayList.js';
 import { PageLoading } from './components';
 
 import './MovieDetail.css';
-import { RainbowButton, WindowCloseButton, TextButton } from './components/CommonButtons';
+import { RainbowButton, WindowCloseButton, TextButton, IconButton } from './components/CommonButtons';
 import { ErrorInfo } from './components';
 
 import models from './client/models';
@@ -114,7 +114,7 @@ const MovieDetail = () => {
   }, [movieId]);
 
   useEffect(() => {
-    if(!movie) {
+    if (!movie) {
       setIsFavorite(false);
       setIsWatchLater(false);
       return;
@@ -129,9 +129,9 @@ const MovieDetail = () => {
     // 收藏
     try {
       if (isFavorite) {
-        await models.playList.removeFavoriteMovie({user, movieId});
+        await models.playList.removeFavoriteMovie({ user, movieId });
       } else {
-        await models.playList.addFavoriteMovie({user, movieId});
+        await models.playList.addFavoriteMovie({ user, movieId });
       }
       setIsFavorite(!isFavorite);
     } catch (error) {
@@ -142,9 +142,9 @@ const MovieDetail = () => {
   const handelWatchLater = async () => {
     try {
       if (isWatchLater) {
-        await models.playList.removeWatchLaterMovie({user, movieId});
+        await models.playList.removeWatchLaterMovie({ user, movieId });
       } else {
-        await models.playList.addWatchLaterMovie({user, movieId});
+        await models.playList.addWatchLaterMovie({ user, movieId });
       }
       setIsWatchLater(!isWatchLater);
     } catch (error) {
@@ -291,26 +291,25 @@ const MovieDetail = () => {
               )}
             </div>
             <div className="button-bar">
-              <RainbowButton colorIndex={0} onClick={openPlayLink} icon="fas fa-link" title="播放链接" />
-              <RainbowButton colorIndex={1} 
-              icon="fas fa-heart" 
-              title="收藏" 
-              onClick={handleFovorite}
-              checked={isFavorite} 
-              checkedColor="red" />
-              <RainbowButton colorIndex={2} 
-              icon="fas fa-clock" 
-              title="稍后观看" 
-              onClick={handelWatchLater}
-              checked={isWatchLater}
-              checkedColor="red"
+              <IconButton onClick={openPlayLink} icon="fas fa-link" title="播放链接" />
+              <IconButton
+                icon="fas fa-heart"
+                title="收藏"
+                onClick={handleFovorite}
+                checked={isFavorite}
+                checkedColor="red" />
+              <IconButton
+                icon="fas fa-clock"
+                title="稍后观看"
+                onClick={handelWatchLater}
+                checked={isWatchLater}
+                checkedColor="green"
               />
-                            <RainbowButton colorIndex={3} 
-              icon="fas fa-bookmark" 
-              title="播放列表" 
-              onClick={handleOpenPlayList}
-              checked={false}
-              // checkedColor="red"
+              <IconButton 
+                icon="fas fa-bookmark"
+                title="播放列表"
+                onClick={handleOpenPlayList}
+                checked={false}
               />
             </div>
           </div>
@@ -350,15 +349,15 @@ const MovieDetail = () => {
           onClose={handleCloseTagsPopup}
           onUpdate={handleTagsUpdate} />
       )}
-      
-        <MovieDetailPlayList
-          show={isPlayListOpen}
-          movieId={movieId}
-          checkedPlayList={playLists}
-          onClose={handleClosePlayList}
-          onUpdate={handlePlayListUpdate}
-        />
-      
+
+      <MovieDetailPlayList
+        show={isPlayListOpen}
+        movieId={movieId}
+        checkedPlayList={playLists}
+        onClose={handleClosePlayList}
+        onUpdate={handlePlayListUpdate}
+      />
+
     </div>
   );
 };

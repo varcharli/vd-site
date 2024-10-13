@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import models from './client/models';
 
 // 创建 Context
@@ -33,7 +34,7 @@ const globalReducer = (state, action) => {
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(globalReducer, initialState);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-
+    const location = useLocation();
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -48,9 +49,17 @@ export const GlobalProvider = ({ children }) => {
         }
 
         if (isDataLoaded) return;
+        
+        // dont load user info if on login page
+        if (location.pathname === '/login') {
+            setIsDataLoaded(true);
+            return;
+        }
+        
         getUserInfo().then(() => {
             setIsDataLoaded(true);
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDataLoaded]);
 
 

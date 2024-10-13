@@ -52,3 +52,11 @@ export const TextButton = ({ onClick, text, title, icon }) => {
         </button>
     )
 };
+
+export const IconButton = ({ onClick, title, icon, checked, checkedColor="red" }) => {
+    return (
+        <button onClick={onClick} title={title} className="icon-button">
+            <i className={icon} style={{ color: checked ? checkedColor : 'var(--global-text-color)',fontSize:"1.2rem" }}></i>
+        </button>
+    )
+}
