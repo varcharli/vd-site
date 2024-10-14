@@ -10,7 +10,7 @@ import MovieDetailPlayList from './MovieDetailPlayList.js';
 import { PageLoading } from './components';
 
 import './MovieDetail.css';
-import { RainbowButton, WindowCloseButton, TextButton, IconButton } from './components/CommonButtons';
+import { WindowCloseButton, TextButton, IconButton } from './components/CommonButtons';
 import { ErrorInfo } from './components';
 
 import models from './client/models';

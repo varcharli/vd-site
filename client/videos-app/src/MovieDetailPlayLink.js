@@ -5,7 +5,6 @@ import { NoRecords, RainbowButton, WindowCloseButton } from './components';
 // import { on } from 'events';
 import loadingGif from './assets/loading.gif';
 
-
 const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState('');
