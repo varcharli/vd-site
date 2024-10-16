@@ -24,7 +24,7 @@ const Movie = sequelize.define('Movie', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    // unique: true
   },
   releaseDate: {
     type: DataTypes.STRING,

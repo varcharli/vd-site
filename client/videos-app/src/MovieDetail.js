@@ -176,8 +176,9 @@ const MovieDetail = () => {
   // gallery 相关
   const relatedPictures = movie.relatedPictures || [];
   const relatedPictureLinks = relatedPictures.map((pic) => pic.link);
-  relatedPictureLinks.push(movie.posterUrl);
-  const posterIndex = relatedPictureLinks.indexOf(movie.posterUrl);
+  const poster=movie.bigPosterUrl || movie.posterUrl ;
+  relatedPictureLinks.push(poster);
+  const posterIndex = relatedPictureLinks.indexOf(poster);
 
   const openGallery = (index) => {
     setCurrentImageIndex(index);
@@ -206,7 +207,7 @@ const MovieDetail = () => {
           />
         </div>
         <div styles={"flex:5"}>
-          <h1 className="movie-title">{movie.name}</h1>
+          <h2 className="movie-title">{movie.name}</h2>
         </div>
         <div styles={"flex:1"}>
           <span />
@@ -215,7 +216,7 @@ const MovieDetail = () => {
       <div className="movie-detail">
         <div className="top">
           <div className="top-left">
-            <img src={movie.posterUrl || defaultImage} alt={movie.name}
+            <img src={movie.bigPosterUrl ||  movie.posterUrl || defaultImage} alt={movie.name}
               onError={(e) => { e.target.src = defaultImage; }}
               referrerPolicy="no-referrer"
               onClick={() => openGallery(posterIndex)
