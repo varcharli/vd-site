@@ -29,7 +29,9 @@ services:
     build:
       context: ./client/videos-app
     ports:
-      - "${CLIENT_PORT}:${CLIENT_PORT}"
+      - "3001:3001"
+    environment:
+      - PORT=3001
     volumes:
       - ./client/videos-app:/usr/src/app
       - client_node_modules:/usr/src/app/node_modules
