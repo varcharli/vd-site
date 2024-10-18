@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   db:
+    restart: always
     image: postgres:15
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
@@ -13,6 +14,7 @@ services:
       - db_data:/var/lib/postgresql/data
 
   server:
+    restart: always
     build:
       context: ./server
     env_file:
@@ -26,6 +28,7 @@ services:
       - server_node_modules:/usr/src/app/node_modules
 
   client:
+    restart: always
     build:
       context: ./client/videos-app
     ports:
