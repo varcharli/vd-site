@@ -26,6 +26,24 @@ const MovieList = ({ title, setPageSize = 8, params }) => {
         }
     }
 
+    let actors = [];
+    if (params.actors) {
+        if (Array.isArray(params.actors)) {
+            actors = params.actors;
+        } else {
+            actors = [params.actors];
+        }
+    }
+
+    let directors = [];
+    if (params.directors) {
+        if (Array.isArray(params.directors)) {
+            directors = params.directors;
+        } else {
+            directors = [params.directors];
+        }
+    }
+
     const playListId = params.playListId || null;
 
 
@@ -68,9 +86,11 @@ const MovieList = ({ title, setPageSize = 8, params }) => {
                     pageSize: pagination.pageSize,
                     title: queryString,
                     tagIds: tagIds,
+                    actors: actors,
+                    directors: directors,
                     playListId: playListId,
                 });
-            console.log('fetchMovies response:', response);
+            // console.log('fetchMovies response:', response);
             const data = response.data;
             setMovies(fillMovies(data.movies));
             setPagination(data.pagination);

@@ -252,6 +252,25 @@ Movie.belongsToMany(PlayList, { through: PlayListMovies });
 // PlayList.belongsToMany(Movie, { through: 'PlayListMovies' });
 // Movie.belongsToMany(PlayList, { through: 'PlayListMovies' });
 
+const Blog = sequelize.define('Blog', {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+},
+{
+  order: [['createdAt', 'DESC']]
+});
+
+// 定义关系
+User.hasMany(Blog);
+Blog.belongsTo(User);
+
+
 export {
   sequelize,
   Movie,

@@ -84,9 +84,9 @@ const Tags = ({ movieId, onClose, onUpdate }) => {
             .then(response => {
                 const createdTag = response.data;
                 setTags([...tags, createdTag]);
-                const updatedTags = [...selectedTags, createdTag];
-                setSelectedTags(updatedTags);
-                onUpdate(updatedTags);
+                // const updatedTags = [...selectedTags, createdTag];
+                // setSelectedTags(updatedTags);
+                // onUpdate(updatedTags);
                 setNewTag('');
             })
             .catch(error => {

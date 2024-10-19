@@ -8,6 +8,8 @@ import playListRoutes from './routes/playListRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import jwt from 'koa-jwt';
 import authRoutes from './routes/authRoutes.js';
+import actorRoutes from './routes/actorRoutes.js';
+import directorRoutes from './routes/directorRoutes.js';
 import { createInitialUser } from './initUser.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -26,6 +28,8 @@ router.use(playLinkRoutes.routes(), playLinkRoutes.allowedMethods());
 router.use(tagRoutes.routes(), tagRoutes.allowedMethods());
 router.use(playListRoutes.routes(), playListRoutes.allowedMethods());
 router.use(userRoutes.routes(), userRoutes.allowedMethods());
+router.use(actorRoutes.routes(), actorRoutes.allowedMethods());
+router.use(directorRoutes.routes(), directorRoutes.allowedMethods());
 
 app.use(koaBody());
 app.use(router.routes());

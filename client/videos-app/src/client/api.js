@@ -35,7 +35,7 @@ api.interceptors.response.use(
 
 // const response = await fetch(`/api/movies?page=${pagination.page}&pageSize=${pagination.pageSize}&title=${queryString}`);
 // const response = await api.getMovies(pagination.page, pagination.pageSize, queryString);
-const getMovies = async ({page=1, pageSize=12, title='',tagIds=[],playListId=''}) => {
+const getMovies = async ({page=1, pageSize=12, title='',tagIds=[],actors=[],directors=[], playListId=''}) => {
   // console.log('getMovies page:', page);
   let requestUrl = `/movies?page=${page}&pageSize=${pageSize}&title=${title}`;
   if ( tagIds.length > 0) {
@@ -43,11 +43,20 @@ const getMovies = async ({page=1, pageSize=12, title='',tagIds=[],playListId=''}
     tagIds = tagIds.join(',');
     requestUrl += `&tagIds=${tagIds}`;
   }
+  if (actors.length > 0) {
+    actors = actors.join(',');
+    requestUrl += `&actors=${actors}`;
+  }
+  if(directors.length > 0) {
+    directors = directors.join(',');
+    requestUrl += `&directors=${directors}`;
+  }
+
   if (playListId) {
     requestUrl += `&playListId=${playListId}`;
   }
   const response = await api.get(requestUrl);
-  console.log('getMovies response:', response);
+  // console.log('getMovies response:', response);
   return response;
 };
 api.getMovies = getMovies;

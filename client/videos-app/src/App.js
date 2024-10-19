@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 
@@ -12,6 +12,8 @@ import Login from './Login'; // 引入 Login 组件
 import Tag from './TagMovies';
 import PlayList from './PlayList';
 import PlayListMovies from './PlayListMovies';
+import ActorMovies from './ActorMovies';
+import DirectorMovies from './DirectorMovies';
 import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
 
 import './custom-bootstrap.scss';
@@ -32,6 +34,8 @@ function App() {
   const pathHistory = '/history';
   const pathTag = '/tags';
   const pathPlayList = '/playLists';
+  const pathActor = '/actors';
+  const pathDirector = '/directors';
 
 
   function chkNeedNav() {
@@ -77,6 +81,12 @@ function App() {
                 </Route>
                 <Route path={pathPlayList + "/:id"} element={<PrivateRoute />} >
                   <Route path={pathPlayList + "/:id"} element={<PlayListMovies />} />
+                </Route>
+                <Route path={pathActor + "/:id"} element={<PrivateRoute />} >
+                  <Route path={pathActor + "/:id"} element={<ActorMovies/>} />
+                </Route>
+                <Route path={pathDirector + "/:id"} element={<PrivateRoute />} >
+                  <Route path={pathDirector + "/:id"} element={<DirectorMovies/>} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>

@@ -141,6 +141,37 @@ async function getMovies(query, { UserId = null }) {
     });
   }
 
+  const actors = query.actors ? query.actors.split(',').map(id => parseInt(id, 10)) : [];
+  if (actors.length > 0) {
+    include.push({
+      model: Actor,
+      where: {
+        id: {
+          [Op.in]: actors
+        }
+      },
+      through: {
+        attributes: [] // 不需要中间表的属性
+      }
+    });
+  }
+
+  const directors = query.directors ? query.directors.split(',').map(id => parseInt(id, 10)) : [];
+  if (directors.length > 0) {
+    include.push({
+      model: Director,
+      where: {
+        id: {
+          [Op.in]: directors
+        }
+      },
+      through: {
+        attributes: [] // 不需要中间表的属性
+      }
+    });
+  }
+
+
   //init values
   let hasGetMovies = false;
   let count = 0;
@@ -188,7 +219,7 @@ async function getMovies(query, { UserId = null }) {
       include,
       limit,
       offset,
-      order: [['releaseDate', 'DESC']],
+      order: [['id', 'DESC']],
     });
     count = re.count;
     movies = re.rows;
