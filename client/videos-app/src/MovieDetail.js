@@ -37,7 +37,8 @@ const MovieDetail = () => {
     setPlayLinks(updatedPlayLinks);
   };
   const [showPlayLink, setShowPlayLink] = useState(false);
-  const handlePlayLinkClick = (link) => {
+  const handlePlayLinkClick = (name,link) => {
+    addHistory({ title: name, url: link });
     window.open(link, '_blank');
   };
 
@@ -176,7 +177,7 @@ const MovieDetail = () => {
   // gallery 相关
   const relatedPictures = movie.relatedPictures || [];
   const relatedPictureLinks = relatedPictures.map((pic) => pic.link);
-  const poster=movie.bigPosterUrl || movie.posterUrl ;
+  const poster = movie.bigPosterUrl || movie.posterUrl;
   relatedPictureLinks.push(poster);
   const posterIndex = relatedPictureLinks.indexOf(poster);
 
@@ -195,7 +196,15 @@ const MovieDetail = () => {
     setShowPlayLink(false);
   };
 
-
+  const addHistory = async ({ title, url }) => {
+    try {
+      const data={ MovieId: movieId, url, title }
+      console.log('add history:', data);
+      await models.history.create(data);
+    } catch (error) {
+      console.error('Error adding history:', error);
+    }
+  }
 
   return (
     <div className="container">
@@ -216,7 +225,7 @@ const MovieDetail = () => {
       <div className="movie-detail">
         <div className="top">
           <div className="top-left">
-            <img src={movie.bigPosterUrl ||  movie.posterUrl || defaultImage} alt={movie.name}
+            <img src={movie.bigPosterUrl || movie.posterUrl || defaultImage} alt={movie.name}
               onError={(e) => { e.target.src = defaultImage; }}
               referrerPolicy="no-referrer"
               onClick={() => openGallery(posterIndex)
@@ -282,7 +291,7 @@ const MovieDetail = () => {
                     <TextButton
                       key={index}
                       // colorIndex={4} 
-                      onClick={() => handlePlayLinkClick(playLink.link)}
+                      onClick={() => handlePlayLinkClick(playLink.name, playLink.link)}
                       text={playLink.name}
                       title={playLink.link}
                       icon="fas fa-play-circle"
@@ -306,7 +315,7 @@ const MovieDetail = () => {
                 checked={isWatchLater}
                 checkedColor="green"
               />
-              <IconButton 
+              <IconButton
                 icon="fas fa-bookmark"
                 title="播放列表"
                 onClick={handleOpenPlayList}

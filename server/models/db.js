@@ -115,13 +115,6 @@ const Tag = sequelize.define('Tag', {
   }
 });
 
-// 定义历史模型
-const History = sequelize.define('History', {
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  }
-});
 
 // 定义用户模型
 const User = sequelize.define('User', {
@@ -151,6 +144,36 @@ const Token = sequelize.define('Token', {
   }
 });
 
+// 定义历史模型
+const History = sequelize.define('History', {
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  url: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  playedAt: {
+    type: DataTypes.DATE,
+    allowNull: false
+  }
+},
+  {
+    order: [['playedAt', 'DESC']]
+  });
+
+
+Movie.hasMany(History);
+History.belongsTo(Movie);
+
+User.hasMany(History);
+History.belongsTo(User);
+
 
 // Download links
 const DownloadLink = sequelize.define('DownloadLink', {
@@ -175,9 +198,9 @@ const PlayLink = sequelize.define('PlayLink', {
     allowNull: true
   }
 }
-,{
-  order: [['name', 'ASC']]
-});
+  , {
+    order: [['name', 'ASC']]
+  });
 
 // related pictures
 const RelatedPicture = sequelize.define('RelatedPicture', {
@@ -197,11 +220,7 @@ Director.belongsToMany(Movie, { through: 'MovieDirectors' });
 Movie.belongsToMany(Tag, { through: 'MovieTags' });
 Tag.belongsToMany(Movie, { through: 'MovieTags' });
 
-Movie.hasMany(History);
-History.belongsTo(Movie);
 
-User.hasMany(History);
-History.belongsTo(User);
 
 DownloadLink.belongsTo(Movie);
 Movie.hasMany(DownloadLink);
@@ -262,9 +281,9 @@ const Blog = sequelize.define('Blog', {
     allowNull: false
   },
 },
-{
-  order: [['createdAt', 'DESC']]
-});
+  {
+    order: [['createdAt', 'DESC']]
+  });
 
 // 定义关系
 User.hasMany(Blog);
@@ -285,4 +304,5 @@ export {
   RelatedPicture,
   PlayList,
   PlayListMovies,
+  Blog,
 };

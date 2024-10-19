@@ -14,6 +14,7 @@ import PlayList from './PlayList';
 import PlayListMovies from './PlayListMovies';
 import ActorMovies from './ActorMovies';
 import DirectorMovies from './DirectorMovies';
+import Blog from './Blog';
 import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
 
 import './custom-bootstrap.scss';
@@ -59,7 +60,7 @@ function App() {
               <Routes>
                 <Route path={pathLogin} element={<Login />} />
                 <Route exact path={pathHome} element={<PrivateRoute />}>
-                  <Route exact path={pathHome} element={<Home />} />
+                  <Route exact path={pathHome} element={<Blog />} />
                 </Route>
                 <Route path={pathMovies} element={<PrivateRoute />} >
                   <Route path={pathMovies} element={<Movies />} />

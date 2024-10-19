@@ -55,7 +55,7 @@ const PlayList = () => {
         setShowPlayListPop(false);
     }
     const handleUpdatePlayList = (playList) => {
-        console.log('handleUpdatePlayList:', playList);
+        // console.log('handleUpdatePlayList:', playList);
         setUserPlayList(playList);
     }
 

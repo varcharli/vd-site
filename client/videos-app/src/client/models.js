@@ -3,6 +3,8 @@ import user from "./apiUser";
 import actor from "./apiActor";
 import director from "./apiDirector";
 import tag from "./apiTag";
+import history from "./apiHistory";
+import blog from "./apiBlog";
 
 const models = {
     playList,
@@ -10,6 +12,8 @@ const models = {
     actor,
     director,
     tag,
+    history,
+    blog,
 }
 
 export default models;
