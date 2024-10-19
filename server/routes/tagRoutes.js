@@ -64,9 +64,14 @@ router.get('/:id', async (ctx) => {
 // Update a tag by ID
 router.put('/:id', async (ctx) => {
     try {
-        const updatedTag = await updateTag(ctx.params.id, ctx.request.body);
+        console.log('------------------pdate tag:'+ctx.params.id);
+        let data=ctx.request.body;
+        data.userId=getUserId(ctx);
+        const updatedTag = await updateTag(ctx.params.id, data);
         ctx.body = updatedTag;
+        console.log('-------------------update tag:'+updatedTag);
     } catch (error) {
+        console.log('------------------update tag error:'+error.message);
         ctx.status = 400;
         ctx.body = error.message;
     }
