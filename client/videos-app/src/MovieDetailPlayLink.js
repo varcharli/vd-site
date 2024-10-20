@@ -158,8 +158,8 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                 </div>
                 <div className='dialog-content'>
                     <div className="create-section">
-                        <div class="table-row">
-                            <div class="cell-1">
+                        <div className="table-row">
+                            <div className="cell-1">
                                 <input
                                     type="text"
                                     placeholder="Name"
@@ -167,7 +167,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
-                            <div class="cell-2">
+                            <div className="cell-2">
                                 <input
                                     type="text"
                                     placeholder="Link"
@@ -176,7 +176,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                                     ref={linkInputRef}
                                 />
                             </div>
-                            <div class="cell-3">
+                            <div className="cell-3">
                                 {/* <button onClick={handleCreate}>
                                     <i className="fas fa-plus"></i>
                                 </button> */}
@@ -191,17 +191,17 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                             <NoRecords />
                         ) : (
                             playLinks.map((playLink, index) => (
-                                <div className='editable-row' >
-                                    <div key={playLink.id}>
+                                <div key={playLink.id} className='editable-row' >
+                                    <div>
                                         {editingIndex === index ? (
                                             <div className="table-row" >
-                                                <div class="cell-1">
+                                                <div className="cell-1">
                                                     <input
                                                         type="text"
                                                         value={newName}
                                                         onChange={(e) => setNewName(e.target.value)}
                                                     /></div>
-                                                <div class="cell-2">
+                                                <div className="cell-2">
                                                     <div className='table-col' >
                                                         <input
                                                             type="text"
@@ -210,7 +210,7 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                                                         /></div></div>
                                                 {/* <button onClick={() => handleSave(index)}>Save</button>
                                                 <button onClick={handleCancel}>Cancel</button> */}
-                                                <div class="cell-3">
+                                                <div className="cell-3">
                                                     <div className='table-col' >
                                                         <RainbowButton colorIndex={5} onClick={() => handleSave(index)}
                                                             icon="fas fa-save" />
@@ -221,18 +221,18 @@ const PlayLink = ({ MovieId, onClose, onPlayLinksUpdate }) => {
                                             </div>
                                         ) : (
                                             <div className="table-row" >
-                                                <div class="cell-1">
+                                                <div className="cell-1">
                                                     <div className='table-col'>
                                                         <span>{playLink.name}</span> </div>
                                                 </div>
-                                                <div class="cell-2">
+                                                <div className="cell-2">
                                                     <div className='table-col' >
                                                         <span>
                                                             {playLink.link}
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="cell-3">
+                                                <div className="cell-3">
                                                     <div className='table-col' >
                                                         <RainbowButton colorIndex={3} onClick={() => handleEdit(index)}
                                                             icon="fas fa-edit" />

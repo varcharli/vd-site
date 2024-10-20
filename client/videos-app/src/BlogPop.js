@@ -14,7 +14,6 @@ const BlogPop = ({ show, blogId, getBlogs, onClose, onUpdate }) => {
 
     useEffect(() => {
         setBlogs(getBlogs);
-        console.log('getBlogs:', getBlogs);
 
         if (blogId === 0) {
             setTitle('');
@@ -36,6 +35,23 @@ const BlogPop = ({ show, blogId, getBlogs, onClose, onUpdate }) => {
             handleUpdate();
         }
     }
+
+    const handleDelete = async () => {
+        if (blogId === 0) { return; }
+        if (window.confirm('确定删除吗？')) {
+            const reponse = await models.blog.remove(blogId);
+            if (reponse.status === 204) {
+                const index = blogs.findIndex(item => item.id === blogId);
+                blogs.splice(index, 1);
+                onUpdate(blogs);
+                onClose();
+                return;
+            } else {
+                alert('删除失败');
+            }
+        }
+    }
+
 
     const handleAddNew = async () => {
         // get input value
@@ -110,11 +126,15 @@ const BlogPop = ({ show, blogId, getBlogs, onClose, onUpdate }) => {
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className='btn btn-secondary'
-                        onClick={onClose}>取消</button>
-
                     <button className='btn btn-success'
                         onClick={handleSave}>保存</button>
+                    <button className='btn btn-secondary'
+                        onClick={onClose}>取消</button>
+                    {!isAddingNew &&
+                        <button className='btn btn-danger'
+                            onClick={handleDelete}>删除</button>
+                    }
+
                 </Modal.Footer>
             </Modal>
         </div>

@@ -15,7 +15,6 @@ const Blog = () => {
     useEffect(() => {
         models.blog.get().then(response => {
             setBlogs(response.data);
-            console.log('response.data:', response.data);
             setIsLoading(false);
         });
     }, []);
@@ -57,7 +56,7 @@ const Blog = () => {
                                 <div className='blog-title'>
                                     <>{blog.title}</>
                                     <div className='blog-action'>
-                                        <IconButton icon='fa fa-edit' onClick={() => showPopUp(blog.id)} />
+                                        <IconButton icon='fa fa-ellipsis-v' onClick={() => showPopUp(blog.id)} />
                                         {/* <IconButton icon='fa fa-trash' onClick={() => handleDelete(blog)} /> */}
                                     </div>
                                 </div>

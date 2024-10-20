@@ -13,7 +13,6 @@ const History = () => {
   useEffect(() => {
     models.history.get().then(response => {
       setHistories(response.data);
-      console.log('response.data:', response.data);
       setIsLoading(false);
     });
   }
