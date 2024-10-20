@@ -35,4 +35,5 @@
 .blog-content {
     font-size: 1em;
     line-height: 1.6;
+    white-space: pre-wrap;
 }
