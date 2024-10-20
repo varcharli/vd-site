@@ -1,1 +1,1 @@
-select * from "Actors"
+select * from "Histories"

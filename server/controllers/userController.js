@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import playList from './playListController.js';
 
 dotenv.config();
-const saltRounds = process.env.SALT_ROUNDS || 10;
+const saltRounds = parseInt(process.env.SALT_ROUNDS, 10) || 10;
 
 // 创建用户
 export const createUser = async (ctx) => {
@@ -39,6 +39,34 @@ export const deleteUser = async (ctx) => {
     } catch (err) {
         ctx.status = 400;
         ctx.body = { message: 'Error deleting user', error: err.message };
+    }
+};
+
+export const changePassword = async (ctx) => {
+    const { id } = ctx.state.user;
+    const { oldPassword, newPassword } = ctx.request.body;
+    try {
+        const user = await User.findByPk(id);
+        console.log('------------changePassword user:', oldPassword, '/',newPassword);
+        console.log('------------changePassword user:', user.passwordHash);
+        const match = await bcrypt.compare(oldPassword, user.passwordHash);
+        console.log('------------changePassword match:', match);
+        if (!match) {
+            ctx.status = 400;
+            ctx.body = { message: 'Invalid password' };
+            return;
+        }
+        console.log('------------changePassword newPassword:', newPassword,'/',saltRounds );
+        const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+        // console.log('------------changePassword passwordHash:', password);
+        await User.update({ passwordHash }, { where: { id } });
+        console.log('------------changePassword after update:', id);
+        ctx.status = 200;
+        ctx.body = { message: 'Password changed' };
+    } catch (err) {
+        console.log('------------changePassword err:', err);
+        ctx.status = 400;
+        ctx.body = { message: 'Error changing password', error: err.message };
     }
 };
 

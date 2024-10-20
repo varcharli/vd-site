@@ -15,6 +15,7 @@ import PlayListMovies from './PlayListMovies';
 import ActorMovies from './ActorMovies';
 import DirectorMovies from './DirectorMovies';
 import Blog from './Blog';
+import MyProfile from './MyProfile';
 import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
 
 import './custom-bootstrap.scss';
@@ -37,6 +38,7 @@ function App() {
   const pathPlayList = '/playLists';
   const pathActor = '/actors';
   const pathDirector = '/directors';
+  const pathMe='/me';
 
 
   function chkNeedNav() {
@@ -88,6 +90,9 @@ function App() {
                 </Route>
                 <Route path={pathDirector + "/:id"} element={<PrivateRoute />} >
                   <Route path={pathDirector + "/:id"} element={<DirectorMovies/>} />
+                </Route>
+                <Route path={pathMe} element={<PrivateRoute />} >
+                  <Route path={pathMe} element={<MyProfile />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>

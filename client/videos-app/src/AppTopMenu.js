@@ -63,7 +63,7 @@ const TopMenu = () => {
                 < MyDropMenu
                     icon="fas fa-user"
                     items={[
-                        { text: user.name +' Info' , onClick: () => navigate('/userinfo') },
+                        { text: user.name +' Info' , onClick: () => navigate('/me') },
                         { text: 'Logout', onClick: handleLogout },
                         // { text: 'Close Menu', onClick: closeMenu },
                     ]}

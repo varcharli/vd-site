@@ -5,6 +5,10 @@ const user = {
     getCurrent: async () => {
         const response = await api.get('/users/current');
         return response;
+    },
+    changePassword: async (data) => {
+        const response = await api.put('/users/password', data);
+        return response;
     }
 };
 
