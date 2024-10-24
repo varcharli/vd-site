@@ -9,6 +9,17 @@
             "database": "vd",
             "username": "postgres",
             "password": "nononopwd"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "jvd",
+            "group": "loca-postgres",
+            "database": "jvd",
+            "username": "postgres",
+            "password": "nononopwd"
         }
     ]
 }
