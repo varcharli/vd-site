@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import defaultImage from '../assets/null_movie.jpeg'; // 引入默认图片
+import defaultImage from '../assets/null_movie.png'; // 引入默认图片
 import './MovieBox.css';
+import LazyLoad from 'react-lazyload';
 
 export const MovieBox = ({ index, movie = '' }) => {
     const navigate = useNavigate();
@@ -40,12 +41,14 @@ export const MovieBox = ({ index, movie = '' }) => {
             {isNullMovie ? <div className="null-movie"></div>
                 : (<>
                     {movie.serialNumber && <div className="serial-number">{movie.serialNumber}</div>}
-                    <img
-                        src={movie.posterUrl || defaultImage}
-                        alt={movie.name}
-                        onError={(e) => { e.target.src = defaultImage; }}
-                        referrerPolicy="no-referrer"
-                    />
+                    <LazyLoad height={300} width={200} offset={100} placeholder={<img src={defaultImage} alt="loading" />}>
+                        <img
+                            src={movie.posterUrl || defaultImage}
+                            alt={movie.name}
+                            onError={(e) => { e.target.src = defaultImage; }}
+                            referrerPolicy="no-referrer"
+                        />
+                    </LazyLoad>
                     <div className="movie-info">
                         <h2>{movie.name}</h2>
                         <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>

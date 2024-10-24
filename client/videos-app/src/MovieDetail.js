@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import api from './client/api';
-import defaultImage from './assets/null_movie.jpeg'; // 引入默认图片
+import defaultImage from './assets/null_movie.png'; // 引入默认图片
 import ImageGallery from './ImageGallery';
 import PlayLink from './MovieDetailPlayLink.js';
 import Tags, { TagField } from './Tags';
