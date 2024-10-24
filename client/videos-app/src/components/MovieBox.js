@@ -39,6 +39,7 @@ export const MovieBox = ({ index, movie = '' }) => {
             className="movie-box">
             {isNullMovie ? <div className="null-movie"></div>
                 : (<>
+                    {movie.serialNumber && <div className="serial-number">{movie.serialNumber}</div>}
                     <img
                         src={movie.posterUrl || defaultImage}
                         alt={movie.name}

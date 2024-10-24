@@ -37,7 +37,7 @@ const MovieDetail = () => {
     setPlayLinks(updatedPlayLinks);
   };
   const [showPlayLink, setShowPlayLink] = useState(false);
-  const handlePlayLinkClick = (name,link) => {
+  const handlePlayLinkClick = (name, link) => {
     addHistory({ title: name, url: link });
     window.open(link, '_blank');
   };
@@ -198,7 +198,7 @@ const MovieDetail = () => {
 
   const addHistory = async ({ title, url }) => {
     try {
-      const data={ MovieId: movieId, url, title }
+      const data = { MovieId: movieId, url, title }
       console.log('add history:', data);
       await models.history.create(data);
     } catch (error) {
@@ -219,7 +219,7 @@ const MovieDetail = () => {
           <h2 className="movie-title">{movie.name}</h2>
         </div>
         <div styles={"flex:1"}>
-          <span />
+          <IconButton icon="fas fa-ellipsis-v" title="编辑" onClick={() => navigate(`/movies/${movieId}/edit`)} />
         </div>
       </div>
       <div className="movie-detail">
@@ -234,6 +234,7 @@ const MovieDetail = () => {
           </div>
           <div className="top-mid"></div>
           <div className="top-right">
+            {movie.serialNumber && <p><span className='label' >SN： </span><span>{movie.serialNumber}</span> </p>}
             <p>
               <span className="horizontal-list">
                 <span className='label' > 导演：</span> {directors.length > 0 ? (
@@ -260,6 +261,7 @@ const MovieDetail = () => {
                   ""
                 )}</span>
             </p>
+
             <p><span className='label' >日期：</span><span>{movie.releaseDate}</span> </p>
             <p><span className='label' >评分：</span> {movie.rating}</p>
             <p>

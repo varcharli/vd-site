@@ -34,7 +34,7 @@ router.get('/', async (ctx) => {
     // const movies = await getAllMovies(ctx.query);
     // console.log('ctx.query', ctx.query);
     const user = ctx.state.user;
-    const movies = await getMovies(ctx.query,{ UserId: user?.id });
+    const movies = await getMovies(ctx.query, { UserId: user?.id });
 
     ctx.body = movies;
   } catch (error) {
@@ -46,7 +46,7 @@ router.get('/', async (ctx) => {
 router.get('/:id', async (ctx) => {
   try {
     const user = ctx.state.user;
-    const movie = await getMovieById(ctx.params.id,{ UserId: user?.id });
+    const movie = await getMovieById(ctx.params.id, { UserId: user?.id });
     ctx.body = movie.toJSON();
   } catch (error) {
     ctx.status = 404;
@@ -56,9 +56,20 @@ router.get('/:id', async (ctx) => {
 
 router.put('/:id', async (ctx) => {
   try {
+    const user = ctx.state.user;
+    if (!user) {
+      ctx.status = 401;
+      ctx.body = 'Unauthorized';
+      return;
+    }
+    if (!user.isAdmin) {
+      ctx.status = 403;
+      ctx.body = 'Forbidden';
+      return;
+    }
     const movie = await updateMovie(ctx.params.id, ctx.request.body);
     ctx.body = movie;
-    
+
   } catch (error) {
     ctx.status = 400;
     ctx.body = error.message;

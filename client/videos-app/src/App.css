@@ -7,6 +7,12 @@ body{
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--global-web-background-color);
     color: var(--global-text-color);
+    /* user-select: none; */
+    caret-color: transparent;
+}
+
+input{
+    caret-color: auto;
 }
 
 .main {

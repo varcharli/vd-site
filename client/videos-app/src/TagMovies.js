@@ -29,8 +29,8 @@ const TagMovies = () => {
 
     return (
         <div>
-
             <MovieList title={'标签：' + tag.name}
+                setPageSize={12}
                 params={{ tagIds: tagId }}
             />
         </div>

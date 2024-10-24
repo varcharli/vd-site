@@ -17,6 +17,7 @@ import DirectorMovies from './DirectorMovies';
 import Blog from './Blog';
 import MyProfile from './MyProfile';
 import PrivateRoute from './components/PrivateRoute'; // 引入 PrivateRoute 组件
+import MovieForm from './MovieForm.js';
 
 import './custom-bootstrap.scss';
 import './App.css';
@@ -93,6 +94,12 @@ function App() {
                 </Route>
                 <Route path={pathMe} element={<PrivateRoute />} >
                   <Route path={pathMe} element={<MyProfile />} />
+                </Route>
+                <Route path={pathMovies + "/new"} element={<PrivateRoute />} >
+                  <Route path={pathMovies + "/new"} element={<MovieForm />} />
+                </Route>
+                <Route path={pathMovies + "/:id/edit"} element={<PrivateRoute />} >
+                  <Route path={pathMovies + "/:id/edit"} element={<MovieForm />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>

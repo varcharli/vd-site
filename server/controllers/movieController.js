@@ -118,9 +118,10 @@ async function getMovies(query, { UserId = null }) {
   // 构建查询条件
   const where = {};
   if (titleQuery) {
-    where.name = {
-      [Op.like]: `%${titleQuery}%`
-    };
+    where[Op.or] = [
+      { name: { [Op.like]: `%${titleQuery}%` } },
+      { serialNumber: { [Op.like]: `%${titleQuery}%` } }
+    ];
   }
   // console.log('------------------1getMovies 2');
   // 获取标签ID查询参数: tagIds=1,2,3
@@ -183,26 +184,26 @@ async function getMovies(query, { UserId = null }) {
       throw new Error('UserId is required');
     }
     if (playList.checkPlayListOwner({ UserId, PlayListId: playListId })) {
-      try{
+      try {
         const query = `select a.* from "Movies" a 
         INNER JOIN "PlayListMovies" b 
         ON a."id" = b."MovieId" 
         WHERE b."PlayListId" = :playListId 
         Order by b."createdAt" desc
         limit :limit offset :offset`;
-      const [results, metadata] = await sequelize.query(query, {
-        replacements: { playListId, limit, offset },
-        // if use select type then return rows only without metadata
-        // type: sequelize.QueryTypes.SELECT
-      });
-      movies=results;
-      const queryCount = `select count(*) from "PlayListMovies" where "PlayListId" = :playListId`;
-      const countResults = await sequelize.query(queryCount, {
-        replacements: { playListId },
-        type: sequelize.QueryTypes.SELECT
-      });
-      count = countResults[0].count;
-      hasGetMovies = true;
+        const [results, metadata] = await sequelize.query(query, {
+          replacements: { playListId, limit, offset },
+          // if use select type then return rows only without metadata
+          // type: sequelize.QueryTypes.SELECT
+        });
+        movies = results;
+        const queryCount = `select count(*) from "PlayListMovies" where "PlayListId" = :playListId`;
+        const countResults = await sequelize.query(queryCount, {
+          replacements: { playListId },
+          type: sequelize.QueryTypes.SELECT
+        });
+        count = countResults[0].count;
+        hasGetMovies = true;
       } catch (error) {
         // console.error('------------------getMovies error:', error);
         throw error;

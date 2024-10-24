@@ -1,9 +1,27 @@
-
+@import '../variables.css';
 .movie-box {
+    position: relative;
     margin: 10px;
     width: 200px;
     height: 370px;
     border-radius: 15px;
+}
+
+.serial-number {
+    position: absolute;
+    top: 266px;
+    right: 0px;
+    /* width: 90px; */
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px 0 0 0px;
+    /* color: rgb(240, 5, 5); */
+    text-align: right;
+    padding: 5px ;
+    font-size: 16px;
+    color: white;
+    z-index: 1;
+
+
 }
 
 .movie-box img {
@@ -21,21 +39,23 @@
     flex-grow: 1;
 }
 
-.movie-box  .movie-info h2 {
+.movie-box .movie-info h2 {
     margin: 0;
     font-size: 16px;
     text-align: center;
     color: black;
+    display: -webkit-box; /* 创建一个多行的弹性盒子 */
+    -webkit-box-orient: vertical; /* 垂直排列子元素 */
+    -webkit-line-clamp: 2; /* 限制最多显示两行 */
+    line-clamp: 2; /* 标准属性 */
+    overflow: hidden; /* 隐藏溢出的内容 */
+    text-overflow: ellipsis; /* 使用省略号表示溢出的文本 */
+    height: 38px;
 }
 
 .movie-box .movie-info p {
-    margin: 5px 0 0;
+    /* margin: 5px 0 0; */
     font-size: 14px;
+    color:var(--global-label-color)
 }
 
-.movie-box h2 {
-    white-space: nowrap; /* 防止换行 */
-    overflow: hidden; /* 隐藏溢出内容 */
-    text-overflow: ellipsis; /* 显示省略号 */
-    max-width: 100%; /* 根据需要设置最大宽度 */
-  }
