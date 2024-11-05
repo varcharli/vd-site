@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import defaultImage from '../assets/null_movie.png'; // 引入默认图片
 import './MovieBox.css';
 import LazyLoad from 'react-lazyload';
+import { MyImage } from '../components';
 
 export const MovieBox = ({ index, movie = '' }) => {
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = React.useState(true);
     const colors = [
         'rgb(254, 228, 203)',
         'rgb(209, 213, 219)',
@@ -33,6 +34,10 @@ export const MovieBox = ({ index, movie = '' }) => {
     };
     const backgroundColor = isNullMovie ? 'rgba(0, 0, 0, 0.2)' : colors[index % colors.length];
 
+    const handleLoaded = () => {
+        setIsLoading(false);
+    }
+
     return (
         <div key={movieId}
             style={{ backgroundColor }}
@@ -41,18 +46,12 @@ export const MovieBox = ({ index, movie = '' }) => {
             {isNullMovie ? <div className="null-movie"></div>
                 : (<>
                     {movie.serialNumber && <div className="serial-number">{movie.serialNumber}</div>}
-                    <LazyLoad height={300} width={200} offset={100} placeholder={<img src={defaultImage} alt="loading" />}>
-                        <img
-                            src={movie.posterUrl || defaultImage}
-                            alt={movie.name}
-                            onError={(e) => { e.target.src = defaultImage; }}
-                            referrerPolicy="no-referrer"
-                        />
-                    </LazyLoad>
-                    <div className="movie-info">
-                        <h2>{movie.name}</h2>
-                        <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
-                    </div>
+                    <MyImage src={movie.posterUrl} alt={movie.name} onLoad={handleLoaded} />
+                    {isLoading ? null :
+                        <div className="movie-info">
+                            <h2>{movie.name}</h2>
+                            <p>{new Date(movie.releaseDate).toISOString().split('T')[0]}</p>
+                        </div>}
                 </>)}
         </div>
     );

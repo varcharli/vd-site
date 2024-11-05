@@ -7,3 +7,4 @@ export { default as CheckTag } from './CheckTag';
 export { PageLoading } from './Loading';
 export { MovieBox } from './MovieBox';
 export  {PlayListBox}  from './PlayListBox.js';
+export { MyImage } from './MyImage';

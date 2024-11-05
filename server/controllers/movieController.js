@@ -119,8 +119,8 @@ async function getMovies(query, { UserId = null }) {
   const where = {};
   if (titleQuery) {
     where[Op.or] = [
-      { name: { [Op.like]: `%${titleQuery}%` } },
-      { serialNumber: { [Op.like]: `%${titleQuery}%` } }
+      { name: { [Op.iLike]: `%${titleQuery}%` } },
+      { serialNumber: { [Op.iLike]: `%${titleQuery}%` } }
     ];
   }
   // console.log('------------------1getMovies 2');

@@ -33,6 +33,8 @@ const PlayList = () => {
             setFavorite(favoriteData.data);
             setUserPlayList(userPlayListData.data);
             setLoading(false); // 数据加载完成
+            console.log('favoriteId:', favoriteId);
+            console.log('watchLaterId:', watchLaterId);
         });
     }, []);
 
